@@ -1,0 +1,136 @@
+package vvp.diplom.draft2.activities;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
+
+import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.controller.Network;
+import vvp.diplom.draft2.model.Tournament;
+
+/**
+ * Created by VoVqa on 07.04.2015.
+ */
+public class LoginActivity extends Activity {
+
+    EditText mEditLogin;
+    EditText mEditPassword;
+    ProgressDialog mProgressDialog;
+    Exception mNetworkException;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        mEditLogin = (EditText) findViewById(R.id.edit_text_login);
+        mEditPassword = (EditText) findViewById(R.id.edit_text_password);
+        mEditPassword.setOnEditorActionListener(new loginOnKeyboardEnterPressed());
+    }
+
+    public void login(View view){
+        mProgressDialog = ProgressDialog.show(this,"", "", true);
+        String login = mEditLogin.getText().toString();
+        String password = mEditPassword.getText().toString();
+        new HttpLoginTask().execute(login, password);
+    }
+
+    private class HttpLoginTask extends AsyncTask<String, Void, Tournament[]> {
+        @Override
+        protected Tournament[] doInBackground(String... params) {
+            String login = params[0];
+            String password = params[1];
+            try {
+                //test changes
+                Network.login(login, password);
+                return Network.loadMyTournaments();
+            } catch (Exception e) {
+                mNetworkException = e;
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Tournament[] tournaments) {
+            if(mNetworkException != null) {
+                handleNetworkException(mNetworkException);
+                mNetworkException = null;
+            }
+            if(tournaments != null) {
+                startTournamentsActivity(tournaments);
+            }
+        }
+    }
+
+    private void startTournamentsActivity(Tournament[] tournaments){
+        Intent intent = new Intent(this, TournamentsActivity.class);
+        intent.putExtra(Exstras.TOURNAMENTS, tournaments);
+        startActivity(intent);
+    }
+
+    private void handleNetworkException(Exception e){
+        if(e instanceof ResourceAccessException){
+            showAlertDialog(
+                    R.string.dialog_no_connection_title,
+                    R.string.dialog_no_connection_message);
+        }
+        else if(e instanceof HttpClientErrorException)
+        {
+            switch (((HttpClientErrorException) e).getStatusCode()){
+                case UNAUTHORIZED:
+                    showAlertDialog(
+                            R.string.dialog_login_fail_title,
+                            R.string.dialog_login_fail_message);
+                    break;
+            }
+        } else
+        Log.e("MainActivity", e.getMessage(), e);
+    }
+
+
+    private class loginOnKeyboardEnterPressed implements TextView.OnEditorActionListener{
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                login(null);
+                return true;
+            }
+            return false;
+        }
+    };
+
+    private void showAlertDialog(int titleStringId, int messageStringId){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(titleStringId);
+        alert.setMessage(messageStringId);
+        alert.setPositiveButton(R.string.button_ok_alert_dialog,null);
+        alert.show();
+    }
+
+    public void fillLoginAndPassword(View view){
+        EditText editLogin = (EditText) findViewById(R.id.edit_text_login);
+        EditText editPassword = (EditText) findViewById(R.id.edit_text_password);
+//        editLogin.setText("podoknom@gmail.com");
+//        editPassword.setText("yaduhes");
+        editLogin.setText("threadend@gmail.com");
+        editPassword.setText("144df9e9");
+    }
+}
