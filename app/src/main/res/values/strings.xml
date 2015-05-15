@@ -14,8 +14,10 @@
     <string name="dialog_login_fail_message">Your login of password is incorrect</string>
 
 
-    <string name="tournaments_title"> My tournaments</string>
+    <string name="tournaments_title">My tournaments</string>
 
     <string name="rounds_title">Rounds</string>
+
+    <string name="matches_title">Matches</string>
 
 </resources>

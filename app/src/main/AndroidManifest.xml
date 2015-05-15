@@ -39,6 +39,16 @@
                 android:value=".activities.TournamentsActivity" />
         </activity>
 
+        <activity
+            android:name=".activities.MatchesActivity"
+            android:label="@string/rounds_title"
+            android:icon="@drawable/ic_launcher"
+            android:logo="@drawable/ic_launcher">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.RoundsActivity" />
+        </activity>
+
     </application>
 
 </manifest>

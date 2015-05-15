@@ -11,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.model.Matches;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Rounds;
 import vvp.diplom.draft2.model.Tournaments;
@@ -21,6 +23,8 @@ import vvp.diplom.draft2.model.Tournament;
  * Created by VoVqa on 12.05.2015.
  */
 public class Network {
+
+    private final String TAG = getClass().getSimpleName();
 
     private static LoginRequestAnswer loginRequestAnswer;
 
@@ -58,6 +62,14 @@ public class Network {
         String url = API.BASE_URL + API.ROUNDS_BY_TOURNAMENT_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Rounds rounds = restTemplate.getForObject(url, Rounds.class, tournamentId);
         return rounds.getRows();
+    }
+
+    public static List<Match> loadMatches(String roundId){
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.MATCHES_BY_ROUND_ID + "?access_token="+loginRequestAnswer.getAccessToken();
+        Matches matches = restTemplate.getForObject(url, Matches.class, roundId);
+        return matches.getRows();
     }
 
 //    private static String buildUrl(String method, Map<String, String> urlParams){
