@@ -47,25 +47,25 @@ public class TournamentsActivity extends ActionBarActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startRoundsActivity(tournament.getId());
+                        startRoundsActivity(tournament);
                     }
                 });
-
             }
         }));
     }
 
-    private void startRoundsActivity(String tournamentId){
+    private void startRoundsActivity(Tournament tournament){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpRoundsTask().execute(tournamentId);
+        new HttpRoundsTask().execute(tournament);
     }
 
-    private class HttpRoundsTask extends AsyncTask<String, Void, List<Round>> {
+    private class HttpRoundsTask extends AsyncTask<Tournament, Void, List<Round>> {
+        Tournament tournament;
         @Override
-        protected List<Round> doInBackground(String... params) {
+        protected List<Round> doInBackground(Tournament... params) {
             try {
-                String tournamentId = params[0];
-                return Network.loadRounds(tournamentId);
+                tournament = params[0];
+                return Network.loadRounds(tournament.getId());
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -79,7 +79,7 @@ public class TournamentsActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(List<Round> rounds) {
             if(rounds != null){
-                startRoundsActivity(rounds);
+                startRoundsActivity(tournament.getTitle(), rounds);
             } else {
                 Util.showAlertDialog(TournamentsActivity.this,
                         R.string.network_error,
@@ -88,8 +88,10 @@ public class TournamentsActivity extends ActionBarActivity {
         }
     }
 
-    private void startRoundsActivity(List<Round> rounds){
+    private void startRoundsActivity(String title, List<Round> rounds){
+
         Intent intent = new Intent(this, RoundsActivity.class);
+        intent.putExtra(Exstras.TITLE, title);
         intent.putParcelableArrayListExtra(Exstras.ROUNDS, (ArrayList) rounds);
         startActivity(intent);
     }
