@@ -79,19 +79,11 @@ public class Network {
         return getNotNullData(matches);
     }
 
-    private static <T> List<T> getNotNullData(ApiList<T> apiList){
+    private static <T> List<T> getNotNullData(ApiList<T> apiList) {
         List data = apiList.getData();
-        if(data == null){
+        if (data == null) {
             data = new ArrayList<T>(0);
         }
         return data;
     }
-
-//    private static String buildUrl(String method, Map<String, String> urlParams){
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(API.BASE_URL).path(method);
-//        for(Map.Entry<String, String> entry : urlParams.entrySet()){
-//            builder.queryParam(entry.getKey(), entry.getValue());
-//        }
-//        return builder.build().toUriString();
-//    }
 }

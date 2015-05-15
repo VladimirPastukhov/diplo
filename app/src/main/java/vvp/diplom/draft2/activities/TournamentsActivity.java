@@ -25,7 +25,7 @@ public class TournamentsActivity extends ActionBarActivity {
 
     private final String TAG = getClass().getSimpleName();
 
-    ProgressDialog progressDialog;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class TournamentsActivity extends ActionBarActivity {
     }
 
     private void startRoundsActivity(String tournamentId){
-        progressDialog = ProgressDialog.show(this, "", "", false);
+        mProgressDialog = ProgressDialog.show(this, "", "", false);
         new HttpRoundsTask().execute(tournamentId);
     }
 
@@ -70,7 +70,7 @@ public class TournamentsActivity extends ActionBarActivity {
                 Log.e(TAG, e.getMessage(), e);
             }
             finally {
-                progressDialog.dismiss();
+                mProgressDialog.dismiss();
             }
 
             return null;

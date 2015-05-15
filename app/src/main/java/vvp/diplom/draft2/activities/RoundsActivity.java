@@ -1,5 +1,6 @@
 package vvp.diplom.draft2.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ public class RoundsActivity extends ActionBarActivity {
 
     private final String TAG = getClass().getSimpleName();
 
+    ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,14 +47,15 @@ public class RoundsActivity extends ActionBarActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadMatches(round.getId());
+                        startMathesActivity(round.getId());
                     }
                 });
             }
         }));
     }
 
-    private void loadMatches(String roundId){
+    private void startMathesActivity(String roundId){
+        mProgressDialog = ProgressDialog.show(this, "", "", false);
         new HttpMatchesTask().execute(roundId);
     }
 
@@ -65,7 +69,7 @@ public class RoundsActivity extends ActionBarActivity {
                 Log.e(TAG, e.getMessage(), e);
             }
             finally {
-//                progressDialog.dismiss();
+                mProgressDialog.dismiss();
             }
 
             return null;
@@ -73,7 +77,6 @@ public class RoundsActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(List<Match> matches) {
-//            Log.d(getClass().getSimpleName(), "Matches "+matches);
             startMathesActivity(matches);
         }
     }
@@ -83,43 +86,4 @@ public class RoundsActivity extends ActionBarActivity {
         intent.putParcelableArrayListExtra(Exstras.MATCHES, (ArrayList) matches);
         startActivity(intent);
     }
-//        listView.setAdapter(new BaseAdapter() {
-//            @Override
-//            public int getCount() {
-//                return rounds.size();
-//            }
-//
-//            @Override
-//            public Object getItem(int position) {
-//                return null;
-//            }
-//
-//            @Override
-//            public long getItemId(int position) {
-//                return 0;
-//            }
-//
-//            class ViewHolder{
-//                TextView main;
-//                TextView sub;
-//            }
-//
-//            @Override
-//            public View getView(int position, View view, ViewGroup parent) {
-//                ViewHolder viewHolder;
-//                if(view == null){
-//                    view = getLayoutInflater().inflate(R.layout.list_item_tournament, parent, false);
-//                    viewHolder = new ViewHolder();
-//                    viewHolder.main = (TextView) view.findViewById(R.id.text_view_main);
-//                    viewHolder.sub = (TextView) view.findViewById(R.id.text_view_sub);
-//                    view.setTag(viewHolder);
-//                } else {
-//                    viewHolder = (ViewHolder) view.getTag();
-//                }
-//
-//                final Round round = (Round) rounds.get(position);
-//                viewHolder.main.setText(round.getName());
-//                return view;
-//            }
-//        });
 }
