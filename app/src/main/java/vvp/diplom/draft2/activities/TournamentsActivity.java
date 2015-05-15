@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.controller.Network;
@@ -24,6 +27,8 @@ import vvp.diplom.draft2.model.Tournament;
  */
 public class TournamentsActivity extends ActionBarActivity {
 
+    private final String TAG = getClass().getSimpleName();
+
     ProgressDialog progressDialog;
 
     @Override
@@ -31,58 +36,42 @@ public class TournamentsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default_list);
 
-        final Parcelable[] tournaments =  getIntent().getParcelableArrayExtra(Exstras.TOURNAMENTS);
+        List<Tournament> tournaments = getIntent().getParcelableArrayListExtra(Exstras.TOURNAMENTS);
 
-        for(Parcelable tournament : tournaments){
-            Log.i(getClass().getSimpleName(), "TOURNAMETN "+tournament);
-        }
+        Log.d(TAG, "Tournametns "+tournaments);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
-
-        ArrayAdapter<Parcelable> adapter = new ArrayAdapter<Parcelable>(this, R.layout.list_item_tournament, tournaments){
+        listView.setAdapter(new MyListAdapter<>(this, tournaments, new ViewFiller<Tournament>() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-//                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View rowView = getLayoutInflater().inflate(R.layout.list_item_tournament, parent, false);
-
-                TextView name = (TextView) rowView.findViewById(R.id.text_view_tournament_name);
-                TextView dates = (TextView) rowView.findViewById(R.id.text_view_tournament_dates);
-                final Tournament tournament = (Tournament) tournaments[position];
-                name.setText(tournament.getTitle());
-                dates.setText(tournament.getStartDate()+" "+tournament.getEndDate());
-                rowView.setOnClickListener(new View.OnClickListener() {
+            public void fill(View view, final Tournament tournament) {
+                TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
+                TextView textViewSub = (TextView) view.findViewById(R.id.text_view_sub);
+                textViewMain.setText(tournament.getTitle());
+                textViewSub.setText(tournament.getStartDate() + " " + tournament.getEndDate());
+                view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startRoundsActivity(tournament.getId());
                     }
                 });
-                return rowView;
-            }
-        };
 
-        listView.setAdapter(adapter);
+            }
+        }));
     }
 
     private void startRoundsActivity(String tournamentId){
-        Intent intent = new Intent(this, RoundsActivity.class);
-        intent.putExtra(Exstras.TOURNAMENT_ID, tournamentId);
-        startActivity(intent);
+        progressDialog = ProgressDialog.show(this, "", "", false);
+        new HttpRoundsTask().execute(tournamentId);
     }
 
-//    private void startRoundsActivity(String tournamentId){
-//        progressDialog = ProgressDialog.show(this, "", "", false);
-//        new HttpRoundsTask().execute(tournamentId);
-//    }
-
-    private class HttpRoundsTask extends AsyncTask<String, Void, Round[]> {
+    private class HttpRoundsTask extends AsyncTask<String, Void, List<Round>> {
         @Override
-        protected Round[] doInBackground(String... params) {
+        protected List<Round> doInBackground(String... params) {
             try {
                 String tournamentId = params[0];
                 return Network.loadRounds(tournamentId);
             } catch (Exception e) {
-//                logLoginException(e);
-                Log.i("AAAA","AAAA");
+                Log.e(TAG, e.getMessage(), e);
             }
             finally {
                 progressDialog.dismiss();
@@ -92,14 +81,14 @@ public class TournamentsActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(Round[] rounds) {
+        protected void onPostExecute(List<Round> rounds) {
             startRoundsActivity(rounds);
         }
     }
 
-    private void startRoundsActivity(Round[] rounds){
+    private void startRoundsActivity(List<Round> rounds){
         Intent intent = new Intent(this, RoundsActivity.class);
-        intent.putExtra(Exstras.ROUNDS, rounds);
+        intent.putParcelableArrayListExtra(Exstras.ROUNDS, (ArrayList) rounds);
         startActivity(intent);
     }
 }

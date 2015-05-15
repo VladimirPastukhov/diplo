@@ -33,6 +33,10 @@ public class Round implements Parcelable{
         this.name = name;
     }
 
+    public String toString(){
+        return getClass().getSimpleName()+" "+id+" "+name;
+    }
+
     //================================ next methods for pass between activities ======================
     public Round(){}
 

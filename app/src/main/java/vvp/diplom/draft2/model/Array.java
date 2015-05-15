@@ -2,22 +2,24 @@ package vvp.diplom.draft2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by VoVqa on 13.05.2015.
  */
 public class Array<T> {
 
     @JsonProperty("rows")
-    private T[] rows;
+    private List<T> rows;
 
     @JsonProperty("total")
     private long total;
 
-    public T[] getRows() {
+    public List<T> getRows() {
         return rows;
     }
 
-    public void setRows(T[] rows) {
+    public void setRows(List<T> rows) {
         this.rows = rows;
     }
 

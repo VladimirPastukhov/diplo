@@ -9,6 +9,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Rounds;
 import vvp.diplom.draft2.model.Tournaments;
@@ -42,7 +44,7 @@ public class Network {
         return loginRequestAnswer;
     }
 
-    public static Tournament[] loadMyTournaments(){
+    public static List<Tournament> loadMyTournaments(){
         String accessToken = loginRequestAnswer.getAccessToken();
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.MY_TOURNAMENTS + "?access_token="+loginRequestAnswer.getAccessToken();
@@ -50,7 +52,7 @@ public class Network {
         return tournaments.getRows();
     }
 
-    public static Round[] loadRounds(String tournamentId){
+    public static List<Round> loadRounds(String tournamentId){
         String accessToken = loginRequestAnswer.getAccessToken();
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.ROUNDS_BY_TOURNAMENT_ID + "?access_token="+loginRequestAnswer.getAccessToken();

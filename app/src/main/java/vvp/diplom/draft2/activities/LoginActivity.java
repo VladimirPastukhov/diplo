@@ -19,6 +19,9 @@ import android.widget.TextView;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.controller.Network;
 import vvp.diplom.draft2.model.Tournament;
@@ -50,9 +53,9 @@ public class LoginActivity extends Activity {
         new HttpLoginTask().execute(login, password);
     }
 
-    private class HttpLoginTask extends AsyncTask<String, Void, Tournament[]> {
+    private class HttpLoginTask extends AsyncTask<String, Void, List<Tournament>> {
         @Override
-        protected Tournament[] doInBackground(String... params) {
+        protected List<Tournament> doInBackground(String... params) {
             String login = params[0];
             String password = params[1];
             try {
@@ -69,7 +72,7 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(Tournament[] tournaments) {
+        protected void onPostExecute(List<Tournament> tournaments) {
             if(mNetworkException != null) {
                 handleNetworkException(mNetworkException);
                 mNetworkException = null;
@@ -80,9 +83,9 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void startTournamentsActivity(Tournament[] tournaments){
+    private void startTournamentsActivity(List<Tournament> tournaments){
         Intent intent = new Intent(this, TournamentsActivity.class);
-        intent.putExtra(Exstras.TOURNAMENTS, tournaments);
+        intent.putParcelableArrayListExtra(Exstras.TOURNAMENTS, (ArrayList) tournaments);
         startActivity(intent);
     }
 
@@ -128,9 +131,9 @@ public class LoginActivity extends Activity {
     public void fillLoginAndPassword(View view){
         EditText editLogin = (EditText) findViewById(R.id.edit_text_login);
         EditText editPassword = (EditText) findViewById(R.id.edit_text_password);
-//        editLogin.setText("podoknom@gmail.com");
-//        editPassword.setText("yaduhes");
-        editLogin.setText("threadend@gmail.com");
-        editPassword.setText("144df9e9");
+        editLogin.setText("podoknom@gmail.com");
+        editPassword.setText("yaduhes");
+//        editLogin.setText("threadend@gmail.com");
+//        editPassword.setText("144df9e9");
     }
 }

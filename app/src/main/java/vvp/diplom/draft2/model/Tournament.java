@@ -59,7 +59,7 @@ public class Tournament implements Parcelable{
 
     @Override
     public String toString(){
-        return id+" "+title+" "+startDate+" "+endDate;
+        return getClass().getSimpleName()+" "+id+" "+title+" "+startDate+" "+endDate;
     }
 
     //================================ next methods for pass between activities ======================

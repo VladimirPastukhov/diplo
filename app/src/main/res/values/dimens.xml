@@ -9,6 +9,7 @@
 
 
     <dimen name="list_row_padding">5dp</dimen>
+    <dimen name="list_row_padding_left">5dp</dimen>
     <dimen name="list_divider">2dp</dimen>
 
 
