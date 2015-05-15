@@ -78,7 +78,13 @@ public class TournamentsActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(List<Round> rounds) {
-            startRoundsActivity(rounds);
+            if(rounds != null){
+                startRoundsActivity(rounds);
+            } else {
+                Util.showAlertDialog(TournamentsActivity.this,
+                        R.string.network_error,
+                        R.string.cant_load_matches);
+            }
         }
     }
 

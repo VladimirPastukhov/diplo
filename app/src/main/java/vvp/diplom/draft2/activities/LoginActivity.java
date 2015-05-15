@@ -56,7 +56,6 @@ public class LoginActivity extends Activity {
             String login = params[0];
             String password = params[1];
             try {
-                //test changes
                 Network.login(login, password);
                 return Network.loadMyTournaments();
             } catch (Exception e) {
@@ -88,7 +87,7 @@ public class LoginActivity extends Activity {
 
     private void handleNetworkException(Exception e){
         if(e instanceof ResourceAccessException){
-            showAlertDialog(
+            Util.showAlertDialog(this,
                     R.string.dialog_no_connection_title,
                     R.string.dialog_no_connection_message);
         }
@@ -96,7 +95,7 @@ public class LoginActivity extends Activity {
         {
             switch (((HttpClientErrorException) e).getStatusCode()){
                 case UNAUTHORIZED:
-                    showAlertDialog(
+                    Util.showAlertDialog(this,
                             R.string.dialog_login_fail_title,
                             R.string.dialog_login_fail_message);
                     break;
@@ -116,14 +115,6 @@ public class LoginActivity extends Activity {
             return false;
         }
     };
-
-    private void showAlertDialog(int titleStringId, int messageStringId){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(titleStringId);
-        alert.setMessage(messageStringId);
-        alert.setPositiveButton(R.string.button_ok_alert_dialog,null);
-        alert.show();
-    }
 
     public void fillLoginAndPassword(View view){
         EditText editLogin = (EditText) findViewById(R.id.edit_text_login);

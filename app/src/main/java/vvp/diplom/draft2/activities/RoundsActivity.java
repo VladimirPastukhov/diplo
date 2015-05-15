@@ -77,7 +77,13 @@ public class RoundsActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(List<Match> matches) {
-            startMathesActivity(matches);
+            if(matches != null){
+                startMathesActivity(matches);
+            } else {
+                Util.showAlertDialog(RoundsActivity.this,
+                        R.string.network_error,
+                        R.string.cant_load_matches);
+            }
         }
     }
 

@@ -4,6 +4,7 @@
     <string name="button_ok_alert_dialog">OK</string>
 
 
+    <!-- Login activity -->
     <string name="edit_text_hint_login">Login</string>
     <string name="edit_text_hint_password">Password</string>
     <string name="button_login_enter">Enter</string>
@@ -12,11 +13,16 @@
     <string name="dialog_no_connection_message">Try check your network settings</string>
     <string name="dialog_login_fail_title">Аuthorization fail</string>
     <string name="dialog_login_fail_message">Your login of password is incorrect</string>
+    <!-- ============= -->
 
+
+    <string name="network_error">Network error</string>
 
     <string name="tournaments_title">My tournaments</string>
+    <string name="cant_load_rounds">Cant load rounds</string>
 
     <string name="rounds_title">Rounds</string>
+    <string name="cant_load_matches">Cant load matches</string>
 
     <string name="matches_title">Matches</string>
 
