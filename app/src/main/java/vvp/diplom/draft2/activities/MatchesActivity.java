@@ -20,6 +20,9 @@ public class MatchesActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default_list);
 
+        String title = getIntent().getStringExtra(Exstras.TITLE);
+        setTitle(title);
+
         final List<Match> matches = getIntent().getParcelableArrayListExtra(Exstras.MATCHES);
 
         ListView listView = (ListView) findViewById(R.id.list_view);

@@ -50,24 +50,25 @@ public class RoundsActivity extends ActionBarActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startMathesActivity(round.getId());
+                        startMathesActivity(round);
                     }
                 });
             }
         }));
     }
 
-    private void startMathesActivity(String roundId){
+    private void startMathesActivity(Round round){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpMatchesTask().execute(roundId);
+        new HttpMatchesTask().execute(round);
     }
 
-    private class HttpMatchesTask extends AsyncTask<String, Void, List<Match>> {
+    private class HttpMatchesTask extends AsyncTask<Round, Void, List<Match>> {
+        Round round;
         @Override
-        protected List<Match> doInBackground(String... params) {
+        protected List<Match> doInBackground(Round... params) {
             try {
-                String roundId = params[0];
-                return Network.loadMatches(roundId);
+                round = params[0];
+                return Network.loadMatches(round.getId());
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -81,7 +82,7 @@ public class RoundsActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(List<Match> matches) {
             if(matches != null){
-                startMathesActivity(matches);
+                startMathesActivity(round.getName(), matches);
             } else {
                 Util.showAlertDialog(RoundsActivity.this,
                         R.string.network_error,
@@ -90,8 +91,10 @@ public class RoundsActivity extends ActionBarActivity {
         }
     }
 
-    private void startMathesActivity(List<Match> matches){
+    private void startMathesActivity(String roundName, List<Match> matches){
         Intent intent = new Intent(this, MatchesActivity.class);
+        String title = getTitle()+"("+roundName+")";
+        intent.putExtra(Exstras.TITLE, title);
         intent.putParcelableArrayListExtra(Exstras.MATCHES, (ArrayList) matches);
         startActivity(intent);
     }
