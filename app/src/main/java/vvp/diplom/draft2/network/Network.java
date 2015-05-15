@@ -14,12 +14,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import vvp.diplom.draft2.model.ApiList;
+import vvp.diplom.draft2.network.apiLists.ApiList;
 import vvp.diplom.draft2.model.Match;
-import vvp.diplom.draft2.model.Matches;
+import vvp.diplom.draft2.network.apiLists.Matches;
 import vvp.diplom.draft2.model.Round;
-import vvp.diplom.draft2.model.Rounds;
-import vvp.diplom.draft2.model.Tournaments;
+import vvp.diplom.draft2.network.apiLists.Rounds;
+import vvp.diplom.draft2.network.apiLists.Tournaments;
 import vvp.diplom.draft2.model.LoginRequestAnswer;
 import vvp.diplom.draft2.model.Tournament;
 

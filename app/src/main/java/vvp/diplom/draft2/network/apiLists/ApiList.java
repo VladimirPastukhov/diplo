@@ -1,4 +1,4 @@
-package vvp.diplom.draft2.model;
+package vvp.diplom.draft2.network.apiLists;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
