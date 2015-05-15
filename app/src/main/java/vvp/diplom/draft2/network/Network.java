@@ -1,4 +1,4 @@
-package vvp.diplom.draft2.controller;
+package vvp.diplom.draft2.network;
 
 import android.util.Log;
 

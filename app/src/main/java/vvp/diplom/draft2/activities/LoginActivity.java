@@ -3,10 +3,7 @@ package vvp.diplom.draft2.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
-import vvp.diplom.draft2.controller.Network;
+import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Tournament;
 
 /**

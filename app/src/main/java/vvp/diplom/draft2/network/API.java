@@ -1,4 +1,4 @@
-package vvp.diplom.draft2.controller;
+package vvp.diplom.draft2.network;
 
 /**
  * Created by VoVqa on 12.05.2015.

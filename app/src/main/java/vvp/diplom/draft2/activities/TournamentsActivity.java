@@ -4,13 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
-import vvp.diplom.draft2.controller.Network;
+import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Tournament;
 
