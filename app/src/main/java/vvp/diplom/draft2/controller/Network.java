@@ -1,5 +1,7 @@
 package vvp.diplom.draft2.controller;
 
+import android.util.Log;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -9,8 +11,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import vvp.diplom.draft2.model.ApiList;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.Matches;
 import vvp.diplom.draft2.model.Round;
@@ -24,7 +28,7 @@ import vvp.diplom.draft2.model.Tournament;
  */
 public class Network {
 
-    private final String TAG = getClass().getSimpleName();
+    private static final String TAG = "Network";
 
     private static LoginRequestAnswer loginRequestAnswer;
 
@@ -53,7 +57,8 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.MY_TOURNAMENTS + "?access_token="+loginRequestAnswer.getAccessToken();
         Tournaments tournaments = restTemplate.getForObject(url, Tournaments.class);
-        return tournaments.getRows();
+        Log.d(TAG, "Received " + tournaments);
+        return getNotNullData(tournaments);
     }
 
     public static List<Round> loadRounds(String tournamentId){
@@ -61,7 +66,8 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.ROUNDS_BY_TOURNAMENT_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Rounds rounds = restTemplate.getForObject(url, Rounds.class, tournamentId);
-        return rounds.getRows();
+        Log.d(TAG, "Received " + rounds);
+        return getNotNullData(rounds);
     }
 
     public static List<Match> loadMatches(String roundId){
@@ -69,7 +75,16 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.MATCHES_BY_ROUND_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Matches matches = restTemplate.getForObject(url, Matches.class, roundId);
-        return matches.getRows();
+        Log.d(TAG, "Received " + matches);
+        return getNotNullData(matches);
+    }
+
+    private static <T> List<T> getNotNullData(ApiList<T> apiList){
+        List data = apiList.getData();
+        if(data == null){
+            data = new ArrayList<T>(0);
+        }
+        return data;
     }
 
 //    private static String buildUrl(String method, Map<String, String> urlParams){

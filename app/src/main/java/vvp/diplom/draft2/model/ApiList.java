@@ -7,20 +7,20 @@ import java.util.List;
 /**
  * Created by VoVqa on 13.05.2015.
  */
-public class Array<T> {
+public class ApiList<T> {
 
     @JsonProperty("rows")
-    private List<T> rows;
+    private List<T> data;
 
     @JsonProperty("total")
     private long total;
 
-    public List<T> getRows() {
-        return rows;
+    public List<T> getData() {
+        return data;
     }
 
-    public void setRows(List<T> rows) {
-        this.rows = rows;
+    public void setData(List<T> data) {
+        this.data = data;
     }
 
     public long getTotal() {
@@ -29,5 +29,13 @@ public class Array<T> {
 
     public void setTotal(long total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiList{" +
+                "total=" + total +
+                ", data=" + data +
+                '}';
     }
 }
