@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:padding="@dimen/screen_border_padding_login">
+    android:padding="@dimen/screen_border_padding">
     <!--android:gravity="center"-->
 
     <LinearLayout
@@ -22,14 +22,14 @@
     <EditText android:id="@+id/edit_text_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/login_views_margin_bottom"
+        android:layout_marginBottom="@dimen/default_vertical_margin"
         android:hint="@string/edit_text_hint_login"
         android:inputType="textEmailAddress"/>
 
     <EditText android:id="@+id/edit_text_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/login_views_margin_bottom"
+        android:layout_marginBottom="@dimen/default_vertical_margin"
         android:hint="@string/edit_text_hint_password"
         android:inputType="textPassword"
         android:imeOptions="actionGo"/>

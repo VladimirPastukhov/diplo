@@ -3,9 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="screen_border_padding">8dp</dimen>
-    <dimen name="screen_border_padding_login">16dp</dimen>
-    <dimen name="login_views_margin_bottom">16dp</dimen>
+    <dimen name="screen_border_padding">16dp</dimen>
+    <dimen name="default_vertical_margin">16dp</dimen>
 
 
     <dimen name="list_row_padding">5dp</dimen>
