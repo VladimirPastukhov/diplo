@@ -11,8 +11,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
-            android:icon="@drawable/ic_launcher"
-            android:logo="@drawable/ic_launcher">
+            android:icon="@drawable/ic_sportspring"
+            android:logo="@drawable/ic_sportspring">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,8 +22,8 @@
         <activity
             android:name=".activities.TournamentsActivity"
             android:label="@string/tournaments_title"
-            android:icon="@drawable/ic_launcher"
-            android:logo="@drawable/ic_launcher">
+            android:icon="@drawable/ic_sportspring"
+            android:logo="@drawable/ic_sportspring">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
@@ -32,8 +32,8 @@
         <activity
             android:name=".activities.RoundsActivity"
             android:label="@string/rounds_title"
-            android:icon="@drawable/ic_launcher"
-            android:logo="@drawable/ic_launcher">
+            android:icon="@drawable/ic_sportspring"
+            android:logo="@drawable/ic_sportspring">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.TournamentsActivity" />
@@ -42,8 +42,8 @@
         <activity
             android:name=".activities.MatchesActivity"
             android:label="@string/matches_title"
-            android:icon="@drawable/ic_launcher"
-            android:logo="@drawable/ic_launcher">
+            android:icon="@drawable/ic_sportspring"
+            android:logo="@drawable/ic_sportspring">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.RoundsActivity" />
