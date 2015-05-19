@@ -49,6 +49,7 @@ public class Network {
         String url = API.BASE_URL + API.OAUTH_DIRECT;
         ResponseEntity<LoginRequestAnswer> answer = restTemplate.exchange(url, HttpMethod.POST, httpEntity, LoginRequestAnswer.class);
         loginRequestAnswer = answer.getBody();
+//        Log.d(TAG, loginRequestAnswer.toString());
         return loginRequestAnswer;
     }
 

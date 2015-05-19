@@ -15,12 +15,31 @@ public class Team implements Parcelable{
     @JsonProperty("title")
     String title;
 
+    @JsonProperty("image_path")
+    String imagetPath;
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImagetPath() {
+        return imagetPath;
+    }
+
+    public void setImagetPath(String imagetPath) {
+        this.imagetPath = imagetPath;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "imagetPath='" + imagetPath + '\'' +
+                ", title='" + title + '\'' +
+                '}';
     }
 
     //================================ next methods for pass between activities ======================

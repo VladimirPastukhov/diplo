@@ -12,9 +12,9 @@
     <dimen name="list_divider">2dp</dimen>
 
 
-    <dimen name="small_text">10sp</dimen>
-    <dimen name="medium_text">14sp</dimen>
-    <dimen name="large_text">24sp</dimen>
+    <dimen name="small_text">12sp</dimen>
+    <dimen name="medium_text">16sp</dimen>
+    <dimen name="large_text">20sp</dimen>
 
     <dimen name="goals_score_text">60sp</dimen>
     <dimen name="penalties_score_text">40sp</dimen>

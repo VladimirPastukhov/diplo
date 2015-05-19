@@ -46,5 +46,12 @@ public class LoginRequestAnswer {
         this.expireAt = expireAt;
     }
 
-
+    @Override
+    public String toString() {
+        return "LoginRequestAnswer{" +
+                "accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", expireAt='" + expireAt + '\'' +
+                '}';
+    }
 }

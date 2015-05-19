@@ -49,6 +49,16 @@
                 android:value=".activities.RoundsActivity" />
         </activity>
 
+        <activity
+            android:name=".activities.MatchSummaryActivity"
+            android:label="@string/matches_title"
+            android:icon="@drawable/ic_sportspring"
+            android:logo="@drawable/ic_sportspring">
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".activities.RoundsActivity" />-->
+        </activity>
+
     </application>
 
 </manifest>

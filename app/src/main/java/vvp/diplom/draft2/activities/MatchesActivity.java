@@ -1,7 +1,9 @@
 package vvp.diplom.draft2.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +17,9 @@ import vvp.diplom.draft2.model.Match;
  * Created by VoVqa on 15.05.2015.
  */
 public class MatchesActivity extends ActionBarActivity{
+
+    private static final String TAG = "MatchesActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +33,30 @@ public class MatchesActivity extends ActionBarActivity{
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, matches, new ViewFiller<Match>() {
             @Override
-            public void fill(View view, Match match) {
+            public void fill(View view, final Match match) {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
                 TextView textViewSub = (TextView) view.findViewById(R.id.text_view_sub);
                 textViewMain.setText(getMatchString(match));
                 textViewSub.setText(match.getStartAt());
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startMatchActivity(match);
+                    }
+                });
             }
         }));
-
-
     }
 
     private static String getMatchString(Match match){
         return match.getTeam1().getTitle()+" "+match.getGoals1()+":"
                 +match.getGoals2()+" "+match.getTeam2().getTitle();
+    }
+
+    private void startMatchActivity(Match match){
+        Log.d(TAG, "Star tMatchActivity " + match);
+        Intent intent = new Intent(this, MatchSummaryActivity.class);
+        intent.putExtra(Exstras.MATCH, match);
+        startActivity(intent);
     }
 }
