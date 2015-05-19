@@ -8,7 +8,6 @@
     <string name="edit_text_hint_login">Login</string>
     <string name="edit_text_hint_password">Password</string>
     <string name="button_login_enter">Enter</string>
-
     <string name="dialog_no_connection_title">No connection</string>
     <string name="dialog_no_connection_message">Try check your network settings</string>
     <string name="dialog_login_fail_title">Аuthorization fail</string>
@@ -25,5 +24,16 @@
     <string name="cant_load_matches">Cant load matches</string>
 
     <string name="matches_title">Matches</string>
+
+    <!-- Match main activity -->
+    <string name="penalty_score_title">Penalty</string>
+    <string name="is_overtime_title">Overtime</string>
+    <string name="is_technical_win_title">Technical win</string>
+    <string name="match_location_title">Location</string>
+    <string name="match_location_hint">Location</string>
+    <string name="judge_name_title">Judge</string>
+    <string name="judge_name_hint">Judge</string>
+    <string name="match_start_time_title">Started at</string>
+    <string name="redact">Reduct</string>
 
 </resources>

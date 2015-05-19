@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="@dimen/screen_border_padding_login"
+    android:background="@color/background"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0">
+            <ImageView android:id="@+id/ic_team_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"/>
+            <TextView android:id="@+id/text_view_title_team_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/large_text"
+                android:text="Спартак"/>
+        </LinearLayout>
+
+        <TextView android:id="@+id/text_view_goals_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="@dimen/goals_score_text"
+            android:text="2 : 1"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="right">
+            <ImageView android:id="@+id/ic_team_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"/>
+            <TextView android:id="@+id/text_view_title_team_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/large_text"
+                android:text="Акбарс"/>
+        </LinearLayout>
+    </LinearLayout>
+    <!-- goals finishes -->
+
+    <!-- penalty score -->
+    <TextView
+        android:layout_marginTop="@dimen/login_views_margin_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/penalty_score_title"
+        android:textSize="@dimen/large_text"/>
+    <TextView android:id="@+id/text_view_penalties_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="@dimen/penalties_score_text"
+        android:text="2 : 1"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_is_overtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:text="@string/is_overtime_title"
+            android:layout_marginTop="@dimen/login_views_margin_bottom"/>
+        <CheckBox android:id="@+id/checkbox_is_technical_win"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:text="@string/is_technical_win_title"
+            android:layout_marginTop="@dimen/login_views_margin_bottom"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="@dimen/login_views_margin_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textSize="@dimen/medium_text"
+        android:text="@string/match_location_title"/>
+    <EditText android:id="@+id/edit_text_match_location"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/match_location_hint"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/login_views_margin_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textSize="@dimen/medium_text"
+        android:text="@string/judge_name_title"/>
+    <EditText android:id="@+id/edit_text_match_ju"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/judge_name_hint"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/login_views_margin_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/large_text"
+        android:text="@string/match_start_time_title"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:padding="@dimen/date_time_buttons_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:text = "01-01-2015"
+            android:onClick="showDatePickDialog"/>
+        <Button
+            android:padding="@dimen/date_time_buttons_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:text = "12:20"
+            android:onClick="showTimePickDialog"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text = "@string/redact"/>
+
+
+</LinearLayout>
