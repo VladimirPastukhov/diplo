@@ -39,7 +39,7 @@ public class TournamentsActivity extends ActionBarActivity {
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, tournaments, new ViewFiller<Tournament>() {
             @Override
-            public void fill(View view, final Tournament tournament) {
+            public void fill(int position, View view, final Tournament tournament) {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
                 TextView textViewSub = (TextView) view.findViewById(R.id.text_view_sub);
                 textViewMain.setText(tournament.getTitle());

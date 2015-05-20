@@ -6,5 +6,5 @@ import android.view.View;
  * Created by VoVqa on 15.05.2015.
  */
 public interface ViewFiller<T> {
-    public void fill(View view, T source);
+    public void fill(int position, View view, T source);
 }

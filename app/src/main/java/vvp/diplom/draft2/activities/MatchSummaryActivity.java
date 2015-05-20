@@ -60,10 +60,10 @@ public class MatchSummaryActivity extends Activity {
         penaltyScore.setText(Util.scoreString(mMatch.getPenalty1(), mMatch.getPenalty2()));
 
         CheckBox isOvertimeBox = (CheckBox) findViewById(R.id.checkbox_is_overtime);
-        isOvertimeBox.setActivated(mMatch.isOvertime());
+        isOvertimeBox.setChecked(mMatch.isOvertime());
 
         CheckBox isTechnicalWinBox = (CheckBox) findViewById(R.id.checkbox_is_technical_win);
-        isTechnicalWinBox.setActivated(mMatch.isTechnical());
+        isTechnicalWinBox.setChecked(mMatch.isTechnical());
 
         EditText referee = (EditText) findViewById(R.id.edit_text_match_judge);
         referee.setText(mMatch.getReferee());

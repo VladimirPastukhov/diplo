@@ -28,7 +28,7 @@ public class MatchPlayersActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_player, matchPlayers, new ViewFiller<MatchPlayer>() {
             @Override
-            public void fill(View view, final MatchPlayer matchPlayer) {
+            public void fill(int position, View view, final MatchPlayer matchPlayer) {
                 TextView nameView = (TextView) view.findViewById(R.id.text_view_player_name);
                 nameView.setText(matchPlayer.getPlayer().getName());
             }

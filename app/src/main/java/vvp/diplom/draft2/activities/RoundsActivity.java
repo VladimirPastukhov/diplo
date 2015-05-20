@@ -44,7 +44,7 @@ public class RoundsActivity extends ActionBarActivity {
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, rounds, new ViewFiller<Round>() {
             @Override
-            public void fill(View view, final Round round) {
+            public void fill(int position, View view, final Round round) {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
                 textViewMain.setText(round.getName());
                 view.setOnClickListener(new View.OnClickListener() {

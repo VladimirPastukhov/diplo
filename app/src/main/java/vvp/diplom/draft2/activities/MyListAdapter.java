@@ -7,8 +7,6 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-import vvp.diplom.draft2.R;
-
 /**
  * Created by VoVqa on 15.05.2015.
  */
@@ -41,12 +39,20 @@ public class MyListAdapter<T> extends BaseAdapter {
         return 0;
     }
 
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = activity.getLayoutInflater().inflate(resource, parent, false);
-        viewFiller.fill(view, items.get(position));
+        viewFiller.fill(position, view, items.get(position));
         return view;
+    }
+
+    public void add(T item){
+        items.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position){
+        items.remove(position);
+        notifyDataSetChanged();
     }
 }

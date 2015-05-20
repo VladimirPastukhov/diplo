@@ -25,6 +25,13 @@
     <CheckBox android:id="@+id/checkbox_is_autogoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="is autogoal"/>
+
+    <Button android:id="@+id/button_remove_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:onClick="removeListItem"/>
 
 </LinearLayout>

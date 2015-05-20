@@ -33,7 +33,7 @@ public class MatchesActivity extends ActionBarActivity{
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, matches, new ViewFiller<Match>() {
             @Override
-            public void fill(View view, final Match match) {
+            public void fill(int position, View view, final Match match) {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
                 TextView textViewSub = (TextView) view.findViewById(R.id.text_view_sub);
                 textViewMain.setText(getMatchString(match));
