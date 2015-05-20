@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.model.Goal;
+import vvp.diplom.draft2.model.Incident;
 import vvp.diplom.draft2.model.MatchPlayer;
 import vvp.diplom.draft2.network.apiLists.ApiList;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.network.apiLists.Goals;
+import vvp.diplom.draft2.network.apiLists.Incidents;
 import vvp.diplom.draft2.network.apiLists.MatchPlayers;
 import vvp.diplom.draft2.network.apiLists.Matches;
 import vvp.diplom.draft2.model.Round;
@@ -100,6 +102,15 @@ public class Network {
         Goals goals = restTemplate.getForObject(url, Goals.class, matchId);
         Log.d(TAG, "Received " + goals);
         return getNotNullData(goals);
+    }
+
+    public static List<Incident> loadIncidents(String matchId){
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.GOALS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
+        Incidents incidents = restTemplate.getForObject(url, Incidents.class, matchId);
+        Log.d(TAG, "Received " + incidents);
+        return getNotNullData(incidents);
     }
 
 
