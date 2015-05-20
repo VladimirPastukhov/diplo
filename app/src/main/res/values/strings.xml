@@ -18,6 +18,7 @@
     <string name="network_error">Network error</string>
 
     <string name="tournaments_title">My tournaments</string>
+    <string name="tournament_dates_interval_pattern" formatted="false">From  %s  to  %s</string>
     <string name="cant_load_rounds">Cant load rounds</string>
 
     <string name="rounds_title">Rounds</string>

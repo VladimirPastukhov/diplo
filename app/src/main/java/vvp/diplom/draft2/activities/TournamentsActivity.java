@@ -43,7 +43,9 @@ public class TournamentsActivity extends ActionBarActivity {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
                 TextView textViewSub = (TextView) view.findViewById(R.id.text_view_sub);
                 textViewMain.setText(tournament.getTitle());
-                textViewSub.setText(tournament.getStartDate() + " " + tournament.getEndDate());
+                String datesPattern = getText(R.string.tournament_dates_interval_pattern).toString();
+                String dates = Util.formatDatesOfTournametn(tournament, datesPattern);
+                textViewSub.setText(dates);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -37,7 +37,7 @@ public class MatchesActivity extends ActionBarActivity{
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
                 TextView textViewSub = (TextView) view.findViewById(R.id.text_view_sub);
                 textViewMain.setText(getMatchString(match));
-                textViewSub.setText(match.getStartAt());
+                textViewSub.setText(Util.formatDateAndTimeString(match.getStartAt()));
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

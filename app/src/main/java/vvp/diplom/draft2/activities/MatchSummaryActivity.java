@@ -60,16 +60,16 @@ public class MatchSummaryActivity extends Activity {
 
         mDateButton = (Button) findViewById(R.id.button_match_date);
         mTimeButton = (Button) findViewById(R.id.button_match_time);
-        mDateButton.setText(mMatch.getStartAt().split(" ")[0]);
-        mTimeButton.setText(mMatch.getStartAt().split(" ")[1]);
+        mDateButton.setText(Util.dateString(mMatch.getStartAt()));
+        mTimeButton.setText(Util.timeString(mMatch.getStartAt()));
     }
 
     public void showDatePickDialog(View view){
-        Calendar calendar = Util.dateFromString(mMatch.getStartAt());
+        Calendar calendar = Util.calendarFromString(mMatch.getStartAt());
         int year = calendar.get(Calendar.YEAR);
-        int mounth = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        new DatePickerDialog(this, new MyOnDateSetListener(), year, mounth, day).show();
+        new DatePickerDialog(this, new MyOnDateSetListener(), year, month, day).show();
     }
 
     private class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
@@ -81,7 +81,7 @@ public class MatchSummaryActivity extends Activity {
     }
 
     public void showTimePickDialog(View view){
-        Calendar calendar = Util.dateFromString(mMatch.getStartAt());
+        Calendar calendar = Util.calendarFromString(mMatch.getStartAt());
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         new TimePickerDialog(this, new MyOnTimeSetListener(), hour, minute, true).show();
