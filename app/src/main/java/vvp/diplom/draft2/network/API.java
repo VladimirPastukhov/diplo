@@ -12,6 +12,8 @@ public class API {
     public static final String MY_TOURNAMENTS = "/user/me/tournament";
     public static final String ROUNDS_BY_TOURNAMENT_ID = "/tournament/{tournament_id}/round";
     public static final String MATCHES_BY_ROUND_ID = "/round/{round_id}/match";
+    public static final String MATCH_PLAYERS_BY_MATCH_ID = "/match/{round_id}/match_player";
+
 
     public static final String CLIENT_ID = "6";
     public static final String CLIENT_SECREST = "4d3bc048b6f847ght9d5vf9fbc8q0m8x";

@@ -2,8 +2,12 @@ package vvp.diplom.draft2.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,17 +16,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.model.MatchPlayer;
+import vvp.diplom.draft2.model.Round;
+import vvp.diplom.draft2.model.Tournament;
+import vvp.diplom.draft2.network.Network;
 
 /**
  * Created by VoVqa on 19.05.2015.
  */
 public class MatchSummaryActivity extends Activity {
 
+    private static final String TAG = "MatchSummaryActivity";
+
     private Match mMatch;
+
+    private ProgressDialog mProgressDialog;
 //    private Match mEditableMatch;
 
     private Button mDateButton;
@@ -93,5 +107,38 @@ public class MatchSummaryActivity extends Activity {
             String timeString = Util.timeString(hourOfDay, minute);
             mTimeButton.setText(timeString);
         }
+    }
+
+    public void openPlayers(View view){
+        mProgressDialog = ProgressDialog.show(this, "", "", false);
+        new HttpMatchPlayersTask().execute(mMatch.getId());
+    }
+
+    private class HttpMatchPlayersTask extends AsyncTask<String, Void, List<MatchPlayer>> {
+        @Override
+        protected List<MatchPlayer> doInBackground(String... params) {
+            try {
+                String matchId = params[0];
+                return Network.loadMatchPlayers(matchId);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<MatchPlayer> matchPlayers) {
+            startMatchPlayersActivity(matchPlayers);
+        }
+    }
+
+    private void startMatchPlayersActivity(List<MatchPlayer> matchPlayers){
+        Intent intent = new Intent(this, MatchPlayersActivity.class);
+        intent.putParcelableArrayListExtra(Exstras.MATCH_PLAYERS, (ArrayList) matchPlayers);
+        startActivity(intent);
     }
 }

@@ -42,7 +42,7 @@ public class RoundsActivity extends ActionBarActivity {
         Log.d(TAG, "Rounds " + rounds);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(new MyListAdapter<>(this, rounds, new ViewFiller<Round>() {
+        listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, rounds, new ViewFiller<Round>() {
             @Override
             public void fill(View view, final Round round) {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);

@@ -14,8 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import vvp.diplom.draft2.model.MatchPlayer;
 import vvp.diplom.draft2.network.apiLists.ApiList;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.network.apiLists.MatchPlayers;
 import vvp.diplom.draft2.network.apiLists.Matches;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.network.apiLists.Rounds;
@@ -78,6 +80,15 @@ public class Network {
         Matches matches = restTemplate.getForObject(url, Matches.class, roundId);
         Log.d(TAG, "Received " + matches);
         return getNotNullData(matches);
+    }
+
+    public static List<MatchPlayer> loadMatchPlayers(String matchId){
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.MATCH_PLAYERS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
+        MatchPlayers matchPlayers = restTemplate.getForObject(url, MatchPlayers.class, matchId);
+        Log.d(TAG, "Received " + matchPlayers);
+        return getNotNullData(matchPlayers);
     }
 
     private static <T> List<T> getNotNullData(ApiList<T> apiList) {

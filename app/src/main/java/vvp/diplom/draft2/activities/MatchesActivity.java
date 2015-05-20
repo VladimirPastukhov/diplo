@@ -31,7 +31,7 @@ public class MatchesActivity extends ActionBarActivity{
         final List<Match> matches = getIntent().getParcelableArrayListExtra(Exstras.MATCHES);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(new MyListAdapter<>(this, matches, new ViewFiller<Match>() {
+        listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, matches, new ViewFiller<Match>() {
             @Override
             public void fill(View view, final Match match) {
                 TextView textViewMain = (TextView) view.findViewById(R.id.text_view_main);
