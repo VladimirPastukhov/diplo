@@ -21,10 +21,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.MatchPlayer;
-import vvp.diplom.draft2.model.Round;
-import vvp.diplom.draft2.model.Tournament;
 import vvp.diplom.draft2.network.Network;
 
 /**
@@ -111,7 +110,8 @@ public class MatchSummaryActivity extends Activity {
 
     public void openPlayers(View view){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpMatchPlayersTask().execute(mMatch.getId());
+//        new HttpMatchPlayersTask().execute(mMatch.getId());
+        new HttpGoalsTask().execute(mMatch.getId());
     }
 
     private class HttpMatchPlayersTask extends AsyncTask<String, Void, List<MatchPlayer>> {
@@ -139,6 +139,34 @@ public class MatchSummaryActivity extends Activity {
     private void startMatchPlayersActivity(List<MatchPlayer> matchPlayers){
         Intent intent = new Intent(this, MatchPlayersActivity.class);
         intent.putParcelableArrayListExtra(Exstras.MATCH_PLAYERS, (ArrayList) matchPlayers);
+        startActivity(intent);
+    }
+
+    private class HttpGoalsTask extends AsyncTask<String, Void, List<Goal>> {
+        @Override
+        protected List<Goal> doInBackground(String... params) {
+            try {
+                String matchId = params[0];
+                return Network.loadGoals(matchId);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Goal> goals) {
+            startGoalsActivity(goals);
+        }
+    }
+
+    private void startGoalsActivity(List<Goal> goals){
+        Intent intent = new Intent(this, GoalsActivity.class);
+        intent.putParcelableArrayListExtra(Exstras.GOALS, (ArrayList) goals);
         startActivity(intent);
     }
 }

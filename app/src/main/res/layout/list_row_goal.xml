@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/list_row_padding"
+    android:paddingLeft="@dimen/list_row_padding_left">
+
+    <TextView android:id="@+id/text_view_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="team"/>
+
+    <TextView android:id="@+id/text_view_player_name"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="player"/>
+
+    <CheckBox android:id="@+id/checkbox_is_penalty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="is penalty"/>
+
+    <CheckBox android:id="@+id/checkbox_is_autogoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="is autogoal"/>
+
+</LinearLayout>
