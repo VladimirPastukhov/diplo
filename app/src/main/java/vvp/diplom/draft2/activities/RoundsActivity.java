@@ -23,7 +23,7 @@ import vvp.diplom.draft2.model.Round;
  */
 public class RoundsActivity extends ActionBarActivity {
 
-    private final String TAG = getClass().getSimpleName();
+    private final String TAG = Util.BASE_TAG + "RoundsAct";
 
     ProgressDialog mProgressDialog;
 

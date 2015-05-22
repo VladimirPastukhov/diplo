@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="@dimen/medium_text"
+        android:textSize="@dimen/small_text"
         android:text="@string/match_location_title"/>
     <EditText android:id="@+id/edit_text_match_location"
         android:layout_width="fill_parent"
@@ -103,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="@dimen/medium_text"
+        android:textSize="@dimen/small_text"
         android:text="@string/judge_name_title"/>
     <EditText android:id="@+id/edit_text_match_judge"
         android:layout_width="fill_parent"

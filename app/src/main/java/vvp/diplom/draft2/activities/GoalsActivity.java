@@ -20,7 +20,7 @@ import vvp.diplom.draft2.model.Team;
  */
 public class GoalsActivity extends Activity {
 
-    private static final String TAG = "GoalsActivity";
+    private static final String TAG = Util.BASE_TAG + "GoalsAct";
 
     private MyListAdapter myListAdapter;
     @Override

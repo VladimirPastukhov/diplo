@@ -17,7 +17,7 @@ import vvp.diplom.draft2.model.Incident;
  */
 public class IncidentsActivity extends Activity {
 
-    private static final String TAG = "IncidentsActivity";
+    private static final String TAG = Util.BASE_TAG + "IncidentsAct";
 
     private MyListAdapter myListAdapter;
 

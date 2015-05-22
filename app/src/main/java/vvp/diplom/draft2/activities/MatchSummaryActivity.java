@@ -32,7 +32,7 @@ import vvp.diplom.draft2.network.Network;
  */
 public class MatchSummaryActivity extends Activity {
 
-    private static final String TAG = "MatchSummaryActivity";
+    private static final String TAG = Util.BASE_TAG + "MatchSummaryAct";
 
     private Match mMatch;
 

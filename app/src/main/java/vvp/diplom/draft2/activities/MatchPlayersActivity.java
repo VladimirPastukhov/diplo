@@ -16,7 +16,7 @@ import vvp.diplom.draft2.model.MatchPlayer;
  * Created by VoVqa on 20.05.2015.
  */
 public class MatchPlayersActivity extends Activity {
-    private static final String TAG = "MatchPlayersActivity";
+    private static final String TAG = Util.BASE_TAG + "MatchPlayersAct";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

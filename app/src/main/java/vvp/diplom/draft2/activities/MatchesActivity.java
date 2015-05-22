@@ -18,7 +18,7 @@ import vvp.diplom.draft2.model.Match;
  */
 public class MatchesActivity extends ActionBarActivity{
 
-    private static final String TAG = "MatchesActivity";
+    private static final String TAG = Util.BASE_TAG + "MatchesActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,9 @@ public class MatchesActivity extends ActionBarActivity{
     }
 
     private static String getMatchString(Match match){
+        Log.d(TAG, "  ");
         return match.getTeam1().getTitle()+" "
-                +Util.scoreString(match.getGoals1(),match.getGoals2())
+                +Util.scoreString(match.getGoals1(), match.getGoals2())
                 +" "+match.getTeam2().getTitle();
     }
 

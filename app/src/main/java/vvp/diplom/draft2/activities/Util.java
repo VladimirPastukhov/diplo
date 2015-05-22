@@ -17,7 +17,8 @@ import vvp.diplom.draft2.model.Tournament;
  */
 public class Util {
 
-    private static final String TAG = "Util";
+    public static final String BASE_TAG = "diploma.";
+    private static final String TAG = BASE_TAG + "Util";
 
     private static final String INPUT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String INPUT_DATE_TIME_FORMAT_TOURNAMENT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import vvp.diplom.draft2.activities.Util;
 import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Incident;
 import vvp.diplom.draft2.model.MatchPlayer;
@@ -34,7 +35,7 @@ import vvp.diplom.draft2.model.Tournament;
  */
 public class Network {
 
-    private static final String TAG = "Network";
+    private static final String TAG = Util.BASE_TAG + "Network";
 
     private static LoginRequestAnswer loginRequestAnswer;
 
@@ -55,8 +56,20 @@ public class Network {
         String url = API.BASE_URL + API.OAUTH_DIRECT;
         ResponseEntity<LoginRequestAnswer> answer = restTemplate.exchange(url, HttpMethod.POST, httpEntity, LoginRequestAnswer.class);
         loginRequestAnswer = answer.getBody();
-//        Log.d(TAG, loginRequestAnswer.toString());
+        Log.d(TAG, loginRequestAnswer.toString());
         return loginRequestAnswer;
+    }
+
+    public void postGoals(List<Goal> goals){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.POST_GOALS + "?access_token="+loginRequestAnswer.getAccessToken();
+
+//        restTemplate.postForObject(url, Goal[].class, )
+
     }
 
     public static List<Tournament> loadMyTournaments(){
@@ -92,6 +105,7 @@ public class Network {
         String url = API.BASE_URL + API.MATCH_PLAYERS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         MatchPlayers matchPlayers = restTemplate.getForObject(url, MatchPlayers.class, matchId);
         Log.d(TAG, "Received " + matchPlayers);
+
         return getNotNullData(matchPlayers);
     }
 
@@ -107,12 +121,11 @@ public class Network {
     public static List<Incident> loadIncidents(String matchId){
         String accessToken = loginRequestAnswer.getAccessToken();
         RestTemplate restTemplate = new RestTemplate();
-        String url = API.BASE_URL + API.GOALS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
+        String url = API.BASE_URL + API.INCIDENTS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Incidents incidents = restTemplate.getForObject(url, Incidents.class, matchId);
         Log.d(TAG, "Received " + incidents);
         return getNotNullData(incidents);
     }
-
 
     private static <T> List<T> getNotNullData(ApiList<T> apiList) {
         List data = apiList.getData();
