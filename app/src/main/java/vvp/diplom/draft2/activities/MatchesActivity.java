@@ -49,8 +49,9 @@ public class MatchesActivity extends ActionBarActivity{
     }
 
     private static String getMatchString(Match match){
-        return match.getTeam1().getTitle()+" "+match.getGoals1()+":"
-                +match.getGoals2()+" "+match.getTeam2().getTitle();
+        return match.getTeam1().getTitle()+" "
+                +Util.scoreString(match.getGoals1(),match.getGoals2())
+                +" "+match.getTeam2().getTitle();
     }
 
     private void startMatchActivity(Match match){

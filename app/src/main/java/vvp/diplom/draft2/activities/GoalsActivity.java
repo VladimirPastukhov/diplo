@@ -41,7 +41,9 @@ public class GoalsActivity extends Activity {
                 CheckBox isAutogoalBox = (CheckBox) view.findViewById(R.id.checkbox_is_autogoal);
 
                 team.setText(goal.getTeam().getTitle());
-                playerName.setText(goal.getPlayer().getName());
+                if (goal.getPlayer() != null) {
+                    playerName.setText(goal.getPlayer().getName());
+                }
                 isPenaltyBox.setChecked(goal.isPenalty());
                 isAutogoalBox.setChecked(goal.isAutogoal());
 

@@ -112,8 +112,8 @@ public class MatchSummaryActivity extends Activity {
     public void openPlayers(View view){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
 //        new HttpMatchPlayersTask().execute(mMatch.getId());
-//        new HttpGoalsTask().execute(mMatch.getId());
-        new HttpIncidentsTask().execute(mMatch.getId());
+        new HttpGoalsTask().execute(mMatch.getId());
+//        new HttpIncidentsTask().execute(mMatch.getId());
     }
 
     private class HttpMatchPlayersTask extends AsyncTask<String, Void, List<MatchPlayer>> {

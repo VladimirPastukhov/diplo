@@ -119,9 +119,9 @@ public class LoginActivity extends Activity {
     public void fillLoginAndPassword(View view){
         EditText editLogin = (EditText) findViewById(R.id.edit_text_login);
         EditText editPassword = (EditText) findViewById(R.id.edit_text_password);
-//        editLogin.setText("podoknom@gmail.com");
-//        editPassword.setText("yaduhes");
-        editLogin.setText("threadend@gmail.com");
-        editPassword.setText("144df9e9");
+        editLogin.setText("podoknom@gmail.com");
+        editPassword.setText("yaduhes");
+//        editLogin.setText("threadend@gmail.com");
+//        editPassword.setText("144df9e9");
     }
 }
