@@ -2,8 +2,13 @@ package vvp.diplom.draft2.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,25 +21,28 @@ import vvp.diplom.draft2.model.Player;
 import vvp.diplom.draft2.model.Team;
 
 /**
- * Created by VoVqa on 20.05.2015.
+ * Created by VoVqa on 22.05.2015.
  */
-public class GoalsActivity extends Activity {
+public class GoalsFragment extends Fragment {
 
-    private static final String TAG = Util.BASE_TAG + "GoalsAct";
+    private static final String TAG = Util.BASE_TAG + "GoalsFrg";
 
+    private Activity A;
     private MyListAdapter myListAdapter;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_with_add_button);
 
-        List<Goal> goals = getIntent().getParcelableArrayListExtra(Exstras.GOALS);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        A = getActivity();
+
+        List<Goal> goals = A.getIntent().getParcelableArrayListExtra(Exstras.GOALS);
         Log.d(TAG, goals.toString());
 
-        ListView listView = (ListView) findViewById(R.id.list_view);
-        myListAdapter = new MyListAdapter<>(this, R.layout.list_row_goal, goals, new ViewFiller<Goal>() {
+        ListView listView = (ListView) A.findViewById(R.id.list_view);
+        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_goal, goals, new ViewFiller<Goal>() {
             @Override
-            public void fill(int position, View view, final Goal goal) {
+            public void fill(final int position, View view, final Goal goal) {
                 TextView team = (TextView) view.findViewById(R.id.text_view_team);
                 TextView playerName = (TextView) view.findViewById(R.id.text_view_player_name);
                 CheckBox isPenaltyBox = (CheckBox) view.findViewById(R.id.checkbox_is_penalty);
@@ -47,10 +55,24 @@ public class GoalsActivity extends Activity {
                 isPenaltyBox.setChecked(goal.isPenalty());
                 isAutogoalBox.setChecked(goal.isAutogoal());
 
-                view.findViewById(R.id.button_remove_list_item).setTag(new Integer(position));
+                Button removeButton = (Button) view.findViewById(R.id.button_remove_list_item);
+                removeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myListAdapter.remove(position);
+                    }
+                });
             }
         });
         listView.setAdapter(myListAdapter);
+
+        final Button addButton = (Button) A.findViewById(R.id.button_add);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addListItem(addButton);
+            }
+        });
     }
 
     public void addListItem(View view){
@@ -71,5 +93,11 @@ public class GoalsActivity extends Activity {
     public void removeListItem(View view){
         int position = (Integer) view.getTag();
         myListAdapter.remove(position);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_list_with_add_button, container, false);
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/itemid_1"
+        android:title="Action Item 1"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/itemid_2"
+        android:title="Action Item 2"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/itemid_3"
+        android:title="Action Item 3"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/itemid_4"
+    android:title="Action Item 4"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/itemid_5"
+        android:title="Action Item 5"
+        android:orderInCategory="0"
+        app:showAsAction="ifRoom|withText" />
+    <!--<item android:id="@+id/itemid_6"-->
+        <!--android:title="Action Item 6"-->
+        <!--android:orderInCategory="0"-->
+        <!--app:showAsAction="ifRoom|withText" />-->
+    <!--<item android:id="@+id/itemid_7"-->
+        <!--android:title="Action Item 7"-->
+        <!--android:orderInCategory="0"-->
+        <!--app:showAsAction="ifRoom|withText" />-->
+    <!--<item android:id="@+id/itemid_8"-->
+        <!--android:title="Action Item 8"-->
+        <!--android:orderInCategory="0"-->
+        <!--app:showAsAction="ifRoom|withText" />-->
+
+</menu>

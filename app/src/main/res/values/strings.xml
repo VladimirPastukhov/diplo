@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DiplomDraft2</string>
+    <string name="app_name">Sportspring Referee</string>
 
     <string name="button_ok_alert_dialog">OK</string>
 
@@ -26,7 +26,7 @@
 
     <string name="matches_title">Matches</string>
 
-    <!-- Match main activity -->
+    <!-- summary fragment -->
     <string name="penalty_score_title">Penalty</string>
     <string name="is_overtime_title">Overtime</string>
     <string name="is_technical_win_title">Technical win</string>
@@ -36,5 +36,11 @@
     <string name="judge_name_hint">Judge</string>
     <string name="match_start_time_title">Started at</string>
     <string name="redact">Reduct</string>
+
+    <!-- protocol activity -->
+    <string name="protocol_tab_summary">summary</string>
+    <string name="protocol_tab_goals">goals</string>
+    <string name="protocol_tab_teams">teams</string>
+    <string name="protocol_tab_cards">cards</string>
 
 </resources>

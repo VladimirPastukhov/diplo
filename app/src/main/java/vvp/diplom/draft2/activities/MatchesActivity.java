@@ -1,6 +1,8 @@
 package vvp.diplom.draft2.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -8,10 +10,13 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.network.Network;
 
 /**
  * Created by VoVqa on 15.05.2015.
@@ -19,6 +24,8 @@ import vvp.diplom.draft2.model.Match;
 public class MatchesActivity extends ActionBarActivity{
 
     private static final String TAG = Util.BASE_TAG + "MatchesAct";
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +48,7 @@ public class MatchesActivity extends ActionBarActivity{
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startMatchActivity(match);
+                        loadTabBarActivity(match);
                     }
                 });
             }
@@ -55,10 +62,39 @@ public class MatchesActivity extends ActionBarActivity{
                 +" "+match.getTeam2().getTitle();
     }
 
-    private void startMatchActivity(Match match){
-        Log.d(TAG, "Star tMatchActivity " + match);
-        Intent intent = new Intent(this, MatchSummaryActivity.class);
+    private void loadTabBarActivity(Match match){
+        mProgressDialog = ProgressDialog.show(this, "", "", false);
+        new HttpGoalsTask().execute(match);
+    }
+
+    private class HttpGoalsTask extends AsyncTask<Match, Void, List<Goal>> {
+        Match match;
+        @Override
+        protected List<Goal> doInBackground(Match... params) {
+            try {
+                match = params[0];
+                return Network.loadGoals(match.getId());
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Goal> goals) {
+            startTabsActivity(match, goals);
+        }
+    }
+
+    private void startTabsActivity(Match match, List<Goal> goals){
+        Log.d(TAG, "Start MatchActivity " + match);
+        Intent intent = new Intent(this, ProtocolActivity.class);
         intent.putExtra(Exstras.MATCH, match);
+        intent.putParcelableArrayListExtra(Exstras.GOALS, (ArrayList) goals);
         startActivity(intent);
     }
 }
