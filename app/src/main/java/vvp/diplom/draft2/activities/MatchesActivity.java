@@ -18,7 +18,7 @@ import vvp.diplom.draft2.model.Match;
  */
 public class MatchesActivity extends ActionBarActivity{
 
-    private static final String TAG = Util.BASE_TAG + "MatchesActivity";
+    private static final String TAG = Util.BASE_TAG + "MatchesAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
