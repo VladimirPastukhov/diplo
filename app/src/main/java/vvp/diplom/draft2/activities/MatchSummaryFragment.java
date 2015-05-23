@@ -55,7 +55,8 @@ public class MatchSummaryFragment extends Fragment {
 
         A = getActivity();
 
-        mMatch = A.getIntent().getParcelableExtra(Exstras.MATCH);
+//        mMatch = A.getIntent().getParcelableExtra(Exstras.MATCH);
+        mMatch = getArguments().getParcelable(Exstras.MATCH);
 
         TextView team1Title = (TextView) A.findViewById(R.id.text_view_title_team_1);
         TextView team2Title = (TextView) A.findViewById(R.id.text_view_title_team_2);

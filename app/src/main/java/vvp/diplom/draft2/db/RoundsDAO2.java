@@ -19,16 +19,15 @@ import vvp.diplom.draft2.model.Round;
 public class RoundsDAO2 extends BaseDaoImpl<Round, String> {
 
     private static final String TAG = Util.BASE_TAG + "RoundsDao";
+
     protected RoundsDAO2(ConnectionSource connectionSource, Class<Round> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 
     public List<Round> getByTournamentId(String tournamentId){
         try {
-            QueryBuilder<Round, String> queryBuilder = queryBuilder();
-            queryBuilder.where().eq(RoundsSQL.TOURNAMENT_ID, tournamentId);
-            PreparedQuery preparedQuery = queryBuilder.prepare();
-            return query(preparedQuery);
+            PreparedQuery pq =queryBuilder().where().eq(RoundsSQL.TOURNAMENT_ID, tournamentId).prepare();
+            return query(pq);
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
@@ -37,12 +36,10 @@ public class RoundsDAO2 extends BaseDaoImpl<Round, String> {
 
     public Round getById(String id){
         try {
-            QueryBuilder<Round, String> queryBuilder = queryBuilder();
-            queryBuilder.where().eq(RoundsSQL.TOURNAMENT_ID, id);
-            PreparedQuery preparedQuery = queryBuilder.prepare();
-            List<Round> list = query(preparedQuery);
+            PreparedQuery pq = queryBuilder().where().eq(RoundsSQL.ID, id).prepare();
+            List<Round> list = query(pq);
             return list.get(0);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
@@ -51,7 +48,7 @@ public class RoundsDAO2 extends BaseDaoImpl<Round, String> {
     public void insert(Round round){
         try {
             create(round);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
 
@@ -59,7 +56,6 @@ public class RoundsDAO2 extends BaseDaoImpl<Round, String> {
 
     public void insert(List<Round> rounds){
         for(Round round : rounds){
-            Log.d(TAG, "insert round "+round);
             insert(round);
         }
     }

@@ -70,16 +70,17 @@ public class MatchesActivity extends ActionBarActivity{
 
     private void loadTabBarActivity(Match match){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpGoalsTask().execute(match);
+        new HttpGoalsTask().execute(match.getId());
     }
 
-    private class HttpGoalsTask extends AsyncTask<Match, Void, List<Goal>> {
-        Match match;
+    private class HttpGoalsTask extends AsyncTask<String, Void, String> {
         @Override
-        protected List<Goal> doInBackground(Match... params) {
+        protected String doInBackground(String... params) {
             try {
-                match = params[0];
-                return Network.loadGoals(match.getId());
+                String matchId = params[0];
+                List<Goal> goals = Network.loadGoals(matchId);
+                DB.goals.insert(goals);
+                return matchId;
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -91,16 +92,22 @@ public class MatchesActivity extends ActionBarActivity{
         }
 
         @Override
-        protected void onPostExecute(List<Goal> goals) {
-            startTabsActivity(match, goals);
+        protected void onPostExecute(String matchId) {
+            startProtocolActivity(matchId);
         }
     }
 
-    private void startTabsActivity(Match match, List<Goal> goals){
-        Log.d(TAG, "Start MatchActivity " + match);
+    private void startProtocolActivity(String matchId){
         Intent intent = new Intent(this, ProtocolActivity.class);
-        intent.putExtra(Exstras.MATCH, match);
-        intent.putParcelableArrayListExtra(Exstras.GOALS, (ArrayList) goals);
+        intent.putExtra(Exstras.MATCH_ID, matchId);
         startActivity(intent);
     }
+
+//    private void startTabsActivity(Match match, List<Goal> goals){
+//        Log.d(TAG, "Start MatchActivity " + match);
+//        Intent intent = new Intent(this, ProtocolActivity.class);
+//        intent.putExtra(Exstras.MATCH, match);
+//        intent.putParcelableArrayListExtra(Exstras.GOALS, (ArrayList) goals);
+//        startActivity(intent);
+//    }
 }
