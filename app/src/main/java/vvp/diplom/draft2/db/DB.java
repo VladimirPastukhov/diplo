@@ -12,6 +12,7 @@ public class DB {
     public static TournamentsDAO tournaments;
     public static RoundsDAO rounds;
     public static TeamssDAO teams;
+    public static MatchesDAO matches;
 
     private DB(){}
 
@@ -22,5 +23,7 @@ public class DB {
         rounds.clean();
         teams = new TeamssDAO(context);
         teams.clean();
+        matches = new MatchesDAO(context);
+        matches.clean();
     }
 }

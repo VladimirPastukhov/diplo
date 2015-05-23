@@ -26,4 +26,8 @@ public class SQLUtil {
     public static String getString(Cursor coursor, String columnName){
         return coursor.getString(coursor.getColumnIndex(columnName));
     }
+
+    public static int getInt(Cursor coursor, String columnName){
+        return coursor.getInt(coursor.getColumnIndex(columnName));
+    }
 }

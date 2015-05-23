@@ -15,6 +15,9 @@ public class Match implements Parcelable{
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("round_id")
+    private String roundId;
+
     @JsonProperty("start_at")
     private String startAt;
 
@@ -144,15 +147,30 @@ public class Match implements Parcelable{
         this.place = place;
     }
 
+    public String getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(String roundId) {
+        this.roundId = roundId;
+    }
+
     @Override
     public String toString() {
         return "Match{" +
                 "goals1='" + goals1 + '\'' +
                 ", id='" + id + '\'' +
+                ", roundId='" + roundId + '\'' +
                 ", startAt='" + startAt + '\'' +
                 ", goals2='" + goals2 + '\'' +
                 ", team1=" + team1 +
                 ", team2=" + team2 +
+                ", penalty1='" + penalty1 + '\'' +
+                ", penalty2='" + penalty2 + '\'' +
+                ", isTechnical=" + isTechnical +
+                ", isOvertime=" + isOvertime +
+                ", referee='" + referee + '\'' +
+                ", place='" + place + '\'' +
                 '}';
     }
 
@@ -176,6 +194,7 @@ public class Match implements Parcelable{
 
     public Match(Parcel source){
         setId(source.readString());
+        setRoundId(source.readString());
         setStartAt(source.readString());
         setGoals1(source.readString());
         setGoals2(source.readString());
@@ -197,6 +216,7 @@ public class Match implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(getId());
+        dest.writeString(getRoundId());
         dest.writeString(getStartAt());
         dest.writeString(getGoals1());
         dest.writeString(getGoals2());

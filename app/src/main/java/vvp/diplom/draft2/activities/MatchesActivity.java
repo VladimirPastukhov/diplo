@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.network.Network;
 
 /**
@@ -32,10 +34,11 @@ public class MatchesActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default_list);
 
-        String title = getIntent().getStringExtra(Exstras.TITLE);
-        setTitle(title);
+//        String title = getIntent().getStringExtra(Exstras.TITLE);
+//        setTitle(title);
 
-        final List<Match> matches = getIntent().getParcelableArrayListExtra(Exstras.MATCHES);
+//        final List<Match> matches = getIntent().getParcelableArrayListExtra(Exstras.MATCHES);
+        final List<Match> matches = DB.matches.getAll();
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, matches, new ViewFiller<Match>() {

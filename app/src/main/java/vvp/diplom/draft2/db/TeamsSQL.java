@@ -6,10 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static vvp.diplom.draft2.db.SQLUtil.CREATE_TABLE_;
 import static vvp.diplom.draft2.db.SQLUtil.DROP_TABLE_IF_EXISTS_;
-import static vvp.diplom.draft2.db.SQLUtil._INTEGER_COMMA;
 import static vvp.diplom.draft2.db.SQLUtil._INTEGER_PRIMARY_KEY_COMMA;
+import static vvp.diplom.draft2.db.SQLUtil._TEXT;
 import static vvp.diplom.draft2.db.SQLUtil._TEXT_COMMA;
-import static vvp.diplom.draft2.db.SQLUtil.formatForeignKey;
 
 /**
  * Created by VoVqa on 23.05.2015.
@@ -27,7 +26,7 @@ public class TeamsSQL extends SQLiteOpenHelper{
             CREATE_TABLE_ + TABLE_NAME + " (" +
                     COLUMN_ID + _INTEGER_PRIMARY_KEY_COMMA +
                     COLUMN_TITLE + _TEXT_COMMA +
-                    COLUMN_IMAGE_PATH + _TEXT_COMMA +
+                    COLUMN_IMAGE_PATH + _TEXT +
                     ")";
 
     protected static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;

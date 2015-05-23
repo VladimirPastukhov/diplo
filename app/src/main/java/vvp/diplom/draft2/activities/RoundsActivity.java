@@ -72,7 +72,9 @@ public class RoundsActivity extends ActionBarActivity {
         protected List<Match> doInBackground(Round... params) {
             try {
                 round = params[0];
-                return Network.loadMatches(round.getId());
+                List<Match> matches = Network.loadMatches(round.getId());
+                DB.matches.insert(matches);
+                return matches;
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -86,7 +88,8 @@ public class RoundsActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(List<Match> matches) {
             if(matches != null){
-                startMathesActivity(round.getName(), matches);
+//                startMathesActivity(round.getName(), matches);
+                startMathesActivity(round.getId());
             } else {
                 Util.showAlertDialog(RoundsActivity.this,
                         R.string.network_error,
@@ -95,11 +98,17 @@ public class RoundsActivity extends ActionBarActivity {
         }
     }
 
-    private void startMathesActivity(String roundName, List<Match> matches){
+    private void startMathesActivity(String roundId){
         Intent intent = new Intent(this, MatchesActivity.class);
-        String title = getTitle()+"("+roundName+")";
-        intent.putExtra(Exstras.TITLE, title);
-        intent.putParcelableArrayListExtra(Exstras.MATCHES, (ArrayList) matches);
+        intent.putExtra(Exstras.ROUND_ID, roundId);
         startActivity(intent);
     }
+
+//    private void startMathesActivity(String roundName, List<Match> matches){
+//        Intent intent = new Intent(this, MatchesActivity.class);
+//        String title = getTitle()+"("+roundName+")";
+//        intent.putExtra(Exstras.TITLE, title);
+//        intent.putParcelableArrayListExtra(Exstras.MATCHES, (ArrayList) matches);
+//        startActivity(intent);
+//    }
 }
