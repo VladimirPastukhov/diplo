@@ -11,16 +11,16 @@ import static vvp.diplom.draft2.db.SQLUtil.*;
  */
 public class RoundsSQL extends SQLiteOpenHelper {
 
-    protected static final String TABLE_NAME = "rounds";
-    protected static final String ID = "id";
-    protected static final String TOURNAMENT_ID = "tournament_id";
-    protected static final String NAME = "name";
-    protected static final String[] allColumns
+    public static final String TABLE_NAME = "rounds";
+    public static final String ID = "id";
+    public static final String TOURNAMENT_ID = "tournament_id";
+    public static final String NAME = "name";
+    public static final String[] allColumns
             = {ID, TOURNAMENT_ID, NAME};
 
     protected static final String CREATE =
             CREATE_TABLE_ + TABLE_NAME + " (" +
-                    ID + _INTEGER_PRIMARY_KEY_COMMA +
+                   ID + _INTEGER_PRIMARY_KEY_COMMA +
                     TOURNAMENT_ID + _INTEGER_COMMA +
                     NAME + _TEXT_COMMA +
                     formatForeignKey(TOURNAMENT_ID, TournamentsSQL.TABLE_NAME, TournamentsSQL.ID)+

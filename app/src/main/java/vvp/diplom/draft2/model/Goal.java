@@ -5,15 +5,39 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import vvp.diplom.draft2.db.GoalsDAO;
 
 /**
  * Created by VoVqa on 20.05.2015.
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = "goals")
 public class Goal implements Parcelable {
 
     @JsonProperty("id")
+    @DatabaseField(id = true, columnName = GoalsDAO.ID)
     private String id;
+
+    @JsonProperty("match_id")
+    @DatabaseField(columnName = GoalsDAO.MATCH_ID)
+    private String matchId;
+
+    @JsonProperty("team_id")
+    @DatabaseField(columnName = GoalsDAO.TEAM_ID)
+    private String teamId;
+
+    @JsonProperty("player_id")
+    @DatabaseField(columnName = GoalsDAO.PLAYER_ID)
+    private String playerId;
+
+    @JsonProperty("assistant_id")
+    @DatabaseField(columnName = GoalsDAO.ASSISTANT_ID)
+    private String assistantId;
 
     @JsonProperty("team")
     Team team;
@@ -22,15 +46,19 @@ public class Goal implements Parcelable {
     Player player;
 
     @JsonProperty("minute")
+    @DatabaseField(columnName = GoalsDAO.MINUTE)
     private String minute;
 
     @JsonProperty("additional_minute")
+    @DatabaseField(columnName = GoalsDAO.ADDITIONAL_MINUTE)
     private String additionalMinute;
 
     @JsonProperty("is_penalty")
+    @DatabaseField(columnName = GoalsDAO.IS_PENALTY)
     private boolean isPenalty;
 
     @JsonProperty("is_autogoal")
+    @DatabaseField(columnName = GoalsDAO.IS_AUTOGOAL)
     private boolean isAutogoal;
 
     public String getAdditionalMinute() {
@@ -89,11 +117,46 @@ public class Goal implements Parcelable {
         this.team = team;
     }
 
+    public String getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    public String getAssistantId() {
+        return assistantId;
+    }
+
+    public void setAssistantId(String assistantId) {
+        this.assistantId = assistantId;
+    }
+
     @Override
     public String toString() {
         return "Goal{" +
                 "additionalMinute='" + additionalMinute + '\'' +
                 ", id='" + id + '\'' +
+                ", matchId='" + matchId + '\'' +
+                ", teamId='" + teamId + '\'' +
+                ", playerId='" + playerId + '\'' +
                 ", team=" + team +
                 ", player=" + player +
                 ", minute='" + minute + '\'' +
@@ -107,6 +170,10 @@ public class Goal implements Parcelable {
 
     public Goal(Parcel source){
         setId(source.readString());
+        setMatchId(source.readString());
+        setTeamId(source.readString());
+        setPlayerId(source.readString());
+        setAssistantId(source.readString());
         setTeam(source.<Team>readParcelable(Team.class.getClassLoader()));
         setPlayer(source.<Player>readParcelable(Player.class.getClassLoader()));
         setMinute(source.readString());
@@ -123,6 +190,10 @@ public class Goal implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(getId());
+        dest.writeString(getMatchId());
+        dest.writeString(getTeamId());
+        dest.writeString(getPlayerId());
+        dest.writeString(getAssistantId());
         dest.writeParcelable(getTeam(), 0);
         dest.writeParcelable(getPlayer(), 0);
         dest.writeString(getMinute());

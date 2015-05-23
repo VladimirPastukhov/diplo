@@ -5,14 +5,27 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import vvp.diplom.draft2.db.PlayerSQL;
+import vvp.diplom.draft2.db.PlayersDAO;
 
 /**
  * Created by VoVqa on 20.05.2015.
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = "players")
 public class Player implements Parcelable{
 
-    @JsonProperty("fullname")
+    @JsonProperty("id")
+    @DatabaseField(id = true, columnName = PlayersDAO.ID)
+    private String id;
+
+    @JsonProperty("full_name")
+    @DatabaseField(columnName = PlayersDAO.NAME)
     private String name;
 
     public String getName() {
