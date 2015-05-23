@@ -70,27 +70,36 @@ public class TournamentsActivity extends ActionBarActivity {
         protected List<Round> doInBackground(Tournament... params) {
             try {
                 tournament = params[0];
-                return Network.loadRounds(tournament.getId());
+                List<Round> rounds = Network.loadRounds(tournament.getId());
+                DB.rounds.insert(rounds);
+                return rounds;
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
             finally {
                 mProgressDialog.dismiss();
             }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(List<Round> rounds) {
             if(rounds != null){
-                startRoundsActivity(tournament.getTitle(), rounds);
+//                startRoundsActivity(tournament.getTitle(), rounds);
+                startRoundsActivity(tournament.getId());
             } else {
                 Util.showAlertDialog(TournamentsActivity.this,
                         R.string.network_error,
-                        R.string.cant_load_matches);
+                        R.string.cant_load_rounds);
             }
         }
+    }
+
+    private void startRoundsActivity(String tournamentId){
+
+        Intent intent = new Intent(this, RoundsActivity.class);
+        intent.putExtra(Exstras.TOURNAMENT_ID, tournamentId);
+        startActivity(intent);
     }
 
     private void startRoundsActivity(String title, List<Round> rounds){

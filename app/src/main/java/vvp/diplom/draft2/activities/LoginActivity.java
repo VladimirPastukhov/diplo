@@ -28,6 +28,8 @@ import vvp.diplom.draft2.model.Tournament;
  */
 public class LoginActivity extends Activity {
 
+    private static final String TAG = Util.BASE_TAG + "LoginAct";
+
     EditText mEditLogin;
     EditText mEditPassword;
     ProgressDialog mProgressDialog;
@@ -104,7 +106,7 @@ public class LoginActivity extends Activity {
                     break;
             }
         } else
-        Log.e("MainActivity", e.getMessage(), e);
+        Log.e(TAG, e.getMessage(), e);
     }
 
 
@@ -122,9 +124,9 @@ public class LoginActivity extends Activity {
     public void fillLoginAndPassword(View view){
         EditText editLogin = (EditText) findViewById(R.id.edit_text_login);
         EditText editPassword = (EditText) findViewById(R.id.edit_text_password);
-//        editLogin.setText("podoknom@gmail.com");
-//        editPassword.setText("yaduhes");
-        editLogin.setText("threadend@gmail.com");
-        editPassword.setText("144df9e9");
+        editLogin.setText("podoknom@gmail.com");
+        editPassword.setText("yaduhes");
+//        editLogin.setText("threadend@gmail.com");
+//        editPassword.setText("144df9e9");
     }
 }

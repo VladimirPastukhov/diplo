@@ -10,11 +10,14 @@ public class DB {
     public static final int VERSION = 1;
 
     public static TournamentsDAO tournaments;
+    public static RoundsDAO rounds;
 
     private DB(){}
 
     public static void init(Context context){
         tournaments = new TournamentsDAO(context);
         tournaments.clean();
+        rounds = new RoundsDAO(context);
+        rounds.clean();
     }
 }

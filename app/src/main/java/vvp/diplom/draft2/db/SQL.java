@@ -14,4 +14,8 @@ public class SQL {
     public static final String _TEXT_COMMA = _TEXT + COMMA_SEP;
     public static final String _INTEGER_COMMA = _INTEGER + COMMA_SEP;
     public static final String _INTEGER_PRIMARY_KEY_COMMA = _INTEGER + _PRIMARY_KEY + COMMA_SEP;
+
+    public static final String FOREIGN_KEY = "FOREIGN KEY";
+    public static final String _REFERENCES_ = " REFERENCES ";
+
 }

@@ -4,36 +4,31 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static vvp.diplom.draft2.db.SQL.CREATE_TABLE_;
-import static vvp.diplom.draft2.db.SQL.DROP_TABLE_IF_EXISTS_;
-import static vvp.diplom.draft2.db.SQL._INTEGER_PRIMARY_KEY_COMMA;
-import static vvp.diplom.draft2.db.SQL._TEXT;
-import static vvp.diplom.draft2.db.SQL._TEXT_COMMA;
+import static vvp.diplom.draft2.db.SQL.*;
 
 /**
  * Created by VoVqa on 23.05.2015.
  */
-public class TournamentSQLHelper extends SQLiteOpenHelper{
+public class RoundsSQLHelper extends SQLiteOpenHelper {
 
-    protected static final String TABLE_NAME = "tournaments";
+    protected static final String TABLE_NAME = "rounds";
     protected static final String COLUMN_ID = "id";
-    protected static final String COLUMN_TITLE = "title";
-    protected static final String COLUMN_START_DATE = "start_date";
-    protected static final String COLUMN_END_DATE = "end_date";
+    protected static final String COLUMN_TOURNAMENT_ID = "tournament_id";
+    protected static final String COLUMN_NAME = "name";
     protected static final String[] allColumns
-            = {COLUMN_ID, COLUMN_TITLE, COLUMN_START_DATE, COLUMN_END_DATE};
+            = {COLUMN_ID, COLUMN_TOURNAMENT_ID, COLUMN_NAME};
 
     protected static final String CREATE =
             CREATE_TABLE_ + TABLE_NAME + " (" +
-            COLUMN_ID + _INTEGER_PRIMARY_KEY_COMMA +
-            COLUMN_TITLE + _TEXT_COMMA +
-            COLUMN_START_DATE + _TEXT_COMMA +
-            COLUMN_END_DATE + _TEXT +
-            ")";
+                    COLUMN_ID + _INTEGER_PRIMARY_KEY_COMMA +
+                    COLUMN_TOURNAMENT_ID + _INTEGER_COMMA +
+                    COLUMN_NAME + _TEXT_COMMA +
+                    FOREIGN_KEY+"("+COLUMN_TOURNAMENT_ID+")"+_REFERENCES_+TournamentSQLHelper.TABLE_NAME+"("+TournamentSQLHelper.COLUMN_ID+")"+
+                    ")";
 
     protected static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;
 
-    protected TournamentSQLHelper(Context context) {
+    protected RoundsSQLHelper(Context context) {
         super(context, DB.NAME, null, DB.VERSION);
     }
 

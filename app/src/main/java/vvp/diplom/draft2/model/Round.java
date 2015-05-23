@@ -14,6 +14,10 @@ public class Round implements Parcelable{
 
     @JsonProperty("id")
     String id;
+
+    @JsonProperty("tournament_id")
+    String tournamentId;
+
     @JsonProperty("name")
     String name;
 
@@ -33,8 +37,21 @@ public class Round implements Parcelable{
         this.name = name;
     }
 
-    public String toString(){
-        return getClass().getSimpleName()+" "+id+" "+name;
+    public String getTournamentId() {
+        return tournamentId;
+    }
+
+    public void setTournamentId(String tournamentId) {
+        this.tournamentId = tournamentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Round{" +
+                "id='" + id + '\'' +
+                ", tournamentId='" + tournamentId + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     //================================ next methods for pass between activities ======================
@@ -42,6 +59,7 @@ public class Round implements Parcelable{
 
     public Round(Parcel source){
         setId(source.readString());
+        setTournamentId(source.readString());
         setName(source.readString());
     }
 
@@ -53,6 +71,7 @@ public class Round implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(getId());
+        dest.writeString(getTournamentId());
         dest.writeString(getName());
     }
 
