@@ -12,6 +12,7 @@ import java.util.List;
 
 import vvp.diplom.draft2.activities.Util;
 import vvp.diplom.draft2.model.Round;
+import vvp.diplom.draft2.model.Tournament;
 
 /**
  * Created by VoVqa on 23.05.2015.
@@ -25,21 +26,26 @@ public class RoundsDAO2 extends BaseDaoImpl<Round, String> {
     }
 
     public List<Round> getByTournamentId(String tournamentId){
-        try {
-            PreparedQuery pq =queryBuilder().where().eq(RoundsSQL.TOURNAMENT_ID, tournamentId).prepare();
-            return query(pq);
-        } catch (SQLException e) {
-            Log.e(TAG, e.getMessage(), e);
-            return null;
+        List<Round> list = getRounds(RoundsSQL.TOURNAMENT_ID, tournamentId);
+        Tournament tournament = DB.tournaments.getById(tournamentId);
+        for(Round round : list){
+            round.setTournament(tournament);
         }
+        return list;
     }
 
     public Round getById(String id){
+        List<Round> list = getRounds(RoundsSQL.ID, id);
+        Round round = list.get(0);
+        round.setTournament(DB.tournaments.getById(round.getTournamentId()));
+        return round;
+    }
+
+    private List<Round> getRounds(String column, String value){
         try {
-            PreparedQuery pq = queryBuilder().where().eq(RoundsSQL.ID, id).prepare();
-            List<Round> list = query(pq);
-            return list.get(0);
-        } catch (Exception e) {
+            PreparedQuery pq = queryBuilder().where().eq(column, value).prepare();
+            return query(pq);
+        } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }

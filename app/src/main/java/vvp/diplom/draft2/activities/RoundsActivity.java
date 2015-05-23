@@ -38,12 +38,11 @@ public class RoundsActivity extends ActionBarActivity {
 
         String tournamentId = getIntent().getStringExtra(Exstras.TOURNAMENT_ID);
 
+        List<Round> rounds = DB.rounds.getByTournamentId(tournamentId);
+        Log.d(TAG, "Rounds " + rounds);
+
         Tournament tournament = DB.tournaments.getById(tournamentId);
         setTitle(tournament.getTitle());
-
-        List<Round> rounds = DB.rounds.getByTournamentId(tournamentId);
-
-        Log.d(TAG, "Rounds " + rounds);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, rounds, new ViewFiller<Round>() {

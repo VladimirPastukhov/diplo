@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Tournament;
 
 /**
@@ -107,5 +108,9 @@ public class Util {
             goals2 = "0";
         }
         return String.format("%s : %s", goals1, goals2);
+    }
+
+    public static String getRoundTitle(Round round){
+        return round.getTournament().getTitle()+"("+round.getName()+")";
     }
 }

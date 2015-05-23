@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Team;
 import vvp.diplom.draft2.network.apiLists.Matches;
 
@@ -68,6 +69,7 @@ public class MatchesDAO {
         try {
             cursor.moveToFirst();
             match = readMatch(cursor);
+            match.setRound(DB.rounds.getById(match.getRoundId()));
         } finally {
             cursor.close();
         }
@@ -79,25 +81,12 @@ public class MatchesDAO {
         String selection = ROUND_ID+"=?";
         String[] selectionArgs = new String[]{roundId};
         Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
-        return readMatches(cursor);
-    }
-
-    public List<Match> getAll(){
-        SQLiteDatabase db = sqlHelper.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, allColumns, null, null, null, null, null);
-        return readMatchs(cursor);
-    }
-
-    private static List<Match> readMatchs(Cursor cursor){
-        List<Match> matches = new ArrayList<Match>();
-        try {
-            while(cursor.moveToNext()) {
-                matches.add(readMatch(cursor));
-            }
-        } finally {
-            cursor.close();
+        List<Match> list = readMatches(cursor);
+        Round round = DB.rounds.getById(roundId);
+        for(Match match : list){
+            match.setRound(round);
         }
-        return matches;
+        return list;
     }
 
     private static List<Match> readMatches(Cursor cursor){

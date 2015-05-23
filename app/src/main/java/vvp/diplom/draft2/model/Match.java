@@ -40,16 +40,18 @@ public class Match implements Parcelable{
     private String penalty2;
 
     @JsonProperty("is_technical")
-    boolean isTechnical;
+    private boolean isTechnical;
 
     @JsonProperty("is_overtime")
-    boolean isOvertime;
+    private boolean isOvertime;
 
     @JsonProperty("referee")
-    String referee;
+    private String referee;
 
     @JsonProperty("place")
-    String place;
+    private String place;
+
+    private Round round;
 
     public String getGoals1() {
         return goals1;
@@ -155,6 +157,14 @@ public class Match implements Parcelable{
         this.roundId = roundId;
     }
 
+    public Round getRound() {
+        return round;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
+    }
+
     @Override
     public String toString() {
         return "Match{" +
@@ -206,6 +216,7 @@ public class Match implements Parcelable{
         setIsOvertime(source.readByte() != 0);
         setReferee(source.readString());
         setPlace(source.readString());
+        setRound(source.<Round>readParcelable(Round.class.getClassLoader()));
     }
 
     @Override
@@ -228,6 +239,7 @@ public class Match implements Parcelable{
         dest.writeByte((byte) (isOvertime() ? 1 : 0));
         dest.writeString(getReferee());
         dest.writeString(getPlace());
+        dest.writeParcelable(getRound(), 0);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

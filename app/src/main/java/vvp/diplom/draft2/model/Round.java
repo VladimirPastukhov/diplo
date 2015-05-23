@@ -30,6 +30,8 @@ public class Round implements Parcelable{
     @DatabaseField(dataType = DataType.STRING, columnName = RoundsSQL.NAME)
     String name;
 
+    Tournament tournament;
+
     public String getId() {
         return id;
     }
@@ -54,6 +56,14 @@ public class Round implements Parcelable{
         this.tournamentId = tournamentId;
     }
 
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
+    }
+
     @Override
     public String toString() {
         return "Round{" +
@@ -70,6 +80,7 @@ public class Round implements Parcelable{
         setId(source.readString());
         setTournamentId(source.readString());
         setName(source.readString());
+        setTournament(source.<Tournament>readParcelable(Tournament.class.getClassLoader()));
     }
 
     @Override
@@ -82,6 +93,7 @@ public class Round implements Parcelable{
         dest.writeString(getId());
         dest.writeString(getTournamentId());
         dest.writeString(getName());
+        dest.writeParcelable(getTournament(), 0);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

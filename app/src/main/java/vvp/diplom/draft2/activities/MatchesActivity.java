@@ -37,8 +37,7 @@ public class MatchesActivity extends ActionBarActivity{
 
         String roundId = getIntent().getStringExtra(Exstras.ROUND_ID);
         Round round = DB.rounds.getById(roundId);
-        Tournament tournament = DB.tournaments.getById(round.getTournamentId());
-        setTitle(tournament.getTitle()+"("+round.getName()+")");
+        setTitle(Util.getRoundTitle(round));
 
         final List<Match> matches = DB.matches.getByRoundId(roundId);
         Log.d(TAG, "Matches "+matches.toString());

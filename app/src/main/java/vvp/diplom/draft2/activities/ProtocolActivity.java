@@ -27,9 +27,7 @@ public class ProtocolActivity extends ActionBarActivity{
         String matchId = getIntent().getStringExtra(Exstras.MATCH_ID);
         Match match = DB.matches.getById(matchId);
 
-        Round round = DB.rounds.getById(match.getRoundId());
-        Tournament tournament = DB.tournaments.getById(round.getTournamentId());
-        setTitle(tournament.getTitle()+"("+round.getName()+")");
+        setTitle(Util.getRoundTitle(match.getRound()));
 
         FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
