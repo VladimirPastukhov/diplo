@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.model.Tournament;
-import static vvp.diplom.draft2.db.TournamentSQLHelper.*;
+import static vvp.diplom.draft2.db.TournamentsSQL.*;
 
 
 /**
@@ -17,10 +17,10 @@ import static vvp.diplom.draft2.db.TournamentSQLHelper.*;
  */
 public class TournamentsDAO {
 
-    private final TournamentSQLHelper sqlHelper;
+    private final TournamentsSQL sqlHelper;
 
     public TournamentsDAO(Context context){
-        sqlHelper = new TournamentSQLHelper(context);
+        sqlHelper = new TournamentsSQL(context);
     }
 
     protected void clean(){

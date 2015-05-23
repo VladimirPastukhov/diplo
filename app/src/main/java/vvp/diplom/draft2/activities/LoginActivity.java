@@ -19,7 +19,6 @@ import java.util.List;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
-import vvp.diplom.draft2.db.TournamentSQLHelper;
 import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Tournament;
 

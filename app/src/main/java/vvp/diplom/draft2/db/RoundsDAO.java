@@ -10,21 +10,21 @@ import java.util.List;
 
 import vvp.diplom.draft2.model.Round;
 
-import static vvp.diplom.draft2.db.RoundsSQLHelper.COLUMN_ID;
-import static vvp.diplom.draft2.db.RoundsSQLHelper.COLUMN_NAME;
-import static vvp.diplom.draft2.db.RoundsSQLHelper.COLUMN_TOURNAMENT_ID;
-import static vvp.diplom.draft2.db.RoundsSQLHelper.TABLE_NAME;
-import static vvp.diplom.draft2.db.RoundsSQLHelper.allColumns;
+import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_ID;
+import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_NAME;
+import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_TOURNAMENT_ID;
+import static vvp.diplom.draft2.db.RoundsSQL.TABLE_NAME;
+import static vvp.diplom.draft2.db.RoundsSQL.allColumns;
 
 /**
  * Created by VoVqa on 23.05.2015.
  */
 public class RoundsDAO {
 
-    private final RoundsSQLHelper sqlHelper;
+    private final RoundsSQL sqlHelper;
 
     public RoundsDAO(Context context){
-        sqlHelper = new RoundsSQLHelper(context);
+        sqlHelper = new RoundsSQL(context);
     }
 
     protected void clean(){

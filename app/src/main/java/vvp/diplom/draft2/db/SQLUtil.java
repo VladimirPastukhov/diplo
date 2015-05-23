@@ -3,7 +3,7 @@ package vvp.diplom.draft2.db;
 /**
  * Created by VoVqa on 23.05.2015.
  */
-public class SQL {
+public class SQLUtil {
     public static final String CREATE_TABLE_ = "CREATE TABLE ";
     public static final String DROP_TABLE_IF_EXISTS_ = "DROP TABLE IF EXISTS ";
 
@@ -15,7 +15,10 @@ public class SQL {
     public static final String _INTEGER_COMMA = _INTEGER + COMMA_SEP;
     public static final String _INTEGER_PRIMARY_KEY_COMMA = _INTEGER + _PRIMARY_KEY + COMMA_SEP;
 
-    public static final String FOREIGN_KEY = "FOREIGN KEY";
-    public static final String _REFERENCES_ = " REFERENCES ";
+    private static final String FOREIGN_KEY_PATTERN = "FOREIGN KEY(%s) REFERENCES %s(%s)";
+
+    public static String formatForeignKey(String childColumn, String parentTable, String parentColumn){
+        return String.format(FOREIGN_KEY_PATTERN, childColumn, parentTable, parentColumn);
+    }
 
 }
