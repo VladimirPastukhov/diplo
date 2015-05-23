@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Player;
 import vvp.diplom.draft2.model.Team;
@@ -36,8 +37,10 @@ public class GoalsFragment extends Fragment {
 
         A = getActivity();
 
-        List<Goal> goals = A.getIntent().getParcelableArrayListExtra(Exstras.GOALS);
-        Log.d(TAG, goals.toString());
+//        List<Goal> goals = A.getIntent().getParcelableArrayListExtra(Exstras.GOALS);
+        String match_id = getArguments().getString(Exstras.MATCH_ID);
+        List<Goal> goals = DB.goals.getByMatchId(match_id);
+        Log.d(TAG, "Goals "+goals.toString());
 
         ListView listView = (ListView) A.findViewById(R.id.list_view);
         myListAdapter = new MyListAdapter<>(A, R.layout.list_row_goal, goals, new ViewFiller<Goal>() {

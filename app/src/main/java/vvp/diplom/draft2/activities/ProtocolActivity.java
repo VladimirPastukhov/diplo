@@ -32,15 +32,17 @@ public class ProtocolActivity extends ActionBarActivity{
         FragmentTabHost tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-        Bundle bundle = new Bundle();
+        Bundle bundle;
+
+        bundle = new Bundle();
         bundle.putParcelable(Exstras.MATCH, match);
         String summary = getString(R.string.protocol_tab_summary);
         tabHost.addTab(tabHost.newTabSpec(summary)
                         .setIndicator(summary), MatchSummaryFragment.class, bundle);
 
-//        String goals = getString(R.string.protocol_tab_goals);
-//        tabHost.addTab(tabHost.newTabSpec(goals).setIndicator("goals"),
-//                GoalsFragment.class, getIntent().getExtras());
+        String goals = getString(R.string.protocol_tab_goals);
+        tabHost.addTab(tabHost.newTabSpec(goals).setIndicator("goals"),
+                GoalsFragment.class, getIntent().getExtras());
 //
 //
 //        String teams = getString(R.string.protocol_tab_teams);
