@@ -10,6 +10,7 @@ import java.util.List;
 
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.Team;
+import vvp.diplom.draft2.network.apiLists.Matches;
 
 import static vvp.diplom.draft2.db.SQLUtil.getString;
 import static vvp.diplom.draft2.db.SQLUtil.getInt;
@@ -39,7 +40,7 @@ public class MatchesDAO {
     public void insert(Match match){
         ContentValues values = new ContentValues();
         values.put(ID, match.getId());
-        values.put(ROUND_ID, match.getTeam1().getId());
+        values.put(ROUND_ID, match.getRoundId());
         values.put(TEAM1_ID, match.getTeam1().getId());
         values.put(TEAM2_ID, match.getTeam2().getId());
         values.put(START_AT, match.getStartAt());
@@ -73,6 +74,14 @@ public class MatchesDAO {
         return match;
     }
 
+    public List<Match> getByRoundId(String roundId){
+        SQLiteDatabase db = sqlHelper.getReadableDatabase();
+        String selection = ROUND_ID+"=?";
+        String[] selectionArgs = new String[]{roundId};
+        Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
+        return readMatches(cursor);
+    }
+
     public List<Match> getAll(){
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, allColumns, null, null, null, null, null);
@@ -83,6 +92,18 @@ public class MatchesDAO {
         List<Match> matches = new ArrayList<Match>();
         try {
             while(cursor.moveToNext()) {
+                matches.add(readMatch(cursor));
+            }
+        } finally {
+            cursor.close();
+        }
+        return matches;
+    }
+
+    private static List<Match> readMatches(Cursor cursor){
+        ArrayList<Match> matches = new ArrayList<>();
+        try {
+            while(cursor.moveToNext()){
                 matches.add(readMatch(cursor));
             }
         } finally {
@@ -104,7 +125,7 @@ public class MatchesDAO {
         m.setPenalty2(getString(c, PENALTY2));
         m.setReferee(getString(c, REFEREE));
         m.setPlace(getString(c, PLACE));
-        m.setIsOvertime(getInt(c, IS_TECHNICAL) != 0);
+        m.setIsTechnical(getInt(c, IS_TECHNICAL) != 0);
         m.setIsOvertime(getInt(c, IS_OVERTIME) != 0);
         return m;
     }

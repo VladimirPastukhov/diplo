@@ -48,6 +48,21 @@ public class RoundsDAO {
         db.insert(TABLE_NAME, null, values);
     }
 
+    public Round getById(String id){
+        SQLiteDatabase db = sqlHelper.getReadableDatabase();
+        String selection = COLUMN_ID+"=?";
+        String[] selectionArgs = new String[]{id};
+        Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
+        Round round;
+        try {
+            cursor.moveToFirst();
+            round = readRound(cursor);
+        } finally {
+            cursor.close();
+        }
+        return round;
+    }
+
     public List<Round> getAll(){
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, allColumns, null, null, null, null, null);
