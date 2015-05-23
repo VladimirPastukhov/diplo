@@ -12,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Team implements Parcelable{
 
+    @JsonProperty("id")
+    String id;
+
     @JsonProperty("title")
     String title;
 
@@ -34,11 +37,20 @@ public class Team implements Parcelable{
         this.imagetPath = imagetPath;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
-                "imagetPath='" + imagetPath + '\'' +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
+                ", imagetPath='" + imagetPath + '\'' +
                 '}';
     }
 
@@ -46,7 +58,9 @@ public class Team implements Parcelable{
     public Team(){}
 
     public Team(Parcel source){
+        setId(source.readString());
         setTitle(source.readString());
+        setImagetPath(source.readString());
     }
 
     @Override
@@ -56,7 +70,9 @@ public class Team implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(getTitle());
+        dest.writeString(getImagetPath());
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
