@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.db.TournamentSQLHelper;
 import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Tournament;
@@ -32,9 +33,11 @@ public class TournamentsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default_list);
 
-        List<Tournament> tournaments = getIntent().getParcelableArrayListExtra(Exstras.TOURNAMENTS);
+//        List<Tournament> tournaments = getIntent().getParcelableArrayListExtra(Exstras.TOURNAMENTS);
+        TournamentSQLHelper db = new TournamentSQLHelper(this);
+        List<Tournament> tournaments = db.getAll();
 
-        Log.d(TAG, "Tournametns "+tournaments);
+        Log.d(TAG, "Tournaments "+tournaments);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, tournaments, new ViewFiller<Tournament>() {

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.db.TournamentSQLHelper;
 import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Tournament;
 
@@ -57,7 +58,12 @@ public class LoginActivity extends Activity {
             String password = params[1];
             try {
                 Network.login(login, password);
-                return Network.loadMyTournaments();
+                List<Tournament> tournaments = Network.loadMyTournaments();
+                TournamentSQLHelper db = new TournamentSQLHelper(LoginActivity.this);
+                for(Tournament t : tournaments){
+                    db.insert(t);
+                }
+                return tournaments;
             } catch (Exception e) {
                 mNetworkException = e;
             }
@@ -74,14 +80,14 @@ public class LoginActivity extends Activity {
                 mNetworkException = null;
             }
             if(tournaments != null) {
-                startTournamentsActivity(tournaments);
+                startTournamentsActivity(null);
             }
         }
     }
 
     private void startTournamentsActivity(List<Tournament> tournaments){
         Intent intent = new Intent(this, TournamentsActivity.class);
-        intent.putParcelableArrayListExtra(Exstras.TOURNAMENTS, (ArrayList) tournaments);
+//        intent.putParcelableArrayListExtra(Exstras.TOURNAMENTS, (ArrayList) tournaments);
         startActivity(intent);
     }
 
