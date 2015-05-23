@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import vvp.diplom.draft2.model.Team;
 
 import static vvp.diplom.draft2.db.SQLUtil.getString;
-import static vvp.diplom.draft2.db.TeamsSQL.COLUMN_ID;
-import static vvp.diplom.draft2.db.TeamsSQL.COLUMN_IMAGE_PATH;
-import static vvp.diplom.draft2.db.TeamsSQL.COLUMN_TITLE;
+import static vvp.diplom.draft2.db.TeamsSQL.ID;
+import static vvp.diplom.draft2.db.TeamsSQL.IMAGE_PATH;
+import static vvp.diplom.draft2.db.TeamsSQL.TITLE;
 import static vvp.diplom.draft2.db.TeamsSQL.TABLE_NAME;
 import static vvp.diplom.draft2.db.TeamsSQL.allColumns;
 
@@ -31,9 +31,9 @@ public class TeamssDAO {
 
     public void insert(Team team){
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, team.getId());
-        values.put(COLUMN_TITLE, team.getTitle());
-        values.put(COLUMN_IMAGE_PATH, team.getImagetPath());
+        values.put(ID, team.getId());
+        values.put(TITLE, team.getTitle());
+        values.put(IMAGE_PATH, team.getImagetPath());
 
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
@@ -41,7 +41,7 @@ public class TeamssDAO {
 
     public Team getById(String id){
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
-        String selection = COLUMN_ID+"=?";
+        String selection = ID +"=?";
         String[] selectionArgs = new String[]{id};
         Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
         Team tournament;
@@ -56,9 +56,9 @@ public class TeamssDAO {
 
     private static Team readTeam(Cursor c){
         Team t = new Team();
-        t.setId(getString(c, COLUMN_ID));
-        t.setTitle(getString(c, COLUMN_TITLE));
-        t.setImagetPath(getString(c, COLUMN_IMAGE_PATH));
+        t.setId(getString(c, ID));
+        t.setTitle(getString(c, TITLE));
+        t.setImagetPath(getString(c, IMAGE_PATH));
         return t;
     }
 }

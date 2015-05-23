@@ -36,10 +36,10 @@ public class TournamentsDAO {
 
     public void insert(Tournament tournament){
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, tournament.getId());
-        values.put(COLUMN_TITLE, tournament.getTitle());
-        values.put(COLUMN_START_DATE, tournament.getStartDate());
-        values.put(COLUMN_END_DATE, tournament.getEndDate());
+        values.put(ID, tournament.getId());
+        values.put(TITLE, tournament.getTitle());
+        values.put(START_DATE, tournament.getStartDate());
+        values.put(END_DATE, tournament.getEndDate());
 
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
@@ -47,7 +47,7 @@ public class TournamentsDAO {
 
     public Tournament getById(String id){
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
-        String selection = COLUMN_ID+"=?";
+        String selection = ID +"=?";
         String[] selectionArgs = new String[]{id};
         Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
         Tournament tournament;
@@ -80,10 +80,10 @@ public class TournamentsDAO {
 
     private static Tournament readTournament(Cursor c){
         Tournament t = new Tournament();
-        t.setId(getString(c, COLUMN_ID));
-        t.setTitle(getString(c, COLUMN_TITLE));
-        t.setStartDate(getString(c, COLUMN_START_DATE));
-        t.setEndDate(getString(c, COLUMN_END_DATE));
+        t.setId(getString(c, ID));
+        t.setTitle(getString(c, TITLE));
+        t.setStartDate(getString(c, START_DATE));
+        t.setEndDate(getString(c, END_DATE));
         return t;
     }
 }

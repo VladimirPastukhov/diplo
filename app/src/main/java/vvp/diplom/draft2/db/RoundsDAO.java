@@ -10,9 +10,9 @@ import java.util.List;
 
 import vvp.diplom.draft2.model.Round;
 
-import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_ID;
-import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_NAME;
-import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_TOURNAMENT_ID;
+import static vvp.diplom.draft2.db.RoundsSQL.ID;
+import static vvp.diplom.draft2.db.RoundsSQL.NAME;
+import static vvp.diplom.draft2.db.RoundsSQL.TOURNAMENT_ID;
 import static vvp.diplom.draft2.db.RoundsSQL.TABLE_NAME;
 import static vvp.diplom.draft2.db.RoundsSQL.allColumns;
 import static vvp.diplom.draft2.db.SQLUtil.getString;
@@ -40,9 +40,9 @@ public class RoundsDAO {
 
     public void insert(Round round){
         ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, round.getId());
-        values.put(COLUMN_TOURNAMENT_ID, round.getTournamentId());
-        values.put(COLUMN_NAME, round.getName());
+        values.put(ID, round.getId());
+        values.put(TOURNAMENT_ID, round.getTournamentId());
+        values.put(NAME, round.getName());
 
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
@@ -50,7 +50,7 @@ public class RoundsDAO {
 
     public Round getById(String id){
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
-        String selection = COLUMN_ID+"=?";
+        String selection = ID +"=?";
         String[] selectionArgs = new String[]{id};
         Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
         Round round;
@@ -71,7 +71,7 @@ public class RoundsDAO {
 
     public List<Round> getByTournamentId(String tournamentId){
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
-        String selection = COLUMN_TOURNAMENT_ID+"=?";
+        String selection = TOURNAMENT_ID +"=?";
         String[] selectionArgs = new String[]{tournamentId};
         Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
         return readRounds(cursor);
@@ -91,9 +91,9 @@ public class RoundsDAO {
 
     private static Round readRound(Cursor c){
         Round r = new Round();
-        r.setId(getString(c, COLUMN_ID));
-        r.setTournamentId(getString(c, COLUMN_TOURNAMENT_ID));
-        r.setName(getString(c, COLUMN_NAME));
+        r.setId(getString(c, ID));
+        r.setTournamentId(getString(c, TOURNAMENT_ID));
+        r.setName(getString(c, NAME));
         return r;
     }
 }

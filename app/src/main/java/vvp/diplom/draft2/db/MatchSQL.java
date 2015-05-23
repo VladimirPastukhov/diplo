@@ -50,7 +50,7 @@ public class MatchSQL extends SQLiteOpenHelper {
                     PLACE + _TEXT_COMMA +
                     IS_TECHNICAL + _INTEGER_COMMA +
                     IS_OVERTIME + _INTEGER_COMMA +
-                    formatForeignKey(ROUND_ID, RoundsSQL.TABLE_NAME, RoundsSQL.COLUMN_ID)+
+                    formatForeignKey(ROUND_ID, RoundsSQL.TABLE_NAME, RoundsSQL.ID)+
                     ")";
 
     protected static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;

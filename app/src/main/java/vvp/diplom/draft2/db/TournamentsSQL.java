@@ -16,19 +16,19 @@ import static vvp.diplom.draft2.db.SQLUtil._TEXT_COMMA;
 public class TournamentsSQL extends SQLiteOpenHelper{
 
     protected static final String TABLE_NAME = "tournaments";
-    protected static final String COLUMN_ID = "id";
-    protected static final String COLUMN_TITLE = "title";
-    protected static final String COLUMN_START_DATE = "start_date";
-    protected static final String COLUMN_END_DATE = "end_date";
+    protected static final String ID = "id";
+    protected static final String TITLE = "title";
+    protected static final String START_DATE = "start_date";
+    protected static final String END_DATE = "end_date";
     protected static final String[] allColumns
-            = {COLUMN_ID, COLUMN_TITLE, COLUMN_START_DATE, COLUMN_END_DATE};
+            = {ID, TITLE, START_DATE, END_DATE};
 
     protected static final String CREATE =
             CREATE_TABLE_ + TABLE_NAME + " (" +
-            COLUMN_ID + _INTEGER_PRIMARY_KEY_COMMA +
-            COLUMN_TITLE + _TEXT_COMMA +
-            COLUMN_START_DATE + _TEXT_COMMA +
-            COLUMN_END_DATE + _TEXT +
+                    ID + _INTEGER_PRIMARY_KEY_COMMA +
+                    TITLE + _TEXT_COMMA +
+                    START_DATE + _TEXT_COMMA +
+                    END_DATE + _TEXT +
             ")";
 
     protected static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;

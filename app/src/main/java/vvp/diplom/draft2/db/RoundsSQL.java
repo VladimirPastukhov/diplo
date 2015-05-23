@@ -12,18 +12,18 @@ import static vvp.diplom.draft2.db.SQLUtil.*;
 public class RoundsSQL extends SQLiteOpenHelper {
 
     protected static final String TABLE_NAME = "rounds";
-    protected static final String COLUMN_ID = "id";
-    protected static final String COLUMN_TOURNAMENT_ID = "tournament_id";
-    protected static final String COLUMN_NAME = "name";
+    protected static final String ID = "id";
+    protected static final String TOURNAMENT_ID = "tournament_id";
+    protected static final String NAME = "name";
     protected static final String[] allColumns
-            = {COLUMN_ID, COLUMN_TOURNAMENT_ID, COLUMN_NAME};
+            = {ID, TOURNAMENT_ID, NAME};
 
     protected static final String CREATE =
             CREATE_TABLE_ + TABLE_NAME + " (" +
-                    COLUMN_ID + _INTEGER_PRIMARY_KEY_COMMA +
-                    COLUMN_TOURNAMENT_ID + _INTEGER_COMMA +
-                    COLUMN_NAME + _TEXT_COMMA +
-                    formatForeignKey(COLUMN_TOURNAMENT_ID, TournamentsSQL.TABLE_NAME, TournamentsSQL.COLUMN_ID)+
+                    ID + _INTEGER_PRIMARY_KEY_COMMA +
+                    TOURNAMENT_ID + _INTEGER_COMMA +
+                    NAME + _TEXT_COMMA +
+                    formatForeignKey(TOURNAMENT_ID, TournamentsSQL.TABLE_NAME, TournamentsSQL.ID)+
                     ")";
 
     protected static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;
