@@ -1,5 +1,7 @@
 package vvp.diplom.draft2.db;
 
+import android.database.Cursor;
+
 /**
  * Created by VoVqa on 23.05.2015.
  */
@@ -21,4 +23,7 @@ public class SQLUtil {
         return String.format(FOREIGN_KEY_PATTERN, childColumn, parentTable, parentColumn);
     }
 
+    public static String getString(Cursor coursor, String columnName){
+        return coursor.getString(coursor.getColumnIndex(columnName));
+    }
 }

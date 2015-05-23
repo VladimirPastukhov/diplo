@@ -10,6 +10,7 @@ import java.util.List;
 
 import vvp.diplom.draft2.model.Tournament;
 import static vvp.diplom.draft2.db.TournamentsSQL.*;
+import static vvp.diplom.draft2.db.SQLUtil.*;
 
 
 /**
@@ -48,22 +49,15 @@ public class TournamentsDAO {
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
         String selection = COLUMN_ID+"=?";
         String[] selectionArgs = new String[]{id};
-        Cursor c = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
-        c.moveToFirst();
-
-        int idIndex = c.getColumnIndex(COLUMN_ID);
-        int titleIndex = c.getColumnIndex(COLUMN_TITLE);
-        int startDateIndex = c.getColumnIndex(COLUMN_START_DATE);
-        int endDateIndex = c.getColumnIndex(COLUMN_END_DATE);
-
-        Tournament t = new Tournament();
-        t.setId(c.getString(idIndex));
-        t.setTitle(c.getString(titleIndex));
-        t.setStartDate(c.getString(startDateIndex));
-        t.setEndDate(c.getString(endDateIndex));
-
-        c.close();
-        return t;
+        Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
+        Tournament tournament;
+        try {
+            cursor.moveToFirst();
+            tournament = readTournament(cursor);
+        } finally {
+            cursor.close();
+        }
+        return tournament;
     }
 
     public List<Tournament> getAll(){
@@ -72,25 +66,24 @@ public class TournamentsDAO {
         return readTournaments(cursor);
     }
 
-    private static List<Tournament> readTournaments(Cursor c){
-        int idIndex = c.getColumnIndex(COLUMN_ID);
-        int titleIndex = c.getColumnIndex(COLUMN_TITLE);
-        int startDateIndex = c.getColumnIndex(COLUMN_START_DATE);
-        int endDateIndex = c.getColumnIndex(COLUMN_END_DATE);
-
+    private static List<Tournament> readTournaments(Cursor cursor){
         List<Tournament> tournaments = new ArrayList<Tournament>();
         try {
-            while(c.moveToNext()) {
-                Tournament t = new Tournament();
-                t.setId(c.getString(idIndex));
-                t.setTitle(c.getString(titleIndex));
-                t.setStartDate(c.getString(startDateIndex));
-                t.setEndDate(c.getString(endDateIndex));
-                tournaments.add(t);
+            while(cursor.moveToNext()) {
+                tournaments.add(readTournament(cursor));
             }
         } finally {
-            c.close();
+            cursor.close();
         }
         return tournaments;
+    }
+
+    private static Tournament readTournament(Cursor c){
+        Tournament t = new Tournament();
+        t.setId(getString(c, COLUMN_ID));
+        t.setTitle(getString(c, COLUMN_TITLE));
+        t.setStartDate(getString(c, COLUMN_START_DATE));
+        t.setEndDate(getString(c, COLUMN_END_DATE));
+        return t;
     }
 }

@@ -15,6 +15,7 @@ import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_NAME;
 import static vvp.diplom.draft2.db.RoundsSQL.COLUMN_TOURNAMENT_ID;
 import static vvp.diplom.draft2.db.RoundsSQL.TABLE_NAME;
 import static vvp.diplom.draft2.db.RoundsSQL.allColumns;
+import static vvp.diplom.draft2.db.SQLUtil.getString;
 
 /**
  * Created by VoVqa on 23.05.2015.
@@ -61,23 +62,23 @@ public class RoundsDAO {
         return readRounds(cursor);
     }
 
-    private static List<Round> readRounds(Cursor c){
-        int idIndex = c.getColumnIndex(COLUMN_ID);
-        int tournamentIdIndex = c.getColumnIndex(COLUMN_TOURNAMENT_ID);
-        int nameIndex = c.getColumnIndex(COLUMN_NAME);
-
+    private static List<Round> readRounds(Cursor cursor){
         List<Round> rounds = new ArrayList<Round>();
         try {
-            while(c.moveToNext()) {
-                Round r = new Round();
-                r.setId(c.getString(idIndex));
-                r.setTournamentId(c.getString(tournamentIdIndex));
-                r.setName(c.getString(nameIndex));
-                rounds.add(r);
+            while(cursor.moveToNext()) {
+                rounds.add(readRound(cursor));
             }
         } finally {
-            c.close();
+            cursor.close();
         }
         return rounds;
+    }
+
+    private static Round readRound(Cursor c){
+        Round r = new Round();
+        r.setId(getString(c, COLUMN_ID));
+        r.setTournamentId(getString(c, COLUMN_TOURNAMENT_ID));
+        r.setName(getString(c, COLUMN_NAME));
+        return r;
     }
 }
