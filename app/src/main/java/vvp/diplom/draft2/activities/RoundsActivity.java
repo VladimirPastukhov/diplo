@@ -15,6 +15,7 @@ import java.util.List;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
+import vvp.diplom.draft2.model.Tournament;
 import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.Round;
@@ -40,6 +41,10 @@ public class RoundsActivity extends ActionBarActivity {
 
 //        final List<Round> rounds = getIntent().getParcelableArrayListExtra(Exstras.ROUNDS);
         String tournamentId = getIntent().getStringExtra(Exstras.TOURNAMENT_ID);
+
+        Tournament tournament = DB.tournaments.getById(tournamentId);
+        setTitle(tournament.getTitle());
+
         List<Round> rounds = DB.rounds.getByTournamentId(tournamentId);
 
         Log.d(TAG, "Rounds " + rounds);
