@@ -5,7 +5,7 @@ package vvp.diplom.draft2.db;
  */
 public class SQL {
     public static final String CREATE_TABLE_ = "CREATE TABLE ";
-    public static final String DROP_TABLE_IF_EXISTS_ = "DROP TABLE IF EXISTS";
+    public static final String DROP_TABLE_IF_EXISTS_ = "DROP TABLE IF EXISTS ";
 
     public static final String COMMA_SEP = ",";
     public static final String _TEXT = " TEXT";

@@ -1,7 +1,6 @@
 package vvp.diplom.draft2.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,10 +15,10 @@ import android.widget.TextView;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.db.TournamentSQLHelper;
 import vvp.diplom.draft2.network.Network;
 import vvp.diplom.draft2.model.Tournament;
@@ -59,10 +58,8 @@ public class LoginActivity extends Activity {
             try {
                 Network.login(login, password);
                 List<Tournament> tournaments = Network.loadMyTournaments();
-                TournamentSQLHelper db = new TournamentSQLHelper(LoginActivity.this);
-                for(Tournament t : tournaments){
-                    db.insert(t);
-                }
+                DB.init(LoginActivity.this);
+                DB.tournaments.insert(tournaments);
                 return tournaments;
             } catch (Exception e) {
                 mNetworkException = e;
@@ -125,9 +122,9 @@ public class LoginActivity extends Activity {
     public void fillLoginAndPassword(View view){
         EditText editLogin = (EditText) findViewById(R.id.edit_text_login);
         EditText editPassword = (EditText) findViewById(R.id.edit_text_password);
-        editLogin.setText("podoknom@gmail.com");
-        editPassword.setText("yaduhes");
-//        editLogin.setText("threadend@gmail.com");
-//        editPassword.setText("144df9e9");
+//        editLogin.setText("podoknom@gmail.com");
+//        editPassword.setText("yaduhes");
+        editLogin.setText("threadend@gmail.com");
+        editPassword.setText("144df9e9");
     }
 }

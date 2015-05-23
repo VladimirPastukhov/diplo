@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Tournament;
 
 import static vvp.diplom.draft2.db.SQL.*;
@@ -18,15 +19,15 @@ import static vvp.diplom.draft2.db.SQL.*;
  */
 public class TournamentSQLHelper extends SQLiteOpenHelper{
 
-    private static final String TABLE_NAME = "tournaments";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_TITLE = "title";
-    private static final String COLUMN_START_DATE = "start_date";
-    private static final String COLUMN_END_DATE = "end_date";
-    private static final String[] allColumns
+    protected static final String TABLE_NAME = "tournaments";
+    protected static final String COLUMN_ID = "id";
+    protected static final String COLUMN_TITLE = "title";
+    protected static final String COLUMN_START_DATE = "start_date";
+    protected static final String COLUMN_END_DATE = "end_date";
+    protected static final String[] allColumns
             = {COLUMN_ID, COLUMN_TITLE, COLUMN_START_DATE, COLUMN_END_DATE};
 
-    private static final String CREATE =
+    protected static final String CREATE =
             CREATE_TABLE_ + TABLE_NAME + " (" +
             COLUMN_ID + _INTEGER_PRIMARY_KEY_COMMA +
             COLUMN_TITLE + _TEXT_COMMA +
@@ -34,10 +35,9 @@ public class TournamentSQLHelper extends SQLiteOpenHelper{
             COLUMN_END_DATE + _TEXT +
             " )";
 
-    private static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;
+    protected static final String DELETE = DROP_TABLE_IF_EXISTS_ + TABLE_NAME;
 
-
-    public TournamentSQLHelper(Context context) {
+    protected TournamentSQLHelper(Context context) {
         super(context, DB.NAME, null, DB.VERSION);
     }
 
@@ -52,48 +52,9 @@ public class TournamentSQLHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void insert(List<Tournament> tournaments){
-        for(Tournament tournament : tournaments){
-            insert(tournament);
-        }
-    }
-
-    public void insert(Tournament tournament){
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, tournament.getId());
-        values.put(COLUMN_TITLE, tournament.getTitle());
-        values.put(COLUMN_START_DATE, tournament.getStartDate());
-        values.put(COLUMN_END_DATE, tournament.getEndDate());
-
+    public void clean(){
         SQLiteDatabase db = getWritableDatabase();
-        db.insert(TABLE_NAME, null, values);
-    }
-
-    public List<Tournament> getAll(){
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, allColumns, null, null, null, null, null);
-        return readTournaments(cursor);
-    }
-
-    private static List<Tournament> readTournaments(Cursor c){
-        int idIndex = c.getColumnIndex(COLUMN_ID);
-        int titleIndex = c.getColumnIndex(COLUMN_TITLE);
-        int startDateIndex = c.getColumnIndex(COLUMN_START_DATE);
-        int endDateIndex = c.getColumnIndex(COLUMN_END_DATE);
-
-        List<Tournament> tournaments = new ArrayList<Tournament>();
-        try {
-            while(c.moveToNext()) {
-                Tournament t = new Tournament();
-                t.setId(c.getString(idIndex));
-                t.setTitle(c.getString(titleIndex));
-                t.setStartDate(c.getString(startDateIndex));
-                t.setEndDate(c.getString(endDateIndex));
-                tournaments.add(t);
-            }
-        } finally {
-            c.close();
-        }
-        return tournaments;
+        db.execSQL(DELETE);
+        db.execSQL(CREATE);
     }
 }
