@@ -36,10 +36,6 @@ public class RoundsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default_list);
 
-//        String title = getIntent().getStringExtra(Exstras.TITLE);
-//        setTitle(title);
-
-//        final List<Round> rounds = getIntent().getParcelableArrayListExtra(Exstras.ROUNDS);
         String tournamentId = getIntent().getStringExtra(Exstras.TOURNAMENT_ID);
 
         Tournament tournament = DB.tournaments.getById(tournamentId);

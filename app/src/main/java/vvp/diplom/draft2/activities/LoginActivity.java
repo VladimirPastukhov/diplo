@@ -51,9 +51,9 @@ public class LoginActivity extends Activity {
         new HttpLoginTask().execute(login, password);
     }
 
-    private class HttpLoginTask extends AsyncTask<String, Void, List<Tournament>> {
+    private class HttpLoginTask extends AsyncTask<String, Void, Void> {
         @Override
-        protected List<Tournament> doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
             String login = params[0];
             String password = params[1];
             try {
@@ -61,7 +61,6 @@ public class LoginActivity extends Activity {
                 List<Tournament> tournaments = Network.loadMyTournaments();
                 DB.init(LoginActivity.this);
                 DB.tournaments.insert(tournaments);
-                return tournaments;
             } catch (Exception e) {
                 mNetworkException = e;
             }
@@ -72,21 +71,19 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(List<Tournament> tournaments) {
+        protected void onPostExecute(Void v) {
             if(mNetworkException != null) {
                 handleNetworkException(mNetworkException);
                 mNetworkException = null;
             }
-            if(tournaments != null) {
-                startTournamentsActivity(null);
+            else {
+                startTournamentsActivity();
             }
         }
     }
 
-    private void startTournamentsActivity(List<Tournament> tournaments){
-        Intent intent = new Intent(this, TournamentsActivity.class);
-//        intent.putParcelableArrayListExtra(Exstras.TOURNAMENTS, (ArrayList) tournaments);
-        startActivity(intent);
+    private void startTournamentsActivity(){
+        startActivity(new Intent(this, TournamentsActivity.class));
     }
 
     private void handleNetworkException(Exception e){

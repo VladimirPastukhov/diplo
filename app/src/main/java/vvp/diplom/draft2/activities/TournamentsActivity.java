@@ -33,7 +33,6 @@ public class TournamentsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default_list);
 
-//        List<Tournament> tournaments = getIntent().getParcelableArrayListExtra(Exstras.TOURNAMENTS);
         List<Tournament> tournaments = DB.tournaments.getAll();
 
         Log.d(TAG, "Tournaments "+tournaments);
@@ -51,27 +50,26 @@ public class TournamentsActivity extends ActionBarActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startRoundsActivity(tournament);
+                        loadRoundsActivity(tournament.getId());
                     }
                 });
             }
         }));
     }
 
-    private void startRoundsActivity(Tournament tournament){
+    private void loadRoundsActivity(String tournamentId){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpRoundsTask().execute(tournament);
+        new HttpRoundsTask().execute(tournamentId);
     }
 
-    private class HttpRoundsTask extends AsyncTask<Tournament, Void, List<Round>> {
-        Tournament tournament;
+    private class HttpRoundsTask extends AsyncTask<String, Void, String> {
         @Override
-        protected List<Round> doInBackground(Tournament... params) {
+        protected String doInBackground(String... params) {
             try {
-                tournament = params[0];
-                List<Round> rounds = Network.loadRounds(tournament.getId());
+                String tournamentId = params[0];
+                List<Round> rounds = Network.loadRounds(tournamentId);
                 DB.rounds.insert(rounds);
-                return rounds;
+                return tournamentId;
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -82,10 +80,10 @@ public class TournamentsActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Round> rounds) {
-            if(rounds != null){
+        protected void onPostExecute(String tournamentId) {
+            if(tournamentId != null){
 //                startRoundsActivity(tournament.getTitle(), rounds);
-                startRoundsActivity(tournament.getId());
+                startRoundsActivity(tournamentId);
             } else {
                 Util.showAlertDialog(TournamentsActivity.this,
                         R.string.network_error,
@@ -95,17 +93,8 @@ public class TournamentsActivity extends ActionBarActivity {
     }
 
     private void startRoundsActivity(String tournamentId){
-
         Intent intent = new Intent(this, RoundsActivity.class);
         intent.putExtra(Exstras.TOURNAMENT_ID, tournamentId);
-        startActivity(intent);
-    }
-
-    private void startRoundsActivity(String title, List<Round> rounds){
-
-        Intent intent = new Intent(this, RoundsActivity.class);
-        intent.putExtra(Exstras.TITLE, title);
-        intent.putParcelableArrayListExtra(Exstras.ROUNDS, (ArrayList) rounds);
         startActivity(intent);
     }
 }
