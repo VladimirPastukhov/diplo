@@ -39,6 +39,16 @@ public class TourPlayersDAO extends BaseDaoImpl<TourPlayer, String> {
         }
     }
 
+    public List<TourPlayer> getByTournamentId(String tourId){
+        try {
+            PreparedQuery pq = queryBuilder().where().eq(TOURNAMENT_ID, tourId).prepare();
+            return query(pq);
+        } catch (SQLException e) {
+            Log.d(TAG, e.getMessage(), e);
+            return null;
+        }
+    }
+
     public List<TourPlayer> getByTeamIdAndTourId(String teamId, String tourId){
         try {
             PreparedQuery pq = queryBuilder().where().eq(TEAM_ID, teamId).and().eq(TOURNAMENT_ID, tourId).prepare();

@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Goal;
+import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.Player;
 import vvp.diplom.draft2.model.Team;
 
@@ -31,6 +34,22 @@ public class GoalsFragment extends Fragment {
     private Activity A;
     private MyListAdapter myListAdapter;
 
+    private List<Goal> mGoals;
+    private List<Player> mPlayers;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        String matchId = getArguments().getString(Exstras.MATCH_ID);
+        mGoals = DB.goals.getByMatchId(matchId);
+        Log.d(TAG, "Goals " + mGoals);
+
+        Match match = DB.matches.getById(matchId);
+        mPlayers = DB.players.getByTournamentId(match.getRound().getTournamentId());
+        Log.d(TAG, "Players " + mPlayers);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,24 +62,27 @@ public class GoalsFragment extends Fragment {
 
         A = getActivity();
 
-//        List<Goal> goals = A.getIntent().getParcelableArrayListExtra(Exstras.GOALS);
-        String match_id = getArguments().getString(Exstras.MATCH_ID);
-        List<Goal> goals = DB.goals.getByMatchId(match_id);
-        Log.d(TAG, "Goals "+goals.toString());
+        final String[] playerNames = new String[mPlayers.size()];
+        int i = 0;
+        for(Player player : mPlayers){
+            playerNames[i++] = player.getName();
+        }
 
         ListView listView = (ListView) A.findViewById(R.id.list_view);
-        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_goal, goals, new ViewFiller<Goal>() {
+        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_goal, mGoals, new ViewFiller<Goal>() {
             @Override
             public void fill(final int position, View view, final Goal goal) {
                 TextView team = (TextView) view.findViewById(R.id.text_view_team);
-                TextView playerName = (TextView) view.findViewById(R.id.text_view_player_name);
+                Spinner playerSpinner = (Spinner) view.findViewById(R.id.text_view_player_name);
                 CheckBox isPenaltyBox = (CheckBox) view.findViewById(R.id.checkbox_is_penalty);
                 CheckBox isAutogoalBox = (CheckBox) view.findViewById(R.id.checkbox_is_autogoal);
 
                 team.setText(goal.getTeam().getTitle());
-                if (goal.getPlayer() != null) {
-                    playerName.setText(goal.getPlayer().getName());
-                }
+
+                ArrayAdapter<String> nameSpinnerAdapter
+                        = new ArrayAdapter(A, android.R.layout.simple_spinner_item, playerNames);
+                playerSpinner.setAdapter(nameSpinnerAdapter);
+
                 isPenaltyBox.setChecked(goal.isPenalty());
                 isAutogoalBox.setChecked(goal.isAutogoal());
 

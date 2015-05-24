@@ -3,8 +3,6 @@ package vvp.diplom.draft2.db;
 import android.util.Log;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
@@ -31,25 +29,35 @@ public class PlayersDAO extends BaseDaoImpl<Player, String>{
 
     public void insert(Player player){
         try {
-            create(player);
+            createOrUpdate(player);
         } catch (SQLException e) {
             Log.d(TAG, e.getMessage(), e);
         }
     }
 
     public Player getById(String id){
-        List<Player> list = null;
         try {
-            list = query(queryBuilder().where().eq(ID, id).prepare());
-            return list.get(0);
+            return queryForId(id);
         } catch (SQLException e) {
             Log.d(TAG, e.getMessage(), e);
             return null;
         }
     }
 
-    public List<Player> getByIdList(List<String> ids){
-        Log.d(TAG, "Diaposon ids "+ids);
+    public List<Player> getByTournamentId(String tournamentId){
+        List<TourPlayer> tourPlayers = DB.tourPlayers.getByTournamentId(tournamentId);
+        Log.d(TAG, "tourPlayers1 "+tourPlayers);
+        return getByIds(extractPlayerIds(tourPlayers));
+    }
+
+    public List<Player> getByTeamIdAndTournamentId(String teamId, String tournamentId){
+        List<TourPlayer> tourPlayers = DB.tourPlayers.getByTeamIdAndTourId(teamId, tournamentId);
+        Log.d(TAG, "tourPlayers2 "+tourPlayers);
+        return getByIds(extractPlayerIds(tourPlayers));
+    }
+
+    public List<Player> getByIds(List<String> ids){
+        Log.d(TAG, "Range ids "+ids);
         try {
             return query(queryBuilder().where().in(ID, ids).prepare());
         } catch (SQLException e) {
@@ -58,13 +66,11 @@ public class PlayersDAO extends BaseDaoImpl<Player, String>{
         }
     }
 
-    public List<Player> getByTeamIdAndTournamentId(String teamId, String tournamentId){
+    private static List<String> extractPlayerIds(List<TourPlayer> tourPlayers){
         List<String> ids = new ArrayList<>();
-        List<TourPlayer> tourPlayers = DB.tourPlayers.getByTeamIdAndTourId(teamId, tournamentId);
-        Log.d(TAG, "tourPlayers "+tourPlayers);
         for(TourPlayer tourPlayer : tourPlayers){
             ids.add(tourPlayer.getPlayerId());
         }
-        return getByIdList(ids);
+        return ids;
     }
 }

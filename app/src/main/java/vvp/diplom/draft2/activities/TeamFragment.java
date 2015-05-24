@@ -30,15 +30,10 @@ public class TeamFragment extends Fragment {
     private Activity A;
     private MyListAdapter myListAdapter;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_default_list, container, false);
-        return view;
-    }
+    private List<Player> players;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         A = getActivity();
@@ -51,8 +46,6 @@ public class TeamFragment extends Fragment {
         List<Player> players = DB.players.getByTeamIdAndTournamentId(teamId, tourId);
         Log.d(TAG, "Players " + players.toString());
 
-        ListView listView = (ListView) A.findViewById(R.id.list_view);
-        listView.setDivider(null);
         myListAdapter = new MyListAdapter<>(A, R.layout.list_row_player, players, new ViewFiller<Player>() {
 
             int captainPosition = 0;
@@ -72,6 +65,21 @@ public class TeamFragment extends Fragment {
                 });
             }
         });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_default_list, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ListView listView = (ListView) A.findViewById(R.id.list_view);
+        listView.setDivider(null);
         listView.setAdapter(myListAdapter);
     }
 }
