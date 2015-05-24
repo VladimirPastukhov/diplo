@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,9 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 import vvp.diplom.draft2.R;
+import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.network.Network;
 
 /**
  * Created by VoVqa on 22.05.2015.
@@ -28,12 +32,19 @@ public class MatchSummaryFragment extends Fragment {
 
     private static final String TAG = Util.BASE_TAG + "MatchSummaryFr";
 
-    private Match mMatch;
-
     private Activity A;
+    private Match mMatch;
     private ProgressDialog mProgressDialog;
     private Button mDateButton;
     private Button mTimeButton;
+
+    private Button mSendButton;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMatch = getArguments().getParcelable(Exstras.MATCH);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,9 +57,6 @@ public class MatchSummaryFragment extends Fragment {
 
         A = getActivity();
 
-//        mMatch = A.getIntent().getParcelableExtra(Exstras.MATCH);
-        mMatch = getArguments().getParcelable(Exstras.MATCH);
-
         TextView team1Title = (TextView) A.findViewById(R.id.text_view_title_team_1);
         TextView team2Title = (TextView) A.findViewById(R.id.text_view_title_team_2);
         team1Title.setText(mMatch.getTeam1().getTitle());
@@ -60,16 +68,16 @@ public class MatchSummaryFragment extends Fragment {
         TextView penaltyScore = (TextView) A.findViewById(R.id.text_view_penalties_score);
         penaltyScore.setText(Util.scoreString(mMatch.getPenalty1(), mMatch.getPenalty2()));
 
-        CheckBox isOvertimeBox = (CheckBox) A.findViewById(R.id.checkbox_is_overtime);
+        final CheckBox isOvertimeBox = (CheckBox) A.findViewById(R.id.checkbox_is_overtime);
         isOvertimeBox.setChecked(mMatch.isOvertime());
 
-        CheckBox isTechnicalWinBox = (CheckBox) A.findViewById(R.id.checkbox_is_technical_win);
+        final CheckBox isTechnicalWinBox = (CheckBox) A.findViewById(R.id.checkbox_is_technical_win);
         isTechnicalWinBox.setChecked(mMatch.isTechnical());
 
-        EditText referee = (EditText) A.findViewById(R.id.edit_text_match_judge);
+        final EditText referee = (EditText) A.findViewById(R.id.edit_text_match_judge);
         referee.setText(mMatch.getReferee());
 
-        EditText place = (EditText) A.findViewById(R.id.edit_text_match_location);
+        final EditText place = (EditText) A.findViewById(R.id.edit_text_match_location);
         place.setText(mMatch.getPlace());
 
         mDateButton = (Button) A.findViewById(R.id.button_match_date);
@@ -89,6 +97,38 @@ public class MatchSummaryFragment extends Fragment {
                 showTimePickDialog();
             }
         });
+
+        mSendButton = (Button) A.findViewById(R.id.button_send);
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMatch.setReferee(referee.getText().toString());
+                mMatch.setPlace(place.getText().toString());
+                String date = mDateButton.getText().toString();
+                String time = mTimeButton.getText().toString();
+                mMatch.setStartAt(Util.formatUiDateAndTimeForApi(date, time));
+                mMatch.setIsTechnical(isTechnicalWinBox.isChecked());
+                mMatch.setIsOvertime(isOvertimeBox.isChecked());
+                mProgressDialog = ProgressDialog.show(A, "", "", false);
+                new HttpPatchMatchTask().execute(mMatch);
+            }
+        });
+    }
+
+    private class HttpPatchMatchTask extends AsyncTask<Match, Void, Void> {
+        @Override
+        protected Void doInBackground(Match... params) {
+            try {
+                Match match = params[0];
+                Network.patchMatch(match);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+            return null;
+        }
     }
 
     public void showDatePickDialog(){
@@ -121,60 +161,4 @@ public class MatchSummaryFragment extends Fragment {
             mTimeButton.setText(timeString);
         }
     }
-
-//    private class HttpMatchPlayersTask extends AsyncTask<String, Void, List<MatchPlayer>> {
-//        @Override
-//        protected List<MatchPlayer> doInBackground(String... params) {
-//            try {
-//                String matchId = params[0];
-//                return Network.loadMatchPlayers(matchId);
-//            } catch (Exception e) {
-//                Log.e(TAG, e.getMessage(), e);
-//            }
-//            finally {
-//                mProgressDialog.dismiss();
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<MatchPlayer> matchPlayers) {
-//            startMatchPlayersActivity(matchPlayers);
-//        }
-//    }
-//
-//    private void startMatchPlayersActivity(List<MatchPlayer> matchPlayers){
-//        Intent intent = new Intent(A, MatchPlayersActivity.class);
-//        intent.putParcelableArrayListExtra(Exstras.MATCH_PLAYERS, (ArrayList) matchPlayers);
-//        startActivity(intent);
-//    }
-//
-//    private class HttpIncidentsTask extends AsyncTask<String, Void, List<Incident>> {
-//        @Override
-//        protected List<Incident> doInBackground(String... params) {
-//            try {
-//                String matchId = params[0];
-//                return Network.loadIncidents(matchId);
-//            } catch (Exception e) {
-//                Log.e(TAG, e.getMessage(), e);
-//            }
-//            finally {
-//                mProgressDialog.dismiss();
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Incident> incidents) {
-//            startIncidentsActivity(incidents);
-//        }
-//    }
-//
-//    private void startIncidentsActivity(List<Incident> incidents){
-//        Intent intent = new Intent(A, IncidentsActivity.class);
-//        intent.putParcelableArrayListExtra(Exstras.INCIDENTS, (ArrayList) incidents);
-//        startActivity(intent);
-//    }
 }

@@ -62,6 +62,22 @@ public class Network {
         return loginRequestAnswer;
     }
 
+    public static void patchMatch(Match match){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        HttpEntity<Match> httpEntity = new HttpEntity(match, headers);
+
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.PATCH_MATCH + "?access_token=" + accessToken;
+
+        Log.d(TAG, "PATCH "+match);
+        restTemplate.exchange(url, HttpMethod.PATCH, httpEntity, String.class, match.getId());
+    }
+
+
     public void postGoals(List<Goal> goals){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -150,4 +166,7 @@ public class Network {
         }
         return data;
     }
+
+    //==============================================================================================
+
 }

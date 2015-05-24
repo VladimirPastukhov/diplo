@@ -19,6 +19,8 @@ public class API {
 
     public static final String POST_GOALS = "/goal";
 
+    public static final String PATCH_MATCH = "/match/{match_id}";
+
     public static final String CLIENT_ID = "6";
     public static final String CLIENT_SECREST = "4d3bc048b6f847ght9d5vf9fbc8q0m8x";
     public static final String REDIRECT_URI = "samapi://success";

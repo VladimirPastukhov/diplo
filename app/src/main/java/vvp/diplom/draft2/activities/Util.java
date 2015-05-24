@@ -21,11 +21,11 @@ public class Util {
     public static final String BASE_TAG = "diploma.";
     private static final String TAG = BASE_TAG + "Util";
 
-    private static final String INPUT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String INPUT_DATE_TIME_FORMAT_TOURNAMENT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    private static final String OUTPUT_DATE_FORMAT = "yyyy-MM-dd";
-    private static final String OUTPUT_TIME_FORMAT = "HH:mm";
-    private static final String OUTPUT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String API_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String API_DATE_TIME_FORMAT_TOURNAMENT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String UI_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String UI_TIME_FORMAT = "HH:mm";
+    private static final String UI_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
     public static void showAlertDialog(Activity activity, int titleStringId, int messageStringId){
         AlertDialog.Builder alert = new AlertDialog.Builder(activity);
@@ -36,7 +36,7 @@ public class Util {
     }
 
     public static Calendar calendarFromString(String dateAndTimeString){
-        return calendarFromString(dateAndTimeString, INPUT_DATE_TIME_FORMAT);
+        return calendarFromString(dateAndTimeString, API_DATE_TIME_FORMAT);
     }
 
     public static Calendar calendarFromString(String dateAndTimeString, String pattern){
@@ -76,24 +76,28 @@ public class Util {
     }
 
     private static String dateString(Calendar calendar){
-        return new SimpleDateFormat(OUTPUT_DATE_FORMAT).format(calendar.getTime());
+        return new SimpleDateFormat(UI_DATE_FORMAT).format(calendar.getTime());
     }
 
     private static String timeString(Calendar calendar){
-        return new SimpleDateFormat(OUTPUT_TIME_FORMAT).format(calendar.getTime());
+        return new SimpleDateFormat(UI_TIME_FORMAT).format(calendar.getTime());
     }
 
     public static String formatDateAndTimeString(String dateAndTimeString){
         Calendar calendar = calendarFromString(dateAndTimeString);
-        return new SimpleDateFormat(OUTPUT_DATE_TIME_FORMAT).format(calendar.getTime());
+        return new SimpleDateFormat(UI_DATE_TIME_FORMAT).format(calendar.getTime());
     }
 
     public static String formatDatesOfTournametn(Tournament tournament, String outputPattern){
         return formatDatesOfTournametn(tournament.getStartDate(), tournament.getEndDate(), outputPattern);
     }
 
+    public static String formatUiDateAndTimeForApi(String uiDate, String uiTime){
+        return String.format("%s %s:00", uiDate, uiTime);
+    }
+
     private static String formatDatesOfTournametn(String date1, String date2, String outputPattern){
-        String pattern = INPUT_DATE_TIME_FORMAT_TOURNAMENT;
+        String pattern = API_DATE_TIME_FORMAT_TOURNAMENT;
         Calendar calendar1 = calendarFromString(date1, pattern);
         Calendar calendar2 = calendarFromString(date2, pattern);
         return String.format(outputPattern, dateString(calendar1), dateString(calendar2));
