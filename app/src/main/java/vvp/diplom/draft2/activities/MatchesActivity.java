@@ -18,6 +18,7 @@ import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.Round;
+import vvp.diplom.draft2.model.TourPlayer;
 import vvp.diplom.draft2.model.Tournament;
 import vvp.diplom.draft2.network.Network;
 
@@ -69,17 +70,24 @@ public class MatchesActivity extends ActionBarActivity{
 
     private void loadTabBarActivity(Match match){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpGoalsTask().execute(match.getId());
+        new HttpGoalsTask().execute(match);
     }
 
-    private class HttpGoalsTask extends AsyncTask<String, Void, String> {
+    private class HttpGoalsTask extends AsyncTask<Match, Void, String> {
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(Match... params) {
             try {
-                String matchId = params[0];
-                List<Goal> goals = Network.loadGoals(matchId);
+                Match match = params[0];
+                List<Goal> goals = Network.loadGoals(match.getId());
+                String team1Id = match.getTeam1().getId();
+                String team2Id = match.getTeam2().getId();
+                String tourId = match.getRound().getTournamentId();
+                List<TourPlayer> tourPlayers1 = Network.loadTourPlayers(team1Id, tourId);
+                List<TourPlayer> tourPlayers2 = Network.loadTourPlayers(team2Id, tourId);
+                DB.tourPlayers.insert(tourPlayers1);
+                DB.tourPlayers.insert(tourPlayers2);
                 DB.goals.insert(goals);
-                return matchId;
+                return match.getId();
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }

@@ -18,6 +18,7 @@ import vvp.diplom.draft2.activities.Util;
 import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Incident;
 import vvp.diplom.draft2.model.MatchPlayer;
+import vvp.diplom.draft2.model.TourPlayer;
 import vvp.diplom.draft2.network.apiLists.ApiList;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.network.apiLists.Goals;
@@ -26,6 +27,7 @@ import vvp.diplom.draft2.network.apiLists.MatchPlayers;
 import vvp.diplom.draft2.network.apiLists.Matches;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.network.apiLists.Rounds;
+import vvp.diplom.draft2.network.apiLists.TourPlayers;
 import vvp.diplom.draft2.network.apiLists.Tournaments;
 import vvp.diplom.draft2.model.LoginRequestAnswer;
 import vvp.diplom.draft2.model.Tournament;
@@ -77,7 +79,7 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.MY_TOURNAMENTS + "?access_token="+loginRequestAnswer.getAccessToken();
         Tournaments tournaments = restTemplate.getForObject(url, Tournaments.class);
-        Log.d(TAG, "Received " + tournaments);
+        Log.d(TAG, "Tournaments loaded " + tournaments);
         return getNotNullData(tournaments);
     }
 
@@ -86,7 +88,7 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.ROUNDS_BY_TOURNAMENT_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Rounds rounds = restTemplate.getForObject(url, Rounds.class, tournamentId);
-        Log.d(TAG, "Received " + rounds);
+        Log.d(TAG, "Rounds loaded " + rounds);
         return getNotNullData(rounds);
     }
 
@@ -95,7 +97,7 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.MATCHES_BY_ROUND_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Matches matches = restTemplate.getForObject(url, Matches.class, roundId);
-        Log.d(TAG, "Received " + matches);
+        Log.d(TAG, "Matches loaded " + matches);
         return getNotNullData(matches);
     }
 
@@ -104,7 +106,7 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.MATCH_PLAYERS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         MatchPlayers matchPlayers = restTemplate.getForObject(url, MatchPlayers.class, matchId);
-        Log.d(TAG, "Received " + matchPlayers);
+        Log.d(TAG, "Match players loaded " + matchPlayers);
 
         return getNotNullData(matchPlayers);
     }
@@ -114,7 +116,7 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.GOALS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Goals goals = restTemplate.getForObject(url, Goals.class, matchId);
-        Log.d(TAG, "Received " + goals);
+        Log.d(TAG, "Goals loaded " + goals);
         return getNotNullData(goals);
     }
 
@@ -123,8 +125,22 @@ public class Network {
         RestTemplate restTemplate = new RestTemplate();
         String url = API.BASE_URL + API.INCIDENTS_BY_MATCH_ID + "?access_token="+loginRequestAnswer.getAccessToken();
         Incidents incidents = restTemplate.getForObject(url, Incidents.class, matchId);
-        Log.d(TAG, "Received " + incidents);
+        Log.d(TAG, "Incidents loaded " + incidents);
         return getNotNullData(incidents);
+    }
+
+    public static List<TourPlayer> loadTourPlayers(String teamId, String tourId){
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.TOUR_PLAYERS_BY_TEAM_ID
+                + "?access_token="+loginRequestAnswer.getAccessToken()
+                + "&tournament_id="+tourId;
+        TourPlayers tourPlayers = restTemplate.getForObject(url, TourPlayers.class, teamId);
+        for(TourPlayer tourPlayer : getNotNullData(tourPlayers)){
+            tourPlayer.setTournamentId(tourId);
+        }
+        Log.d(TAG, "Tour players loaded " + tourPlayers);
+        return getNotNullData(tourPlayers);
     }
 
     private static <T> List<T> getNotNullData(ApiList<T> apiList) {

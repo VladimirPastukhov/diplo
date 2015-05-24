@@ -31,6 +31,12 @@ public class GoalsFragment extends Fragment {
     private Activity A;
     private MyListAdapter myListAdapter;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_list_with_add_button, container, false);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,11 +102,5 @@ public class GoalsFragment extends Fragment {
     public void removeListItem(View view){
         int position = (Integer) view.getTag();
         myListAdapter.remove(position);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_list_with_add_button, container, false);
     }
 }

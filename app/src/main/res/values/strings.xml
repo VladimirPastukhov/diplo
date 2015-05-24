@@ -40,7 +40,12 @@
     <!-- protocol activity -->
     <string name="protocol_tab_summary">summary</string>
     <string name="protocol_tab_goals">goals</string>
-    <string name="protocol_tab_teams">teams</string>
+    <string name="protocol_tab_team1">team1</string>
+    <string name="protocol_tab_team2">team2</string>
     <string name="protocol_tab_cards">cards</string>
+
+    <!-- player list -->
+    <string name="is_captain">Captain</string>
+    <string name="is_goalkeeper">Goalkeeper</string>
 
 </resources>

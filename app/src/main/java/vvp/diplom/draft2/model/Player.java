@@ -39,7 +39,8 @@ public class Player implements Parcelable{
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 

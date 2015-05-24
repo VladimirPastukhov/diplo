@@ -18,6 +18,7 @@ public class DB {
     public static PlayersDAO players;
     public static GoalsDAO goals;
     public static RoundsDAO2 rounds;
+    public static TourPlayersDAO tourPlayers;
 
     private static ORMLite ORMLite;
 
@@ -37,6 +38,7 @@ public class DB {
         players = ORMLite.players;
         goals = ORMLite.goals;
         rounds = ORMLite.rounds;
+        tourPlayers = ORMLite.tourPlayers;
     }
 
     public static void shutdown(){OpenHelperManager.releaseHelper();

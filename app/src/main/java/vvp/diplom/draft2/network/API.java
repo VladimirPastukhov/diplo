@@ -15,6 +15,7 @@ public class API {
     public static final String MATCH_PLAYERS_BY_MATCH_ID = "/match/{match_id}/match_player";
     public static final String GOALS_BY_MATCH_ID = "/match/{match_id}/goal";
     public static final String INCIDENTS_BY_MATCH_ID = "/match/{match_id}/incident";
+    public static final String TOUR_PLAYERS_BY_TEAM_ID = "/team/{team_id}/applicant";
 
     public static final String POST_GOALS = "/goal";
 
