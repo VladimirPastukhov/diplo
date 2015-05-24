@@ -12,6 +12,8 @@
     <dimen name="list_row_padding_left">5dp</dimen>
     <dimen name="list_divider">2dp</dimen>
     <dimen name="list_row_padding_top_bottom_players">10dp</dimen>
+    <dimen name="spinner_row_padding">10dp</dimen>
+
 
 
     <dimen name="small_text">14sp</dimen>

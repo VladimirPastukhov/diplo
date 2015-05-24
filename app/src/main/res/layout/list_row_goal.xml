@@ -6,31 +6,38 @@
     android:padding="@dimen/list_row_padding"
     android:paddingLeft="@dimen/list_row_padding_left">
 
-    <TextView android:id="@+id/text_view_team"
+    <Spinner android:id="@+id/spinner_team"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="team"/>
+        android:layout_weight="5"/>
 
-    <Spinner android:id="@+id/text_view_player_name"
+    <Spinner android:id="@+id/spinner_player"
         android:layout_marginLeft="@dimen/default_horizontal_margin"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="player"/>
-
-    <CheckBox android:id="@+id/checkbox_is_penalty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="is penalty"/>
+        android:layout_weight="4"/>
 
-    <CheckBox android:id="@+id/checkbox_is_autogoal"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="is autogoal"/>
+        android:layout_marginLeft="@dimen/default_horizontal_margin">
+        <CheckBox android:id="@+id/checkbox_is_penalty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="is penalty"/>
+
+        <CheckBox android:id="@+id/checkbox_is_autogoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="is autogoal"/>
+    </LinearLayout>
 
     <Button android:id="@+id/button_remove_list_item"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_horizontal_margin"
         android:text="-"
         android:onClick="removeListItem"/>
 

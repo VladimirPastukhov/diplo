@@ -8,12 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -36,6 +36,7 @@ public class GoalsFragment extends Fragment {
 
     private List<Goal> mGoals;
     private List<Player> mPlayers;
+    private Match mMatch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,8 @@ public class GoalsFragment extends Fragment {
         mGoals = DB.goals.getByMatchId(matchId);
         Log.d(TAG, "Goals " + mGoals);
 
-        Match match = DB.matches.getById(matchId);
-        mPlayers = DB.players.getByTournamentId(match.getRound().getTournamentId());
+        mMatch = DB.matches.getById(matchId);
+        mPlayers = DB.players.getByTournamentId(mMatch.getRound().getTournamentId());
         Log.d(TAG, "Players " + mPlayers);
     }
 
@@ -62,26 +63,67 @@ public class GoalsFragment extends Fragment {
 
         A = getActivity();
 
+        final String[] teamNames = new String[]{
+                mMatch.getTeam1().getTitle(),
+                mMatch.getTeam2().getTitle()};
+
         final String[] playerNames = new String[mPlayers.size()];
         int i = 0;
         for(Player player : mPlayers){
             playerNames[i++] = player.getName();
         }
 
+
+        final ArrayAdapter<String> teamSpinnerAdapter
+                = new ArrayAdapter(A, R.layout.spinner_row_text_medium, teamNames);
+        teamSpinnerAdapter.setDropDownViewResource(R.layout.spinner_row_text_large);
+
+        final ArrayAdapter<String> playerSpinnerAdapter
+                = new ArrayAdapter(A, R.layout.spinner_row_text_medium, playerNames);
+        playerSpinnerAdapter.setDropDownViewResource(R.layout.spinner_row_text_medium);
+
         ListView listView = (ListView) A.findViewById(R.id.list_view);
         myListAdapter = new MyListAdapter<>(A, R.layout.list_row_goal, mGoals, new ViewFiller<Goal>() {
             @Override
             public void fill(final int position, View view, final Goal goal) {
-                TextView team = (TextView) view.findViewById(R.id.text_view_team);
-                Spinner playerSpinner = (Spinner) view.findViewById(R.id.text_view_player_name);
+                Spinner teamSpinner = (Spinner) view.findViewById(R.id.spinner_team);
+                Spinner playerSpinner = (Spinner) view.findViewById(R.id.spinner_player);
                 CheckBox isPenaltyBox = (CheckBox) view.findViewById(R.id.checkbox_is_penalty);
                 CheckBox isAutogoalBox = (CheckBox) view.findViewById(R.id.checkbox_is_autogoal);
 
-                team.setText(goal.getTeam().getTitle());
 
-                ArrayAdapter<String> nameSpinnerAdapter
-                        = new ArrayAdapter(A, android.R.layout.simple_spinner_item, playerNames);
-                playerSpinner.setAdapter(nameSpinnerAdapter);
+
+                teamSpinner.setAdapter(teamSpinnerAdapter);
+                teamSpinner.setSelection(getSelectionForTeam(goal.getTeam()));
+                teamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int sPos, long id) {
+                        Team team = sPos == 0 ? mMatch.getTeam1() : mMatch.getTeam2();
+                        Log.d(TAG, "select team " + team + "  position " + position);
+                        mGoals.get(position).setTeam(team);
+                        mGoals.get(position).setTeamId(team.getId());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+
+                playerSpinner.setAdapter(playerSpinnerAdapter);
+                playerSpinner.setSelection(getSelectionForPlayer(goal.getPlayer()));
+                playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int sPos, long id) {
+                        Player player = mPlayers.get(sPos);
+                        Log.d(TAG, "select player " + player + "  position " + position);
+                        mGoals.get(position).setPlayer(player);
+                        mGoals.get(position).setPlayerId(player.getId());
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
 
                 isPenaltyBox.setChecked(goal.isPenalty());
                 isAutogoalBox.setChecked(goal.isAutogoal());
@@ -106,18 +148,30 @@ public class GoalsFragment extends Fragment {
         });
     }
 
-    public void addListItem(View view){
-        Player player = new Player();
-        player.setName("Ivanov Ivan Ivanovich");
-        Team team = new Team();
-        team.setTitle("Spartak");
+    private int getSelectionForPlayer(Player player){
+        int i = 0;
+        for(Player p : mPlayers){
+            if(p.getId().equals(player.getId())){
+                return i;
+            }
+            i++;
+        }
+        return 0;
+    }
 
+    private int getSelectionForTeam(Team team){
+        if(mMatch.getTeam2().getId().equals(team.getId()))
+            return 1;
+        return 0;
+    }
+
+
+    public void addListItem(View view){
+        Team team = mMatch.getTeam1();
+        Player player = mPlayers.get(0);
         Goal goal = new Goal();
         goal.setPlayer(player);
         goal.setTeam(team);
-        goal.setIsAutogoal(true);
-        goal.setIsPenalty(true);
-
         myListAdapter.add(goal);
     }
 
