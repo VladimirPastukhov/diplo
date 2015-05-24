@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 import vvp.diplom.draft2.activities.Util;
 import vvp.diplom.draft2.model.Goal;
+import vvp.diplom.draft2.model.MatchPlayer;
 import vvp.diplom.draft2.model.Player;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.TourPlayer;
@@ -27,6 +28,7 @@ public class ORMLite extends OrmLiteSqliteOpenHelper {
     static GoalsDAO goals;
     static RoundsDAO2 rounds;
     static TourPlayersDAO tourPlayers;
+    static MatchPlayersDAO matchPlayers;
 
     public ORMLite(Context context){
         super(context, DB.NAME, null, DB.VERSION);
@@ -39,6 +41,7 @@ public class ORMLite extends OrmLiteSqliteOpenHelper {
             goals = new GoalsDAO(cs, Goal.class);
             rounds = new RoundsDAO2(cs, Round.class);
             tourPlayers = new TourPlayersDAO(cs, TourPlayer.class);
+            matchPlayers = new MatchPlayersDAO(cs, MatchPlayer.class);
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
         }
@@ -51,6 +54,7 @@ public class ORMLite extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(cs, Goal.class, true);
             TableUtils.dropTable(cs, Round.class, true);
             TableUtils.dropTable(cs, TourPlayer.class, true);
+            TableUtils.dropTable(cs, MatchPlayer.class, true);
             createTables(cs);
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
@@ -62,6 +66,7 @@ public class ORMLite extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(cs, Goal.class);
         TableUtils.createTable(cs, Round.class);
         TableUtils.createTable(cs, TourPlayer.class);
+        TableUtils.createTable(cs, MatchPlayer.class);
     }
 
     @Override

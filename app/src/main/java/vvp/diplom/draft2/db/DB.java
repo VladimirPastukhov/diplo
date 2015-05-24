@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import vvp.diplom.draft2.model.MatchPlayer;
+
 /**
  * Created by VoVqa on 23.05.2015.
  */
@@ -19,6 +21,7 @@ public class DB {
     public static GoalsDAO goals;
     public static RoundsDAO2 rounds;
     public static TourPlayersDAO tourPlayers;
+    public static MatchPlayersDAO matchPlayers;
 
     private static ORMLite ORMLite;
 
@@ -39,6 +42,7 @@ public class DB {
         goals = ORMLite.goals;
         rounds = ORMLite.rounds;
         tourPlayers = ORMLite.tourPlayers;
+        matchPlayers = ORMLite.matchPlayers;
     }
 
     public static void shutdown(){OpenHelperManager.releaseHelper();

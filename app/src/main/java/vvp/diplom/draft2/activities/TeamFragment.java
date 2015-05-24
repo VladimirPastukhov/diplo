@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Set;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
@@ -29,8 +30,8 @@ public class TeamFragment extends Fragment {
 
     private Activity A;
     private MyListAdapter myListAdapter;
-
-    private List<Player> players;
+    private List<Player> mPlayers;
+    private Set<String> mActivePlayers;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,14 +40,16 @@ public class TeamFragment extends Fragment {
         A = getActivity();
 
         String teamId = getArguments().getString(Exstras.TEAM_ID);
+        String matchId = getArguments().getString(Exstras.MATCH_ID);
         String tourId = getArguments().getString(Exstras.TOURNAMENT_ID);
         Log.d(TAG, "Team id "+teamId);
         Log.d(TAG, "Tour id "+tourId);
 
-        List<Player> players = DB.players.getByTeamIdAndTournamentId(teamId, tourId);
-        Log.d(TAG, "Players " + players.toString());
+        mPlayers = DB.players.getByTeamIdAndTournamentId(teamId, tourId);
+        Log.d(TAG, "Players " + mPlayers.toString());
+        mActivePlayers = DB.matchPlayers.getPlayerIdsByMatchIdAndTeamId(matchId, teamId);
 
-        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_player, players, new ViewFiller<Player>() {
+        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_player, mPlayers, new ViewFiller<Player>() {
 
             int captainPosition = 0;
 
@@ -54,6 +57,9 @@ public class TeamFragment extends Fragment {
             public void fill(final int position, View view, final Player player) {
                 CheckBox playerCheckbox = (CheckBox) view.findViewById(R.id.checkbox_player);
                 playerCheckbox.setText(player.getName());
+
+                playerCheckbox.setChecked(isAcivePlayer(player));
+
                 RadioButton isCaptainRadio = (RadioButton) view.findViewById(R.id.radio_is_captain);
                 isCaptainRadio.setChecked(position == captainPosition);
                 isCaptainRadio.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +71,10 @@ public class TeamFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private boolean isAcivePlayer(Player player){
+        return mActivePlayers.contains(player);
     }
 
     @Nullable

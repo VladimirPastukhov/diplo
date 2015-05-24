@@ -41,11 +41,11 @@ public class ProtocolActivity extends ActionBarActivity{
 
         String teams1 = getString(R.string.protocol_tab_team1);
         tabHost.addTab(tabHost.newTabSpec(teams1).setIndicator(teams1),
-                TeamFragment.class, teamAndTourIdsBundle(team1Id, tourId));
+                TeamFragment.class, teamMatchTourIdsBundle(team1Id, matchId, tourId));
 
         String teams2 = getString(R.string.protocol_tab_team2);
         tabHost.addTab(tabHost.newTabSpec(teams2).setIndicator(teams2),
-                TeamFragment.class, teamAndTourIdsBundle(team2Id, tourId));
+                TeamFragment.class, teamMatchTourIdsBundle(team2Id, matchId, tourId));
 
         String goals = getString(R.string.protocol_tab_goals);
         tabHost.addTab(tabHost.newTabSpec(goals).setIndicator(goals),
@@ -58,9 +58,10 @@ public class ProtocolActivity extends ActionBarActivity{
         return bundle;
     }
 
-    private static Bundle teamAndTourIdsBundle(String teamId, String tourId){
+    private static Bundle teamMatchTourIdsBundle(String teamId, String mathcId, String tourId){
         Bundle bundle = new Bundle();
         bundle.putString(Exstras.TEAM_ID, teamId);
+        bundle.putString(Exstras.MATCH_ID, mathcId);
         bundle.putString(Exstras.TOURNAMENT_ID, tourId);
         return bundle;
     }

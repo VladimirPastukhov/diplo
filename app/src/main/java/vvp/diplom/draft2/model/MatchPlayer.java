@@ -5,30 +5,52 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import vvp.diplom.draft2.db.MatchPlayersDAO;
 
 /**
  * Created by VoVqa on 20.05.2015.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = "match_players")
 public class MatchPlayer implements Parcelable{
+
     @JsonProperty("id")
+    @DatabaseField(id = true, columnName = MatchPlayersDAO.ID)
     private String id;
 
-    @JsonProperty("player")
-    private Player player;
+    @JsonProperty("match_id")
+    @DatabaseField(columnName = MatchPlayersDAO.MATCH_ID)
+    private String matchId;
+
+    @JsonProperty("team_id")
+    @DatabaseField(columnName = MatchPlayersDAO.TEAM_ID)
+    private String teamId;
+
+    @JsonProperty("player_id")
+    @DatabaseField(columnName = MatchPlayersDAO.PLAYER_ID)
+    private String playerId;
+
+    @JsonProperty("teamsheet")
+    @DatabaseField(columnName = MatchPlayersDAO.STATUS)
+    private int status;
+
+    @JsonProperty("is_captain")
+    @DatabaseField(columnName = MatchPlayersDAO.IS_CAPTAIN)
+    private boolean isCaptain;
+
+    @JsonProperty("is_goalkeeper")
+    @DatabaseField(columnName = MatchPlayersDAO.IS_GOALKEEPER)
+    private boolean isGoalkeeper;
 
     @JsonProperty("team")
     private Team team;
 
-    @JsonProperty("teamsheet")
-    private int status;
-
-    @JsonProperty("is_capitan")
-    private boolean isCaptain;
-
-    @JsonProperty("is_goalkeeper")
-    private boolean isGoalkeeper;
+    @JsonProperty("player")
+    private Player player;
 
     public String getId() {
         return id;
@@ -76,6 +98,30 @@ public class MatchPlayer implements Parcelable{
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public String getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
     }
 
     @Override

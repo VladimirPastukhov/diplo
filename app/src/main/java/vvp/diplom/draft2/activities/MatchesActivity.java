@@ -17,6 +17,7 @@ import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.model.MatchPlayer;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.TourPlayer;
 import vvp.diplom.draft2.model.Tournament;
@@ -84,9 +85,11 @@ public class MatchesActivity extends ActionBarActivity{
                 String tourId = match.getRound().getTournamentId();
                 List<TourPlayer> tourPlayers1 = Network.loadTourPlayers(team1Id, tourId);
                 List<TourPlayer> tourPlayers2 = Network.loadTourPlayers(team2Id, tourId);
+                List<MatchPlayer> matchPlayers = Network.loadMatchPlayers(match.getId());
                 DB.tourPlayers.insert(tourPlayers1);
                 DB.tourPlayers.insert(tourPlayers2);
                 DB.goals.insert(goals);
+                DB.matchPlayers.insert(matchPlayers);
                 return match.getId();
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
