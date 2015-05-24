@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -53,10 +54,22 @@ public class TeamFragment extends Fragment {
         ListView listView = (ListView) A.findViewById(R.id.list_view);
         listView.setDivider(null);
         myListAdapter = new MyListAdapter<>(A, R.layout.list_row_player, players, new ViewFiller<Player>() {
+
+            int captainPosition = 0;
+
             @Override
             public void fill(final int position, View view, final Player player) {
                 CheckBox playerCheckbox = (CheckBox) view.findViewById(R.id.checkbox_player);
                 playerCheckbox.setText(player.getName());
+                RadioButton isCaptainRadio = (RadioButton) view.findViewById(R.id.radio_is_captain);
+                isCaptainRadio.setChecked(position == captainPosition);
+                isCaptainRadio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        captainPosition = position;
+                        myListAdapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
         listView.setAdapter(myListAdapter);
