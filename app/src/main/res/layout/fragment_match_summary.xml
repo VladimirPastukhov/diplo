@@ -68,24 +68,6 @@
         android:textSize="@dimen/penalties_score_text"
         android:text="2 : 1"/>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <CheckBox android:id="@+id/checkbox_is_overtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/large_text"
-            android:text="@string/is_overtime_title"
-            android:layout_marginTop="@dimen/default_vertical_margin"/>
-        <CheckBox android:id="@+id/checkbox_is_technical_win"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/large_text"
-            android:text="@string/is_technical_win_title"
-            android:layout_marginTop="@dimen/default_vertical_margin"/>
-    </LinearLayout>
-
     <TextView
         android:layout_marginTop="@dimen/default_vertical_margin"
         android:layout_width="wrap_content"
@@ -109,6 +91,24 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/judge_name_hint"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/checkbox_is_overtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:text="@string/is_overtime_title"
+            android:layout_marginTop="@dimen/default_vertical_margin"/>
+        <CheckBox android:id="@+id/checkbox_is_technical_win"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_text"
+            android:text="@string/is_technical_win_title"
+            android:layout_marginTop="@dimen/default_vertical_margin"/>
+    </LinearLayout>
 
     <TextView
         android:layout_marginTop="@dimen/default_vertical_margin"

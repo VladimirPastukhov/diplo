@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import vvp.diplom.draft2.R;
-import vvp.diplom.draft2.model.Goal;
-import vvp.diplom.draft2.model.Incident;
 import vvp.diplom.draft2.model.Match;
-import vvp.diplom.draft2.model.MatchPlayer;
-import vvp.diplom.draft2.network.Network;
 
 /**
  * Created by VoVqa on 22.05.2015.
@@ -46,7 +37,7 @@ public class MatchSummaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_summary, container, false);
+        return inflater.inflate(R.layout.fragment_match_summary, container, false);
     }
 
     @Override
