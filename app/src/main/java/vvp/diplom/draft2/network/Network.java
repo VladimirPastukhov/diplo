@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -115,6 +116,15 @@ public class Network {
         Matches matches = restTemplate.getForObject(url, Matches.class, roundId);
         Log.d(TAG, "Matches loaded " + matches);
         return getNotNullData(matches);
+    }
+
+    public static Match loadMatch(String matchId){
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.MATCH_BY_ID + "?access_token="+accessToken;
+        Match match = restTemplate.getForObject(url, Match.class, matchId);
+        Log.d(TAG, "Match " + match);
+        return match;
     }
 
     public static List<MatchPlayer> loadMatchPlayers(String matchId){

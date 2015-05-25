@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
@@ -20,7 +19,6 @@ import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.MatchPlayer;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.TourPlayer;
-import vvp.diplom.draft2.model.Tournament;
 import vvp.diplom.draft2.network.Network;
 
 /**
@@ -55,7 +53,7 @@ public class MatchesActivity extends ActionBarActivity{
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadTabBarActivity(match);
+                        protocolActivity(match);
                     }
                 });
             }
@@ -69,16 +67,18 @@ public class MatchesActivity extends ActionBarActivity{
                 +" "+match.getTeam2().getTitle();
     }
 
-    private void loadTabBarActivity(Match match){
+    private void protocolActivity(Match match){
         mProgressDialog = ProgressDialog.show(this, "", "", false);
-        new HttpGoalsTask().execute(match);
+        new HttpGoalsTask().execute(match.getId());
     }
 
-    private class HttpGoalsTask extends AsyncTask<Match, Void, String> {
+    private class HttpGoalsTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(Match... params) {
+        protected String doInBackground(String... params) {
             try {
-                Match match = params[0];
+                String matchId = params[0];
+                DB.matches.insert(Network.loadMatch(matchId));
+                Match match = DB.matches.getById(matchId);
                 List<Goal> goals = Network.loadGoals(match.getId());
                 String team1Id = match.getTeam1().getId();
                 String team2Id = match.getTeam2().getId();
@@ -90,7 +90,7 @@ public class MatchesActivity extends ActionBarActivity{
                 DB.tourPlayers.insert(tourPlayers2);
                 DB.goals.insert(goals);
                 DB.matchPlayers.insert(matchPlayers);
-                return match.getId();
+                return matchId;
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }

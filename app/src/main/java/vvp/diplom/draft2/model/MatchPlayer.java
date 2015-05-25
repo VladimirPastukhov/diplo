@@ -128,11 +128,14 @@ public class MatchPlayer implements Parcelable{
     public String toString() {
         return "MatchPlayer{" +
                 "id='" + id + '\'' +
-                ", player=" + player +
-                ", team=" + team +
+                ", matchId='" + matchId + '\'' +
+                ", teamId='" + teamId + '\'' +
+                ", playerId='" + playerId + '\'' +
                 ", status=" + status +
                 ", isCaptain=" + isCaptain +
                 ", isGoalkeeper=" + isGoalkeeper +
+                ", team=" + team +
+                ", player=" + player +
                 '}';
     }
 

@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import vvp.diplom.draft2.activities.Util;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.Round;
 import vvp.diplom.draft2.model.Team;
@@ -21,6 +23,8 @@ import static vvp.diplom.draft2.db.MatchSQL.*;
  * Created by VoVqa on 23.05.2015.
  */
 public class MatchesDAO {
+
+    private static final String TAG = Util.BASE_TAG + "MatchesDao";
 
     private final MatchSQL sqlHelper;
 
@@ -54,7 +58,7 @@ public class MatchesDAO {
         values.put(IS_OVERTIME, match.isOvertime() ? 1 : 0);
 
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
-        db.insert(TABLE_NAME, null, values);
+        db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
         DB.teams.insert(match.getTeam1());
         DB.teams.insert(match.getTeam2());
@@ -66,6 +70,8 @@ public class MatchesDAO {
         String[] selectionArgs = new String[]{id};
         Cursor cursor = db.query(TABLE_NAME, allColumns, selection, selectionArgs, null, null, null);
         Match match;
+//        List<Match> matches = readMatches(cursor);
+//        Log.d(TAG, "getMatchById list "+matches);
         try {
             cursor.moveToFirst();
             match = readMatch(cursor);
