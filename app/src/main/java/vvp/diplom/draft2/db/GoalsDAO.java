@@ -35,9 +35,8 @@ public class GoalsDAO extends BaseDaoImpl<Goal, String> {
     }
 
     public List<Goal> getByMatchId(String matchId){
-        PreparedQuery pq = null;
         try {
-            pq = queryBuilder().where().eq(MATCH_ID, matchId).prepare();
+            PreparedQuery pq = queryBuilder().where().eq(MATCH_ID, matchId).prepare();
             return query(pq);
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);

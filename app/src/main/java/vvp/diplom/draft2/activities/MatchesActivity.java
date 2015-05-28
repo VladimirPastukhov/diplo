@@ -112,12 +112,4 @@ public class MatchesActivity extends ActionBarActivity{
         intent.putExtra(Exstras.MATCH_ID, matchId);
         startActivity(intent);
     }
-
-//    private void startTabsActivity(Match match, List<Goal> goals){
-//        Log.d(TAG, "Start MatchActivity " + match);
-//        Intent intent = new Intent(this, ProtocolActivity.class);
-//        intent.putExtra(Exstras.MATCH, match);
-//        intent.putParcelableArrayListExtra(Exstras.GOALS, (ArrayList) goals);
-//        startActivity(intent);
-//    }
 }

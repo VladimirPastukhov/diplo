@@ -101,8 +101,9 @@ public class LoginActivity extends Activity {
                             R.string.dialog_login_fail_message);
                     break;
             }
-        } else
-        Log.e(TAG, e.getMessage(), e);
+        } else {
+            Log.e(TAG, e.getMessage(), e);
+        }
     }
 
 
