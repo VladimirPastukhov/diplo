@@ -1,4 +1,4 @@
-package vvp.diplom.draft2.db;
+package vvp.diplom.draft2.db.dao;
 
 import android.util.Log;
 
@@ -16,10 +16,11 @@ import vvp.diplom.draft2.model.Goal;
 /**
  * Created by VoVqa on 23.05.2015.
  */
-public class GoalsDAO extends BaseDaoImpl<Goal, String> {
+public class GoalsDao extends BaseDaoImpl<Goal, String> {
 
     private static final String TAG = Util.BASE_TAG + "GoalsDao";
 
+    public static final String TABLE_NAME = "goals";
     public static final String ID = "id";
     public static final String MATCH_ID = "match_id";
     public static final String TEAM_ID = "team_id";
@@ -30,7 +31,7 @@ public class GoalsDAO extends BaseDaoImpl<Goal, String> {
     public static final String IS_PENALTY = "is_penalty";
     public static final String IS_AUTOGOAL = "is_autogoal";
 
-    protected GoalsDAO(ConnectionSource connectionSource, Class<Goal> dataClass) throws SQLException {
+    protected GoalsDao(ConnectionSource connectionSource, Class<Goal> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 

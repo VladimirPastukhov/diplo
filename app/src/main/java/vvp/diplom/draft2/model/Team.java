@@ -5,21 +5,29 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import vvp.diplom.draft2.db.dao.TeamsDao;
 
 /**
  * Created by VoVqa on 15.05.2015.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = TeamsDao.TABLE_NAME)
 public class Team implements Parcelable{
 
     @JsonProperty("id")
+    @DatabaseField(id = true, columnName = TeamsDao.ID)
     String id;
 
     @JsonProperty("title")
+    @DatabaseField(columnName = TeamsDao.TITLE)
     String title;
 
     @JsonProperty("image_path")
-    String imagetPath;
+    @DatabaseField(columnName = TeamsDao.IMAGE_PATH)
+    String imagePath;
 
     public String getTitle() {
         return title;
@@ -29,12 +37,12 @@ public class Team implements Parcelable{
         this.title = title;
     }
 
-    public String getImagetPath() {
-        return imagetPath;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImagetPath(String imagetPath) {
-        this.imagetPath = imagetPath;
+    public void setImagePath(String imagetPath) {
+        this.imagePath = imagetPath;
     }
 
     public String getId() {
@@ -50,7 +58,7 @@ public class Team implements Parcelable{
         return "Team{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", imagetPath='" + imagetPath + '\'' +
+                ", imagetPath='" + imagePath + '\'' +
                 '}';
     }
 
@@ -60,7 +68,7 @@ public class Team implements Parcelable{
     public Team(Parcel source){
         setId(source.readString());
         setTitle(source.readString());
-        setImagetPath(source.readString());
+        setImagePath(source.readString());
     }
 
     @Override
@@ -72,7 +80,7 @@ public class Team implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(getTitle());
-        dest.writeString(getImagetPath());
+        dest.writeString(getImagePath());
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

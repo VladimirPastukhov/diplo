@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import vvp.diplom.draft2.db.TourPlayersDAO;
+import vvp.diplom.draft2.db.dao.TourPlayersDao;
 
 /**
  * Created by VoVqa on 23.05.2015.
@@ -15,19 +15,19 @@ import vvp.diplom.draft2.db.TourPlayersDAO;
 public class TourPlayer {
 
     @JsonProperty("id")
-    @DatabaseField(columnName = TourPlayersDAO.ID)
+    @DatabaseField(columnName = TourPlayersDao.ID)
     private String id;
 
     @JsonProperty("tournament_id")
-    @DatabaseField(columnName = TourPlayersDAO.TOURNAMENT_ID)
+    @DatabaseField(columnName = TourPlayersDao.TOURNAMENT_ID)
     private String tournamentId;
 
     @JsonProperty("team_id")
-    @DatabaseField(columnName = TourPlayersDAO.TEAM_ID)
+    @DatabaseField(columnName = TourPlayersDao.TEAM_ID)
     private String teamId;
 
     @JsonProperty("member_id")
-    @DatabaseField(columnName = TourPlayersDAO.PLAYER_ID)
+    @DatabaseField(columnName = TourPlayersDao.PLAYER_ID)
     private String playerId;
 
     @JsonProperty("player")

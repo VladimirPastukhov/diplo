@@ -5,26 +5,44 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import vvp.diplom.draft2.db.dao.MatchesDao;
 
 /**
  * Created by VoVqa on 15.05.2015.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = MatchesDao.TABLE_NAME)
 public class Match implements Parcelable{
     @JsonProperty("id")
+    @DatabaseField(id = true, columnName = MatchesDao.ID)
     private String id;
 
     @JsonProperty("round_id")
+    @DatabaseField(columnName = MatchesDao.ROUND_ID)
     private String roundId;
 
+    @JsonProperty("team1_id")
+    @DatabaseField(columnName = MatchesDao.TEAM1_ID)
+    private String team1Id;
+
+    @JsonProperty("team2_id")
+    @DatabaseField(columnName = MatchesDao.TEAM2_ID)
+    private String team2Id;
+
     @JsonProperty("start_at")
+    @DatabaseField(columnName = MatchesDao.START_AT)
     private String startAt;
 
     @JsonProperty("goals1")
+    @DatabaseField(columnName = MatchesDao.GOALS1)
     private String goals1;
 
     @JsonProperty("goals2")
+    @DatabaseField(columnName = MatchesDao.GOALS2)
     private String goals2;
 
     @JsonProperty("team1")
@@ -34,21 +52,27 @@ public class Match implements Parcelable{
     Team team2;
 
     @JsonProperty("penalty1")
+    @DatabaseField(columnName = MatchesDao.PENALTY1)
     private String penalty1;
 
     @JsonProperty("penalty2")
+    @DatabaseField(columnName = MatchesDao.PENALTY2)
     private String penalty2;
 
     @JsonProperty("is_technical")
+    @DatabaseField(columnName = MatchesDao.IS_TECHNICAL)
     private boolean isTechnical;
 
     @JsonProperty("is_overtime")
+    @DatabaseField(columnName = MatchesDao.IS_OVERTIME)
     private boolean isOvertime;
 
     @JsonProperty("referee")
+    @DatabaseField(columnName = MatchesDao.REFEREE)
     private String referee;
 
     @JsonProperty("place")
+    @DatabaseField(columnName = MatchesDao.PLACE)
     private String place;
 
     private Round round;
@@ -165,6 +189,22 @@ public class Match implements Parcelable{
         this.round = round;
     }
 
+    public String getTeam1Id() {
+        return team1Id;
+    }
+
+    public void setTeam1Id(String team1Id) {
+        this.team1Id = team1Id;
+    }
+
+    public String getTeam2Id() {
+        return team2Id;
+    }
+
+    public void setTeam2Id(String team2Id) {
+        this.team2Id = team2Id;
+    }
+
     @Override
     public String toString() {
         return "Match{" +
@@ -208,6 +248,8 @@ public class Match implements Parcelable{
         setStartAt(source.readString());
         setGoals1(source.readString());
         setGoals2(source.readString());
+        setTeam1Id(source.readString());
+        setTeam2Id(source.readString());
         setTeam1(source.<Team>readParcelable(Team.class.getClassLoader()));
         setTeam2(source.<Team>readParcelable(Team.class.getClassLoader()));
         setPenalty1(source.readString());
@@ -231,6 +273,8 @@ public class Match implements Parcelable{
         dest.writeString(getStartAt());
         dest.writeString(getGoals1());
         dest.writeString(getGoals2());
+        dest.writeString(getTeam1Id());
+        dest.writeString(getTeam2Id());
         dest.writeParcelable(getTeam1(), 0);
         dest.writeParcelable(getTeam2(), 0);
         dest.writeString(getPenalty1());

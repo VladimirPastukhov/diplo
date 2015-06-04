@@ -5,24 +5,33 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import vvp.diplom.draft2.db.dao.TournamentsDao;
 
 /**
  * Created by VoVqa on 12.05.2015.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DatabaseTable(tableName = TournamentsDao.TABLE_NAME)
 public class Tournament implements Parcelable{
 
     @JsonProperty("tournament_id")
+    @DatabaseField(id = true, columnName = TournamentsDao.ID)
     private String id;
 
     @JsonProperty("title")
+    @DatabaseField(columnName = TournamentsDao.TITLE)
     private String title;
 
     @JsonProperty("startdate")
+    @DatabaseField(columnName = TournamentsDao.START_DATE)
     private String startDate;
 
     @JsonProperty("enddate")
+    @DatabaseField(columnName = TournamentsDao.END_DATE)
     private String endDate;
 
     public String getStartDate() {

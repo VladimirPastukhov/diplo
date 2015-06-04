@@ -1,4 +1,4 @@
-package vvp.diplom.draft2.db;
+package vvp.diplom.draft2.db.dao;
 
 import android.util.Log;
 
@@ -10,21 +10,23 @@ import java.sql.SQLException;
 import java.util.List;
 
 import vvp.diplom.draft2.activities.Util;
+import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.TourPlayer;
 
 /**
  * Created by VoVqa on 23.05.2015.
  */
-public class TourPlayersDAO extends BaseDaoImpl<TourPlayer, String> {
+public class TourPlayersDao extends BaseDaoImpl<TourPlayer, String> {
 
     private static final String TAG = Util.BASE_TAG + "TourPlayerDao";
 
+    public static final String TABLE_NAME = "tours_players";
     public static final String ID = "id";
     public static final String TOURNAMENT_ID = "tournament_id";
     public static final String TEAM_ID = "team_id";
     public static final String PLAYER_ID = "player_id";
 
-    protected TourPlayersDAO(ConnectionSource connectionSource, Class<TourPlayer> dataClass) throws SQLException {
+    protected TourPlayersDao(ConnectionSource connectionSource, Class<TourPlayer> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 

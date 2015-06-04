@@ -5,38 +5,37 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import vvp.diplom.draft2.db.GoalsDAO;
+import vvp.diplom.draft2.db.dao.GoalsDao;
 
 /**
  * Created by VoVqa on 20.05.2015.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@DatabaseTable(tableName = "goals")
+@DatabaseTable(tableName = GoalsDao.TABLE_NAME)
 public class Goal implements Parcelable {
 
     @JsonProperty("id")
-    @DatabaseField(id = true, columnName = GoalsDAO.ID)
+    @DatabaseField(id = true, columnName = GoalsDao.ID)
     private String id;
 
     @JsonProperty("match_id")
-    @DatabaseField(columnName = GoalsDAO.MATCH_ID)
+    @DatabaseField(columnName = GoalsDao.MATCH_ID)
     private String matchId;
 
     @JsonProperty("team_id")
-    @DatabaseField(columnName = GoalsDAO.TEAM_ID)
+    @DatabaseField(columnName = GoalsDao.TEAM_ID)
     private String teamId;
 
     @JsonProperty("player_id")
-    @DatabaseField(columnName = GoalsDAO.PLAYER_ID)
+    @DatabaseField(columnName = GoalsDao.PLAYER_ID)
     private String playerId;
 
     @JsonProperty("assistant_id")
-    @DatabaseField(columnName = GoalsDAO.ASSISTANT_ID)
+    @DatabaseField(columnName = GoalsDao.ASSISTANT_ID)
     private String assistantId;
 
     @JsonProperty("team")
@@ -46,19 +45,19 @@ public class Goal implements Parcelable {
     Player player;
 
     @JsonProperty("minute")
-    @DatabaseField(columnName = GoalsDAO.MINUTE)
+    @DatabaseField(columnName = GoalsDao.MINUTE)
     private String minute;
 
     @JsonProperty("additional_minute")
-    @DatabaseField(columnName = GoalsDAO.ADDITIONAL_MINUTE)
+    @DatabaseField(columnName = GoalsDao.ADDITIONAL_MINUTE)
     private String additionalMinute;
 
     @JsonProperty("is_penalty")
-    @DatabaseField(columnName = GoalsDAO.IS_PENALTY)
+    @DatabaseField(columnName = GoalsDao.IS_PENALTY)
     private boolean isPenalty;
 
     @JsonProperty("is_autogoal")
-    @DatabaseField(columnName = GoalsDAO.IS_AUTOGOAL)
+    @DatabaseField(columnName = GoalsDao.IS_AUTOGOAL)
     private boolean isAutogoal;
 
     public String getAdditionalMinute() {

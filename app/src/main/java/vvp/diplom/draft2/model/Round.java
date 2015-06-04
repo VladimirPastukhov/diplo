@@ -9,25 +9,25 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import vvp.diplom.draft2.db.RoundsSQL;
+import vvp.diplom.draft2.db.dao.RoundsDao;
 
 /**
  * Created by VoVqa on 13.05.2015.
  */
-@DatabaseTable(tableName = RoundsSQL.TABLE_NAME)
+@DatabaseTable(tableName = RoundsDao.TABLE_NAME)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Round implements Parcelable{
 
     @JsonProperty("id")
-    @DatabaseField(id = true, columnName = RoundsSQL.ID)
+    @DatabaseField(id = true, columnName = RoundsDao.ID)
     String id;
 
     @JsonProperty("tournament_id")
-    @DatabaseField(columnName = RoundsSQL.TOURNAMENT_ID)
+    @DatabaseField(columnName = RoundsDao.TOURNAMENT_ID)
     String tournamentId;
 
     @JsonProperty("name")
-    @DatabaseField(dataType = DataType.STRING, columnName = RoundsSQL.NAME)
+    @DatabaseField(dataType = DataType.STRING, columnName = RoundsDao.NAME)
     String name;
 
     Tournament tournament;

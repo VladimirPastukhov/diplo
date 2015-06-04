@@ -1,4 +1,4 @@
-package vvp.diplom.draft2.db;
+package vvp.diplom.draft2.db.dao;
 
 import android.util.Log;
 
@@ -17,10 +17,11 @@ import vvp.diplom.draft2.model.MatchPlayer;
 /**
  * Created by VoVqa on 24.05.2015.
  */
-public class MatchPlayersDAO extends BaseDaoImpl<MatchPlayer, String>{
+public class MatchPlayersDao extends BaseDaoImpl<MatchPlayer, String>{
 
     public static final String TAG = Util.BASE_TAG + "MatchPlayersDao";
 
+    public static final String TABLE_NAME = "match_players";
     public static final String ID = "id";
     public static final String MATCH_ID = "match_id";
     public static final String TEAM_ID = "team_id";
@@ -29,7 +30,7 @@ public class MatchPlayersDAO extends BaseDaoImpl<MatchPlayer, String>{
     public static final String IS_CAPTAIN = "is_captain";
     public static final String IS_GOALKEEPER = "is_goalkeeper";
 
-    protected MatchPlayersDAO(ConnectionSource connectionSource, Class<MatchPlayer> dataClass) throws SQLException {
+    protected MatchPlayersDao(ConnectionSource connectionSource, Class<MatchPlayer> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 

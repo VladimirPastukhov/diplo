@@ -8,42 +8,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import vvp.diplom.draft2.db.MatchPlayersDAO;
+import vvp.diplom.draft2.db.dao.MatchPlayersDao;
 
 /**
  * Created by VoVqa on 20.05.2015.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@DatabaseTable(tableName = "match_players")
+@DatabaseTable(tableName = MatchPlayersDao.TABLE_NAME)
 public class MatchPlayer implements Parcelable{
 
     @JsonProperty("id")
-    @DatabaseField(id = true, columnName = MatchPlayersDAO.ID)
+    @DatabaseField(id = true, columnName = MatchPlayersDao.ID)
     private String id;
 
     @JsonProperty("match_id")
-    @DatabaseField(columnName = MatchPlayersDAO.MATCH_ID)
+    @DatabaseField(columnName = MatchPlayersDao.MATCH_ID)
     private String matchId;
 
     @JsonProperty("team_id")
-    @DatabaseField(columnName = MatchPlayersDAO.TEAM_ID)
+    @DatabaseField(columnName = MatchPlayersDao.TEAM_ID)
     private String teamId;
 
     @JsonProperty("player_id")
-    @DatabaseField(columnName = MatchPlayersDAO.PLAYER_ID)
+    @DatabaseField(columnName = MatchPlayersDao.PLAYER_ID)
     private String playerId;
 
     @JsonProperty("teamsheet")
-    @DatabaseField(columnName = MatchPlayersDAO.STATUS)
+    @DatabaseField(columnName = MatchPlayersDao.STATUS)
     private int status;
 
     @JsonProperty("is_captain")
-    @DatabaseField(columnName = MatchPlayersDAO.IS_CAPTAIN)
+    @DatabaseField(columnName = MatchPlayersDao.IS_CAPTAIN)
     private boolean isCaptain;
 
     @JsonProperty("is_goalkeeper")
-    @DatabaseField(columnName = MatchPlayersDAO.IS_GOALKEEPER)
+    @DatabaseField(columnName = MatchPlayersDao.IS_GOALKEEPER)
     private boolean isGoalkeeper;
 
     @JsonProperty("team")
