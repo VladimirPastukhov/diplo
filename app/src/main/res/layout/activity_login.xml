@@ -13,7 +13,7 @@
         android:layout_height="match_parent"/>
 
 
-    <Button
+    <Button android:id="@+id/button_login_fill"
         android:text="FILL"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:inputType="textPassword"
         android:imeOptions="actionGo"/>
 
-    <Button
+    <Button android:id="@+id/button_login_enter"
         android:text="@string/button_login_enter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

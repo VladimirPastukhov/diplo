@@ -43,6 +43,9 @@ public class MyListAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = activity.getLayoutInflater().inflate(resource, parent, false);
         viewFiller.fill(position, view, items.get(position));
+        if(position == 0){
+            firstView = view;
+        }
         return view;
     }
 
@@ -54,5 +57,12 @@ public class MyListAdapter<T> extends BaseAdapter {
     public void remove(int position){
         items.remove(position);
         notifyDataSetChanged();
+    }
+
+    //=======================================
+    private View firstView;
+
+    public View getFirstView() {
+        return firstView;
     }
 }

@@ -58,6 +58,8 @@ public class MatchesActivity extends ActionBarActivity{
                 });
             }
         }));
+
+        ClickUtil.clickFirstListItem(this);
     }
 
     private static String getMatchString(Match match){

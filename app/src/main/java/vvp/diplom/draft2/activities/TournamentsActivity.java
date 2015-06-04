@@ -35,7 +35,7 @@ public class TournamentsActivity extends ActionBarActivity {
 
         List<Tournament> tournaments = DB.tournaments.getAll();
 
-        Log.d(TAG, "Tournaments "+tournaments);
+        Log.d(TAG, "Tournaments " + tournaments);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(new MyListAdapter<>(this, R.layout.list_row_text_and_subtext, tournaments, new ViewFiller<Tournament>() {
@@ -55,6 +55,8 @@ public class TournamentsActivity extends ActionBarActivity {
                 });
             }
         }));
+
+        ClickUtil.clickFirstListItem(this);
     }
 
     private void loadRoundsActivity(String tournamentId){

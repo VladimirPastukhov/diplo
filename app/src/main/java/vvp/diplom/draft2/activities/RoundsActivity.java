@@ -58,6 +58,8 @@ public class RoundsActivity extends ActionBarActivity {
                 });
             }
         }));
+
+        ClickUtil.clickFirstListItem(this);
     }
 
     private void startMathesActivity(Round round){

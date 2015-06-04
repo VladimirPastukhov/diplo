@@ -42,6 +42,7 @@ public class LoginActivity extends Activity {
         mEditLogin = (EditText) findViewById(R.id.edit_text_login);
         mEditPassword = (EditText) findViewById(R.id.edit_text_password);
         mEditPassword.setOnEditorActionListener(new loginOnKeyboardEnterPressed());
+        ClickUtil.clickFillAndEnter(this);
     }
 
     public void login(View view){
