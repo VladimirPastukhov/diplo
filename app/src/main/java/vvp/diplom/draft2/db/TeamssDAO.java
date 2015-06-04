@@ -36,7 +36,7 @@ public class TeamssDAO {
         values.put(IMAGE_PATH, team.getImagetPath());
 
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
-        db.insert(TABLE_NAME, null, values);
+        db.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     public Team getById(String id){

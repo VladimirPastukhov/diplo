@@ -1,6 +1,5 @@
 package vvp.diplom.draft2.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import java.util.List;
 import java.util.Set;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
-import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Player;
 
 /**
@@ -28,16 +25,26 @@ public class TeamFragment extends Fragment {
 
     private static final String TAG = Util.BASE_TAG + "TeamFrg";
 
-    private Activity A;
+    private View V;
     private MyListAdapter myListAdapter;
+
     private List<Player> mPlayers;
     private Set<String> mActivePlayers;
 
+    private int captainPosition = 0;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
+        V = inflater.inflate(R.layout.activity_default_list, container, false);
+        return V;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-
-        A = getActivity();
 
         String teamId = getArguments().getString(Exstras.TEAM_ID);
         String matchId = getArguments().getString(Exstras.MATCH_ID);
@@ -49,16 +56,14 @@ public class TeamFragment extends Fragment {
         Log.d(TAG, "Players " + mPlayers.toString());
         mActivePlayers = DB.matchPlayers.getPlayerIdsByMatchIdAndTeamId(matchId, teamId);
 
-        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_player, mPlayers, new ViewFiller<Player>() {
-
-            int captainPosition = 0;
+        myListAdapter = new MyListAdapter<>(getActivity(), R.layout.list_row_player, mPlayers, new ViewFiller<Player>() {
 
             @Override
             public void fill(final int position, View view, final Player player) {
                 CheckBox playerCheckbox = (CheckBox) view.findViewById(R.id.checkbox_player);
                 playerCheckbox.setText(player.getName());
 
-                playerCheckbox.setChecked(isAcivePlayer(player));
+                playerCheckbox.setChecked(isActivePlayer(player));
 
                 RadioButton isCaptainRadio = (RadioButton) view.findViewById(R.id.radio_is_captain);
                 isCaptainRadio.setChecked(position == captainPosition);
@@ -73,22 +78,15 @@ public class TeamFragment extends Fragment {
         });
     }
 
-    private boolean isAcivePlayer(Player player){
+    private boolean isActivePlayer(Player player){
         return mActivePlayers.contains(player);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_default_list, container, false);
-        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated");
         super.onCreate(savedInstanceState);
-
-        ListView listView = (ListView) A.findViewById(R.id.list_view);
+        ListView listView = (ListView) V.findViewById(R.id.list_view);
         listView.setDivider(null);
         listView.setAdapter(myListAdapter);
     }

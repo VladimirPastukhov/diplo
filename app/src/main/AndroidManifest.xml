@@ -52,8 +52,17 @@
             android:icon="@drawable/ic_sportspring"
             android:logo="@drawable/ic_sportspring"
             android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow">
+            <!--android:screenOrientation="portrait"-->
+        </activity>
+
+        <activity
+            android:name=".activities.ProtocolActivitySwipe"
+            android:icon="@drawable/ic_sportspring"
+            android:logo="@drawable/ic_sportspring"
+            android:windowSoftInputMode="stateHidden"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <!--android:screenOrientation="portrait"-->
         </activity>
 
         <!--<activity-->

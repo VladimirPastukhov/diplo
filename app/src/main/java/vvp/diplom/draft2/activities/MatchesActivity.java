@@ -108,7 +108,7 @@ public class MatchesActivity extends ActionBarActivity{
     }
 
     private void startProtocolActivity(String matchId){
-        Intent intent = new Intent(this, ProtocolActivity.class);
+        Intent intent = new Intent(this, ProtocolActivitySwipe.class);
         intent.putExtra(Exstras.MATCH_ID, matchId);
         startActivity(intent);
     }

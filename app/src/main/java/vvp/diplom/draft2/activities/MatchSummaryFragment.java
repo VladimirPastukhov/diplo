@@ -21,7 +21,6 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 import vvp.diplom.draft2.R;
-import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.network.Network;
 
@@ -32,7 +31,7 @@ public class MatchSummaryFragment extends Fragment {
 
     private static final String TAG = Util.BASE_TAG + "MatchSummaryFr";
 
-    private Activity A;
+    private View V;
     private Match mMatch;
     private ProgressDialog mProgressDialog;
     private Button mDateButton;
@@ -48,39 +47,38 @@ public class MatchSummaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_match_summary, container, false);
+        V = inflater.inflate(R.layout.fragment_match_summary, container, false);
+        return V;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        A = getActivity();
-
-        TextView team1Title = (TextView) A.findViewById(R.id.text_view_title_team_1);
-        TextView team2Title = (TextView) A.findViewById(R.id.text_view_title_team_2);
+        TextView team1Title = (TextView) V.findViewById(R.id.text_view_title_team_1);
+        TextView team2Title = (TextView) V.findViewById(R.id.text_view_title_team_2);
         team1Title.setText(mMatch.getTeam1().getTitle());
         team2Title.setText(mMatch.getTeam2().getTitle());
 
-        TextView goalsScore = (TextView) A.findViewById(R.id.text_view_goals_score);
+        TextView goalsScore = (TextView) V.findViewById(R.id.text_view_goals_score);
         goalsScore.setText(Util.scoreString(mMatch.getGoals1(), mMatch.getGoals2()));
 
-        TextView penaltyScore = (TextView) A.findViewById(R.id.text_view_penalties_score);
+        TextView penaltyScore = (TextView) V.findViewById(R.id.text_view_penalties_score);
         penaltyScore.setText(Util.scoreString(mMatch.getPenalty1(), mMatch.getPenalty2()));
 
-        final CheckBox isOvertimeBox = (CheckBox) A.findViewById(R.id.checkbox_is_overtime);
+        final CheckBox isOvertimeBox = (CheckBox) V.findViewById(R.id.checkbox_is_overtime);
         isOvertimeBox.setChecked(mMatch.isOvertime());
 
-        final CheckBox isTechnicalWinBox = (CheckBox) A.findViewById(R.id.checkbox_is_technical_win);
+        final CheckBox isTechnicalWinBox = (CheckBox) V.findViewById(R.id.checkbox_is_technical_win);
         isTechnicalWinBox.setChecked(mMatch.isTechnical());
 
-        final EditText referee = (EditText) A.findViewById(R.id.edit_text_match_judge);
+        final EditText referee = (EditText) V.findViewById(R.id.edit_text_match_judge);
         referee.setText(mMatch.getReferee());
 
-        final EditText place = (EditText) A.findViewById(R.id.edit_text_match_location);
+        final EditText place = (EditText) V.findViewById(R.id.edit_text_match_location);
         place.setText(mMatch.getPlace());
 
-        mDateButton = (Button) A.findViewById(R.id.button_match_date);
+        mDateButton = (Button) V.findViewById(R.id.button_match_date);
         mDateButton.setText(Util.dateString(mMatch.getStartAt()));
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +87,7 @@ public class MatchSummaryFragment extends Fragment {
             }
         });
 
-        mTimeButton = (Button) A.findViewById(R.id.button_match_time);
+        mTimeButton = (Button) V.findViewById(R.id.button_match_time);
         mTimeButton.setText(Util.timeString(mMatch.getStartAt()));
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +96,7 @@ public class MatchSummaryFragment extends Fragment {
             }
         });
 
-        mSendButton = (Button) A.findViewById(R.id.button_send);
+        mSendButton = (Button) V.findViewById(R.id.button_send);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +107,7 @@ public class MatchSummaryFragment extends Fragment {
                 mMatch.setStartAt(Util.formatUiDateAndTimeForApi(date, time));
                 mMatch.setIsTechnical(isTechnicalWinBox.isChecked());
                 mMatch.setIsOvertime(isOvertimeBox.isChecked());
-                mProgressDialog = ProgressDialog.show(A, "", "", false);
+                mProgressDialog = ProgressDialog.show(getActivity(), "", "", false);
                 new HttpPatchMatchTask().execute(mMatch);
             }
         });
@@ -136,7 +134,7 @@ public class MatchSummaryFragment extends Fragment {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        new DatePickerDialog(A, new MyOnDateSetListener(), year, month, day).show();
+        new DatePickerDialog(getActivity(), new MyOnDateSetListener(), year, month, day).show();
     }
 
     private class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
@@ -151,7 +149,7 @@ public class MatchSummaryFragment extends Fragment {
         Calendar calendar = Util.calendarFromString(mMatch.getStartAt());
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(A, new MyOnTimeSetListener(), hour, minute, true).show();
+        new TimePickerDialog(getActivity(), new MyOnTimeSetListener(), hour, minute, true).show();
     }
 
     private class MyOnTimeSetListener implements TimePickerDialog.OnTimeSetListener {

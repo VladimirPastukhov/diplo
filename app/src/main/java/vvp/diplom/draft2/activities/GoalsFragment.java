@@ -1,6 +1,5 @@
 package vvp.diplom.draft2.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,12 +30,13 @@ public class GoalsFragment extends Fragment {
 
     private static final String TAG = Util.BASE_TAG + "GoalsFrg";
 
-    private Activity A;
     private MyListAdapter myListAdapter;
 
     private List<Goal> mGoals;
     private List<Player> mPlayers;
     private Match mMatch;
+
+    private View V;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,14 +54,13 @@ public class GoalsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_list_with_add_button, container, false);
+        V = inflater.inflate(R.layout.activity_list_with_add_button, container, false);
+        return V;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        A = getActivity();
 
         final String[] teamNames = new String[]{
                 mMatch.getTeam1().getTitle(),
@@ -75,23 +74,21 @@ public class GoalsFragment extends Fragment {
 
 
         final ArrayAdapter<String> teamSpinnerAdapter
-                = new ArrayAdapter(A, R.layout.spinner_row_text_medium, teamNames);
+                = new ArrayAdapter(getActivity(), R.layout.spinner_row_text_medium, teamNames);
         teamSpinnerAdapter.setDropDownViewResource(R.layout.spinner_row_text_large);
 
         final ArrayAdapter<String> playerSpinnerAdapter
-                = new ArrayAdapter(A, R.layout.spinner_row_text_medium, playerNames);
+                = new ArrayAdapter(getActivity(), R.layout.spinner_row_text_medium, playerNames);
         playerSpinnerAdapter.setDropDownViewResource(R.layout.spinner_row_text_medium);
 
-        ListView listView = (ListView) A.findViewById(R.id.list_view);
-        myListAdapter = new MyListAdapter<>(A, R.layout.list_row_goal, mGoals, new ViewFiller<Goal>() {
+        ListView listView = (ListView) V.findViewById(R.id.list_view);
+        myListAdapter = new MyListAdapter<>(getActivity(), R.layout.list_row_goal, mGoals, new ViewFiller<Goal>() {
             @Override
             public void fill(final int position, View view, final Goal goal) {
                 Spinner teamSpinner = (Spinner) view.findViewById(R.id.spinner_team);
                 Spinner playerSpinner = (Spinner) view.findViewById(R.id.spinner_player);
                 CheckBox isPenaltyBox = (CheckBox) view.findViewById(R.id.checkbox_is_penalty);
                 CheckBox isAutogoalBox = (CheckBox) view.findViewById(R.id.checkbox_is_autogoal);
-
-
 
                 teamSpinner.setAdapter(teamSpinnerAdapter);
                 teamSpinner.setSelection(getSelectionForTeam(goal.getTeam()));
@@ -139,7 +136,7 @@ public class GoalsFragment extends Fragment {
         });
         listView.setAdapter(myListAdapter);
 
-        final Button addButton = (Button) A.findViewById(R.id.button_add);
+        final Button addButton = (Button) V.findViewById(R.id.button_add);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
