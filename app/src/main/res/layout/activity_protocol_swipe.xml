@@ -1,9 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/background">
-</android.support.v4.view.ViewPager>
 
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_weight="10"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </android.support.v4.view.ViewPager>
+
+
+    <Button android:id="@+id/button_send"
+        android:padding="@dimen/date_time_buttons_padding"
+        android:layout_margin="@dimen/screen_border_padding"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/large_text"
+        android:text="@string/button_send"/>
+</LinearLayout>

@@ -60,26 +60,10 @@
             android:name=".activities.ProtocolActivitySwipe"
             android:icon="@drawable/ic_sportspring"
             android:logo="@drawable/ic_sportspring"
-            android:windowSoftInputMode="stateHidden"
-            android:uiOptions="splitActionBarWhenNarrow">
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustResize">
             <!--android:screenOrientation="portrait"-->
         </activity>
-
-        <!--<activity-->
-            <!--android:name=".activities.MatchPlayersActivity"-->
-            <!--android:label="@string/matches_title"-->
-            <!--android:icon="@drawable/ic_sportspring"-->
-            <!--android:logo="@drawable/ic_sportspring"-->
-            <!--android:screenOrientation="portrait">-->
-        <!--</activity>-->
-
-        <!--<activity-->
-            <!--android:name=".activities.IncidentsActivity"-->
-            <!--android:label="@string/matches_title"-->
-            <!--android:icon="@drawable/ic_sportspring"-->
-            <!--android:logo="@drawable/ic_sportspring"-->
-            <!--android:screenOrientation="portrait">-->
-        <!--</activity>-->
 
     </application>
 

@@ -1,5 +1,7 @@
 package vvp.diplom.draft2.activities;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,10 +13,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
 import vvp.diplom.draft2.model.Match;
+import vvp.diplom.draft2.model.Protocol;
+import vvp.diplom.draft2.network.Network;
 
 /**
  * Created by VoVqa on 28.05.2015.
@@ -30,12 +35,17 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
     private String team2Id;
     private String tourId;
 
-    private Fragment mSummaryFragment;
+    private MatchSummaryFragment mSummaryFragment;
     private Fragment mTeam1Fragment;
     private Fragment mTeam2Fragment;
     private Fragment mGoalsFragment;
 
     private ViewPager mViewPager;
+    private Button mSendButton;
+
+    private ProgressDialog mProgressDialog;
+
+    private Protocol mProtocol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +53,19 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
 
         setContentView(R.layout.activity_protocol_swipe);
 
+        mProtocol = new Protocol();
+
         matchId = getIntent().getStringExtra(Exstras.MATCH_ID);
         mMatch = DB.matches.getById(matchId);
         Log.d(TAG, "Match " + mMatch);
+
+        mProtocol.setMatch(mMatch);
 
         team1Id = mMatch.getTeam1().getId();
         team2Id = mMatch.getTeam2().getId();
         tourId  = mMatch.getRound().getTournamentId();
 
-        mSummaryFragment = newMachSummaryFragment();
+        mSummaryFragment = newMachSummaryFragment().create(mMatch);
         mTeam1Fragment = newTeam1Fragment();
         mTeam2Fragment = newTeam2Fragment();
         mGoalsFragment = newGoalsFragment();
@@ -87,6 +101,32 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
         actionBar.addTab(actionBar.newTab().setText(R.string.protocol_tab_team1).setTabListener(tabListener));
         actionBar.addTab(actionBar.newTab().setText(R.string.protocol_tab_team2).setTabListener(tabListener));
         actionBar.addTab(actionBar.newTab().setText(R.string.protocol_tab_goals).setTabListener(tabListener));
+
+        mSendButton = (Button) findViewById(R.id.button_send);
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSummaryFragment.updateModel();
+                mProgressDialog = ProgressDialog.show(ProtocolActivitySwipe.this, "", "", false);
+                new HttpPatchMatchTask().execute(mProtocol.getMatch());
+            }
+        });
+    }
+
+    private class HttpPatchMatchTask extends AsyncTask<Match, Void, Void> {
+        @Override
+        protected Void doInBackground(Match... params) {
+            try {
+                Match match = params[0];
+                Network.patchMatch(match);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            finally {
+                mProgressDialog.dismiss();
+            }
+            return null;
+        }
     }
 
     private class MyPagerAdapter extends FragmentStatePagerAdapter{
@@ -112,8 +152,8 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
         }
     }
 
-    private Fragment newMachSummaryFragment(){
-        Fragment fragment = new MatchSummaryFragment();
+    private MatchSummaryFragment newMachSummaryFragment(){
+        MatchSummaryFragment fragment = new MatchSummaryFragment();
         fragment.setArguments(matchBundle(mMatch));
         return fragment;
     }

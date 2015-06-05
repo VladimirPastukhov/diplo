@@ -32,8 +32,8 @@
     <string name="is_technical_win_title">Technical win</string>
     <string name="match_location_title">Location</string>
     <string name="match_location_hint">Location</string>
-    <string name="judge_name_title">Judge</string>
-    <string name="judge_name_hint">Judge</string>
+    <string name="referee_name_title">Referee</string>
+    <string name="referee_name_hint">Referee</string>
     <string name="match_start_time_title">Started at</string>
     <string name="redact">Reduct</string>
 
@@ -43,6 +43,7 @@
     <string name="protocol_tab_team1">team1</string>
     <string name="protocol_tab_team2">team2</string>
     <string name="protocol_tab_cards">cards</string>
+    <string name="button_send">Send</string>
 
     <!-- player list -->
     <string name="is_captain">Captain</string>

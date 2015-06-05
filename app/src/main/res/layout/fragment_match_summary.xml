@@ -86,11 +86,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:textSize="@dimen/small_text"
-        android:text="@string/judge_name_title"/>
-    <EditText android:id="@+id/edit_text_match_judge"
+        android:text="@string/referee_name_title"/>
+    <EditText android:id="@+id/edit_text_match_referee"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/judge_name_hint"/>
+        android:hint="@string/referee_name_hint"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -138,12 +138,5 @@
         android:layout_weight="1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
-
-    <Button android:id="@+id/button_send"
-        android:padding="@dimen/date_time_buttons_padding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/large_text"
-        android:text="Send"/>
 
 </LinearLayout>
