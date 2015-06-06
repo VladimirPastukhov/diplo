@@ -66,8 +66,6 @@ public class Network {
     public static void patchMatch(Match match){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-
         HttpEntity<Match> httpEntity = new HttpEntity(match, headers);
 
         String accessToken = loginRequestAnswer.getAccessToken();
@@ -76,6 +74,22 @@ public class Network {
 
         Log.d(TAG, "PATCH "+match);
         restTemplate.exchange(url, HttpMethod.PATCH, httpEntity, String.class, match.getId());
+    }
+
+    public static void deleteMatchPlayers(String matchId){
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.DELETE_MATCH_PLAYERS+ "?access_token=" + accessToken;
+        restTemplate.delete(url, matchId);
+    }
+
+    public static void postMatchPlayers(List<MatchPlayer> matchPlayers){
+        Log.d(TAG, "POST match players "+matchPlayers);
+        String accessToken = loginRequestAnswer.getAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = API.BASE_URL + API.POST_MATCH_PLAYERS + "?access_token=" + accessToken;
+        MatchPlayers mp = restTemplate.postForObject(url, matchPlayers, MatchPlayers.class);
+        Log.d(TAG, "match players post "+mp);
     }
 
 

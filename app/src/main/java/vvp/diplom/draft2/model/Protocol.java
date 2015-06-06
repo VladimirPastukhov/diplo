@@ -6,18 +6,9 @@ import java.util.List;
  * Created by VoVqa on 05.06.2015.
  */
 public class Protocol {
+
     private Match match;
     private List<MatchPlayer> matchPlayers;
-    private List<TourPlayer> tourPlayers;
-    private List<Goal> goals;
-
-    public List<Goal> getGoals() {
-        return goals;
-    }
-
-    public void setGoals(List<Goal> goals) {
-        this.goals = goals;
-    }
 
     public Match getMatch() {
         return match;
@@ -31,15 +22,7 @@ public class Protocol {
         return matchPlayers;
     }
 
-    public void setMatchPlayer(List<MatchPlayer> matchPlayers) {
+    public void setMatchPlayers(List<MatchPlayer> matchPlayers) {
         this.matchPlayers = matchPlayers;
-    }
-
-    public List<TourPlayer> getTourPlayers() {
-        return tourPlayers;
-    }
-
-    public void setTourPlayers(List<TourPlayer> tourPlayers) {
-        this.tourPlayers = tourPlayers;
     }
 }

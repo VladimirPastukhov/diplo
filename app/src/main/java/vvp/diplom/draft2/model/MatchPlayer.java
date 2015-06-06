@@ -18,6 +18,13 @@ import vvp.diplom.draft2.db.dao.MatchPlayersDao;
 @DatabaseTable(tableName = MatchPlayersDao.TABLE_NAME)
 public class MatchPlayer implements Parcelable{
 
+    public static final int STATUS_NOT_APPLIED = -1;
+    public static final int STATUS_APPLIED = 0;
+    public static final int STATUS_APPLIED_MAIN = 1;
+    public static final int STATUS_APPLIED_RESERVE = 2;
+    public static final int STATUS_APPLIED_COACH = 4;
+
+
     @JsonProperty("id")
     @DatabaseField(id = true, columnName = MatchPlayersDao.ID)
     private String id;
@@ -36,7 +43,7 @@ public class MatchPlayer implements Parcelable{
 
     @JsonProperty("teamsheet")
     @DatabaseField(columnName = MatchPlayersDao.STATUS)
-    private int status;
+    private int status = STATUS_NOT_APPLIED;
 
     @JsonProperty("is_captain")
     @DatabaseField(columnName = MatchPlayersDao.IS_CAPTAIN)
@@ -139,8 +146,21 @@ public class MatchPlayer implements Parcelable{
                 '}';
     }
 
+    public void update(MatchPlayer other){
+        setId(other.getId());
+        setStatus(other.getStatus());
+        setIsCaptain(other.isCaptain);
+        setIsGoalkeeper(other.isGoalkeeper());
+    }
     //================================ next methods for pass between activities ======================
     public MatchPlayer(){}
+
+    public MatchPlayer(Player player, String teamId, String matchId){
+        setPlayerId(player.getId());
+        setPlayer(player);
+        setMatchId(matchId);
+        setTeamId(teamId);
+    }
 
     public MatchPlayer(Parcel source){
         setId(source.readString());

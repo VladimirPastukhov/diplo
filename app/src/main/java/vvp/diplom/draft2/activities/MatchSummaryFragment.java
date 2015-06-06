@@ -45,7 +45,7 @@ public class MatchSummaryFragment extends Fragment {
     private Button mDateButton;
     private Button mTimeButton;
 
-    public MatchSummaryFragment create(Match match){
+    public static MatchSummaryFragment create(Match match){
         MatchSummaryFragment matchSummaryFragment = new MatchSummaryFragment();
         matchSummaryFragment.mMatch = match;
         return matchSummaryFragment;

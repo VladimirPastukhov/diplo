@@ -91,6 +91,7 @@ public class MatchesActivity extends ActionBarActivity{
                 DB.tourPlayers.insert(tourPlayers1);
                 DB.tourPlayers.insert(tourPlayers2);
                 DB.goals.insert(goals);
+                DB.matchPlayers.deleteAll();
                 DB.matchPlayers.insert(matchPlayers);
                 return matchId;
             } catch (Exception e) {

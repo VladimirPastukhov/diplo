@@ -12,14 +12,12 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 
 import java.util.List;
-import java.util.Set;
 
 import vvp.diplom.draft2.R;
-import vvp.diplom.draft2.db.DB;
-import vvp.diplom.draft2.model.Player;
+import vvp.diplom.draft2.model.MatchPlayer;
 
 /**
- * Created by VoVqa on 24.05.2015.
+ * Created by VoVqa on 05.06.2015.
  */
 public class TeamFragment extends Fragment {
 
@@ -28,10 +26,15 @@ public class TeamFragment extends Fragment {
     private View V;
     private MyListAdapter myListAdapter;
 
-    private List<Player> mPlayers;
-    private Set<String> mActivePlayers;
+    private List<MatchPlayer> mMatchPlayers;
 
     private int captainPosition = 0;
+
+    public static TeamFragment create(List<MatchPlayer> matchPlayers){
+        TeamFragment teamFragment = new TeamFragment();
+        teamFragment.mMatchPlayers = matchPlayers;
+        return teamFragment;
+    }
 
     @Nullable
     @Override
@@ -46,31 +49,41 @@ public class TeamFragment extends Fragment {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
-        String teamId = getArguments().getString(Exstras.TEAM_ID);
-        String matchId = getArguments().getString(Exstras.MATCH_ID);
-        String tourId = getArguments().getString(Exstras.TOURNAMENT_ID);
-        Log.d(TAG, "Team id "+teamId);
-        Log.d(TAG, "Tour id "+tourId);
-
-        mPlayers = DB.players.getByTeamIdAndTournamentId(teamId, tourId);
-        Log.d(TAG, "Players " + mPlayers.toString());
-        mActivePlayers = DB.matchPlayers.getPlayerIdsByMatchIdAndTeamId(matchId, teamId);
-
-        myListAdapter = new MyListAdapter<>(getActivity(), R.layout.list_row_player, mPlayers, new ViewFiller<Player>() {
+        myListAdapter = new MyListAdapter<>(getActivity(), R.layout.list_row_player, mMatchPlayers, new ViewFiller<MatchPlayer>() {
 
             @Override
-            public void fill(final int position, View view, final Player player) {
+            public void fill(final int position, View view, final MatchPlayer matchPlayer) {
                 CheckBox playerCheckbox = (CheckBox) view.findViewById(R.id.checkbox_player);
-                playerCheckbox.setText(player.getName());
+                Log.d(TAG, "position "+position+", checkbox "+playerCheckbox+", matchPlayer "+matchPlayer);
+                playerCheckbox.setText(matchPlayer.getPlayer().getName());
+                playerCheckbox.setChecked(matchPlayer.getStatus() >= MatchPlayer.STATUS_APPLIED);
+                playerCheckbox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        matchPlayer.setStatus(
+                                ((CheckBox) v).isChecked() ?
+                                        MatchPlayer.STATUS_APPLIED : matchPlayer.STATUS_NOT_APPLIED);
+                    }
+                });
 
-                playerCheckbox.setChecked(isActivePlayer(player));
+                CheckBox isGoalKeeperCheckBox = (CheckBox) view.findViewById(R.id.checkbox_is_goalkeeper);
+                isGoalKeeperCheckBox.setChecked(matchPlayer.isGoalkeeper());
+                isGoalKeeperCheckBox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        matchPlayer.setIsGoalkeeper(((CheckBox) v).isChecked());
+                    }
+                });
 
                 RadioButton isCaptainRadio = (RadioButton) view.findViewById(R.id.radio_is_captain);
-                isCaptainRadio.setChecked(position == captainPosition);
+                isCaptainRadio.setChecked(matchPlayer.isCaptain());
                 isCaptainRadio.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        captainPosition = position;
+                        for(MatchPlayer mp : mMatchPlayers){
+                            mp.setIsCaptain(false);
+                        }
+                        matchPlayer.setIsCaptain(true);
                         myListAdapter.notifyDataSetChanged();
                     }
                 });
@@ -78,9 +91,6 @@ public class TeamFragment extends Fragment {
         });
     }
 
-    private boolean isActivePlayer(Player player){
-        return mActivePlayers.contains(player);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
