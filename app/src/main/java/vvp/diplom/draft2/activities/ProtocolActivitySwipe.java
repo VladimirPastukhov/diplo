@@ -15,11 +15,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vvp.diplom.draft2.R;
 import vvp.diplom.draft2.db.DB;
+import vvp.diplom.draft2.model.Goal;
 import vvp.diplom.draft2.model.Match;
 import vvp.diplom.draft2.model.MatchPlayer;
 import vvp.diplom.draft2.model.Protocol;
@@ -32,55 +32,29 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
 
     private static final String TAG = Util.BASE_TAG + "ProtocolActSw";
 
-    private Match mMatch;
-    private List<MatchPlayer> mMatchPlayers1;
-    private List<MatchPlayer> mMatchPlayers2;
-
-    private String matchId;
-    private String team1Id;
-    private String team2Id;
-    private String tourId;
+    private Protocol mProtocol;
 
     private MatchSummaryFragment mSummaryFragment;
     private Fragment mTeam1Fragment;
     private Fragment mTeam2Fragment;
     private Fragment mGoalsFragment;
-
     private ViewPager mViewPager;
     private Button mSendButton;
 
     private ProgressDialog mProgressDialog;
 
-    private Protocol mProtocol;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_protocol_swipe);
 
-        mProtocol = new Protocol();
-
-        matchId = getIntent().getStringExtra(Exstras.MATCH_ID);
-        mMatch = DB.matches.getById(matchId);
-        Log.d(TAG, "Match " + mMatch);
-
-        mProtocol.setMatch(mMatch);
-
-        team1Id = mMatch.getTeam1().getId();
-        team2Id = mMatch.getTeam2().getId();
-        tourId  = mMatch.getRound().getTournamentId();
-
-
-        mMatchPlayers1 = DB.matchPlayers.getExtendedList(tourId, matchId, team1Id);
-        mMatchPlayers2 = DB.matchPlayers.getExtendedList(tourId, matchId, team2Id);
-
-        mSummaryFragment = MatchSummaryFragment.create(mMatch);
-        mTeam1Fragment = TeamFragment.create(mMatchPlayers1);
-        mTeam2Fragment = TeamFragment.create(mMatchPlayers2);
+        mProtocol = Protocol.loadFromDB(getIntent().getStringExtra(Exstras.MATCH_ID));
+        mSummaryFragment = MatchSummaryFragment.create(mProtocol.getMatch());
+        mTeam1Fragment = TeamFragment.create(mProtocol.getTeam1Players());
+        mTeam2Fragment = TeamFragment.create(mProtocol.getTeam2Players());
         mGoalsFragment = newGoalsFragment();
 
-        setTitle(Util.getRoundTitle(mMatch.getRound()));
+        setTitle(Util.getRoundTitle(mProtocol.getMatch().getRound()));
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -129,8 +103,8 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
             try {
                 Match match = params[0];
                 Network.patchMatch(match);
-                Network.deleteMatchPlayers(matchId);
-                Network.postMatchPlayers(getActualMatchPlayers());
+                Network.deleteMatchPlayers(mProtocol.getMatch().getId());
+                Network.postMatchPlayers(mProtocol.getAllActivePlayers());
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
             }
@@ -169,18 +143,5 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
         Fragment fragment = new GoalsFragment();
         fragment.setArguments(getIntent().getExtras());
         return fragment;
-    }
-
-    private List<MatchPlayer> getActualMatchPlayers(){
-        List<MatchPlayer> list = new ArrayList<>();
-        for(MatchPlayer matchPlayer : mMatchPlayers1){
-            if(matchPlayer.isActive())
-                list.add(matchPlayer);
-        }
-        for(MatchPlayer matchPlayer : mMatchPlayers2){
-            if(matchPlayer.isActive())
-                list.add(matchPlayer);
-        }
-        return list;
     }
 }

@@ -103,11 +103,5 @@ public class TeamFragment extends Fragment implements View.OnClickListener{
         ListView listView = (ListView) V.findViewById(R.id.list_view);
         listView.setDivider(null);
         listView.setAdapter(myListAdapter);
-//        listView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
     }
 }

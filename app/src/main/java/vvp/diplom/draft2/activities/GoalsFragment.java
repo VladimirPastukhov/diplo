@@ -51,6 +51,12 @@ public class GoalsFragment extends Fragment {
         Log.d(TAG, "Players " + mPlayers);
     }
 
+    public static GoalsFragment create(List<Goal> goals){
+        GoalsFragment goalsFragment = new GoalsFragment();
+        goalsFragment.mGoals = goals;
+        return goalsFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
