@@ -99,6 +99,10 @@ public class MatchPlayer implements Parcelable{
         this.status = status;
     }
 
+    public void setStatusSimple(boolean isApplied) {
+        setStatus(isApplied ? STATUS_APPLIED : STATUS_NOT_APPLIED);
+    }
+
     public Team getTeam() {
         return team;
     }
@@ -129,6 +133,10 @@ public class MatchPlayer implements Parcelable{
 
     public void setTeamId(String teamId) {
         this.teamId = teamId;
+    }
+
+    public boolean isActive(){
+        return getStatus() > STATUS_NOT_APPLIED;
     }
 
     @Override

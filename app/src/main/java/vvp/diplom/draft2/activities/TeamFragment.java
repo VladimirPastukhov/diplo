@@ -19,7 +19,7 @@ import vvp.diplom.draft2.model.MatchPlayer;
 /**
  * Created by VoVqa on 05.06.2015.
  */
-public class TeamFragment extends Fragment {
+public class TeamFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = Util.BASE_TAG + "TeamFrg";
 
@@ -50,45 +50,49 @@ public class TeamFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         myListAdapter = new MyListAdapter<>(getActivity(), R.layout.list_row_player, mMatchPlayers, new ViewFiller<MatchPlayer>() {
-
             @Override
             public void fill(final int position, View view, final MatchPlayer matchPlayer) {
                 CheckBox playerCheckbox = (CheckBox) view.findViewById(R.id.checkbox_player);
-                Log.d(TAG, "position "+position+", checkbox "+playerCheckbox+", matchPlayer "+matchPlayer);
+                Log.d(TAG, "position " + position + ", checkbox " + playerCheckbox + ", matchPlayer " + matchPlayer);
                 playerCheckbox.setText(matchPlayer.getPlayer().getName());
-                playerCheckbox.setChecked(matchPlayer.getStatus() >= MatchPlayer.STATUS_APPLIED);
-                playerCheckbox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        matchPlayer.setStatus(
-                                ((CheckBox) v).isChecked() ?
-                                        MatchPlayer.STATUS_APPLIED : matchPlayer.STATUS_NOT_APPLIED);
-                    }
-                });
+                playerCheckbox.setChecked(matchPlayer.isActive());
+                playerCheckbox.setTag(matchPlayer);
+                playerCheckbox.setOnClickListener(TeamFragment.this);
 
                 CheckBox isGoalKeeperCheckBox = (CheckBox) view.findViewById(R.id.checkbox_is_goalkeeper);
                 isGoalKeeperCheckBox.setChecked(matchPlayer.isGoalkeeper());
-                isGoalKeeperCheckBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        matchPlayer.setIsGoalkeeper(((CheckBox) v).isChecked());
-                    }
-                });
+                isGoalKeeperCheckBox.setTag(matchPlayer);
+                isGoalKeeperCheckBox.setOnClickListener(TeamFragment.this);
 
                 RadioButton isCaptainRadio = (RadioButton) view.findViewById(R.id.radio_is_captain);
                 isCaptainRadio.setChecked(matchPlayer.isCaptain());
-                isCaptainRadio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for(MatchPlayer mp : mMatchPlayers){
-                            mp.setIsCaptain(false);
-                        }
-                        matchPlayer.setIsCaptain(true);
-                        myListAdapter.notifyDataSetChanged();
-                    }
-                });
+                isCaptainRadio.setTag(matchPlayer);
+                isCaptainRadio.setOnClickListener(TeamFragment.this);
             }
         });
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG, "on click "+v);
+        MatchPlayer matchPlayer = (MatchPlayer) v.getTag();
+        switch (v.getId()){
+            case(R.id.checkbox_player):
+                matchPlayer.setStatusSimple(((CheckBox) v).isChecked());
+                break;
+            case(R.id.checkbox_is_goalkeeper):
+                matchPlayer.setIsGoalkeeper(((CheckBox) v).isChecked());
+                break;
+            case(R.id.radio_is_captain):
+                for (MatchPlayer mp : mMatchPlayers) {
+                    mp.setIsCaptain(false);
+                }
+                matchPlayer.setIsCaptain(true);
+                myListAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
 
@@ -99,5 +103,11 @@ public class TeamFragment extends Fragment {
         ListView listView = (ListView) V.findViewById(R.id.list_view);
         listView.setDivider(null);
         listView.setAdapter(myListAdapter);
+//        listView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 }

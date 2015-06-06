@@ -174,11 +174,11 @@ public class ProtocolActivitySwipe extends ActionBarActivity/*FragmentActivity*/
     private List<MatchPlayer> getActualMatchPlayers(){
         List<MatchPlayer> list = new ArrayList<>();
         for(MatchPlayer matchPlayer : mMatchPlayers1){
-            if(matchPlayer.getStatus() >= MatchPlayer.STATUS_APPLIED)
+            if(matchPlayer.isActive())
                 list.add(matchPlayer);
         }
         for(MatchPlayer matchPlayer : mMatchPlayers2){
-            if(matchPlayer.getStatus() >= MatchPlayer.STATUS_APPLIED)
+            if(matchPlayer.isActive())
                 list.add(matchPlayer);
         }
         return list;
